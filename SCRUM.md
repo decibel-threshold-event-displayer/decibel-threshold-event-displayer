@@ -1,8 +1,14 @@
-# SCRUM
+# Scrum
 
 Issue Board: https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-/boards
 
-## Roles
+Sprint duration: 2 weeks
+
+## Stakeholders
+
+TBD
+
+## Scrum-Roles
 
 Product owner: Dr. Simon Kramer <simon.kramer@bfh.ch>
 
@@ -13,5 +19,24 @@ Developers:
 - Degel Darius Andrin <darius.degel@students.bfh.ch>
 - Lukas von Allmen <lukaschristian.vonallmen@students.bfh.ch>
 
-## Impediment Backlog
+## Product and Sprint Backlog implementation
 
+>Discuss in your group how you want to manage and implement your Product Backlog and Sprint Backlog.
+
+We decided to use gitlab to implement our Product and Sprint Backlog.
+
+## Release Plan
+
+>Discuss in your group the need of a ‘Release Plan’ (the decision depends on the project / stakeholder).
+
+## Impediment Backlog implementation
+
+>Discuss in your group how you want to implement the Scrum artifact 'Impediment Backlog' in 'Project 1’. Does it make sense to keep a 'Sprint Diary’?
+
+## DoR (Definition of Ready)
+
+>How do you design the quality gate ‘DoR’ (Definition of Ready) concerning ‘utility value’ and ‘effort/work’?
+
+## DoD (Definition of Done)
+
+>How do you design the quality gate ‘DoD’ (Definition of Done) concerning ‘Testing’ and ‘Documentation’? 
