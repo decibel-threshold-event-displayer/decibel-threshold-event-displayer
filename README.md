@@ -20,8 +20,13 @@ Java, LaTeX, https://ctan.org/pkg/pgfplots, https://en.wikipedia.org/wiki/WAV
 
 ## Related Projects
 
-https://ctan.org/pkg/luahttp https://ctan.org/pkg/javascripthttp
-https://ctan.org/pkg/latex-dependency-grapher https://ctan.org/pkg/latexscreenshooter
+https://ctan.org/pkg/luahttp
+
+https://ctan.org/pkg/javascripthttp
+
+https://ctan.org/pkg/latex-dependency-grapher
+
+https://ctan.org/pkg/latexscreenshooter
 
 ## Advisor
 
