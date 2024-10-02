@@ -4,6 +4,10 @@ Issue Board: https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-
 
 Sprint duration: 2 weeks
 
+Daily Scrums (Standup Meetings): 
+
+Sprint Reviews: 
+
 ## Stakeholders
 
 TBD
@@ -39,6 +43,18 @@ We will use Gitlab issues and a dedicated board to track our impediments.
 
 >How do you design the quality gate ‘DoR’ (Definition of Ready) concerning ‘utility value’ and ‘effort/work’?
 
+1. Requirements and Acceptance Criteria Defined
+2. Acceptance Criteria must be testable
+3. Understood by the Team
+4. Sized and Estimated
+5. Prioritized in the Backlog
+6. No Major Impediments
+
 ## DoD (Definition of Done)
 
->How do you design the quality gate ‘DoD’ (Definition of Done) concerning ‘Testing’ and ‘Documentation’? 
+>How do you design the quality gate ‘DoD’ (Definition of Done) concerning ‘Testing’ and ‘Documentation’?
+
+1. Acceptance Criteria Met
+2. Tested and no Critical Bugs
+3. Documentation Updated
+4. Reviewed and Approved
