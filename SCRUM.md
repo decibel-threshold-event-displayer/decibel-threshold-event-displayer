@@ -4,9 +4,9 @@ Issue Board: https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-
 
 Sprint duration: 2 weeks
 
-Daily Scrums (Standup Meetings): 
+Daily Scrums (Standup Meetings): Usually Wednesday 18:15
 
-Sprint Reviews: 
+Sprint Reviews: TBD
 
 ## Stakeholders
 
@@ -27,7 +27,16 @@ Developers:
 
 >Discuss in your group how you want to manage and implement your Product Backlog and Sprint Backlog.
 
-We decided to use gitlab to implement our Product and Sprint Backlog.
+We decided to use gitlab to implement our Product and Sprint Backlog with the following attributes:
+- ID
+- Title / Story
+- Description (Notes)
+- Weight (Story Points)
+- Priority with labels:
+  - low
+  - medium
+  - high
+  - impediment
 
 ## Release Plan
 
@@ -37,7 +46,7 @@ We decided to use gitlab to implement our Product and Sprint Backlog.
 
 >Discuss in your group how you want to implement the Scrum artifact 'Impediment Backlog' in 'Project 1’. Does it make sense to keep a 'Sprint Diary’?
 
-We will use Gitlab issues and a dedicated board to track our impediments.
+We will use Gitlab issues and assign the label "impediment" to keep track of the impediments, additionally we have a dedicated board which shows only this tasks.
 
 ## DoR (Definition of Ready)
 

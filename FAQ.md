@@ -10,9 +10,10 @@
 
 ## Who is the product owner? (we assume Dr. Simon Kramer)
 
-## To which scrum events must the product owner attend?
+## To which scrum events must the product owner attend? (e.g. Sprint Review)
 
 ## Do we need a release plan?
 
 ## How much software documentation is needed?
 
+## What are the project stakeholder?
