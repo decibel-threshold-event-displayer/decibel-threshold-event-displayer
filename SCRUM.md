@@ -33,6 +33,8 @@ We decided to use gitlab to implement our Product and Sprint Backlog.
 
 >Discuss in your group how you want to implement the Scrum artifact 'Impediment Backlog' in 'Project 1’. Does it make sense to keep a 'Sprint Diary’?
 
+We will use Gitlab issues and a dedicated board to track our impediments.
+
 ## DoR (Definition of Ready)
 
 >How do you design the quality gate ‘DoR’ (Definition of Ready) concerning ‘utility value’ and ‘effort/work’?
