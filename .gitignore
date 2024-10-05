@@ -11,7 +11,8 @@
 *.out
 *.snm
 *.toc
-
+*.lot
+*.lof
 # Outputs
 doc/report/report.pdf
 doc/presentation/presentation.pdf
