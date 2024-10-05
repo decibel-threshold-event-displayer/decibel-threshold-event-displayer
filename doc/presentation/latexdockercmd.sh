@@ -10,8 +10,15 @@ if [ "$#" = "1" ] && [ "$1" = "clear" ]; then
     fi
   done
 
+elif [ "$# = 0" ]; then
+
+  exec docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/data "$IMAGE" "pdflatex" "presentation.tex"
+
 else
 
-  exec docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$PWD":/data "$IMAGE" "$@"
+  echo "usage: ./latexdockercmd.sh [options]"
+  echo "  without options: builds presentation.tex with pdflatex in a docker container"
+  echo "  options:"
+  echo "    - clear: deletes all latex related build files from the directory"
 
 fi
