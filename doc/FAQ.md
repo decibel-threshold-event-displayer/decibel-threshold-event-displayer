@@ -16,7 +16,7 @@
 
 ## How much software documentation is needed?
 
-## What are the project stakeholders?
+## What are the project stakeholders? (we assume Dr. Simon Kramer)
 
 ## What is meant by "Bash-Skript mit der sequentiellen Komposition der letztgenannten Skript" => there is only one script described
 
@@ -25,5 +25,6 @@
 ## Does the application have to be a client/server where the server is hosted centrally by us or should it be self-contained self-hostable?
 
 ## "The project report [...] must contain this project description as a quotation." => where in the provided document structure does this fall?
+According to the mail in the appendix of the document, along with the declaration of authorship.
 
 ## "doc-Verzeichnis: README.TXT" => is MD also allowed?
