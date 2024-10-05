@@ -11,3 +11,7 @@
 *.out
 *.snm
 *.toc
+
+# Outputs
+doc/report/report.pdf
+doc/presentation/presentation.pdf
