@@ -1,9 +1,9 @@
 As a [persona], I [want to], [so that].
 
-### Acceptance criteria:
+Acceptance criteria:
 - [ ] Criteria
 
-### Definition of Ready:
+Definition of Ready:
 - [ ] Requirements and Acceptance Criteria Defined
 - [ ] Acceptance Criteria must be testable
 - [ ] Understood by the Team
@@ -11,7 +11,7 @@ As a [persona], I [want to], [so that].
 - [ ] Prioritized in the Backlog
 - [ ] No Major Impediments
 
-### Definition of Done:
+Definition of Done:
 - [ ] Implemented
 - [ ] Tested
 - [ ] Documented
