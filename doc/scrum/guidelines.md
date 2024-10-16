@@ -10,11 +10,11 @@ Sprint Reviews: TBD
 
 ## Stakeholders
 
-TBD
+Dr. Simon Kramer <simon.kramer@bfh.ch>
 
 ## Scrum-Roles
 
-Product owner: Dr. Simon Kramer <simon.kramer@bfh.ch>
+Product owner: Dominic Gernert <dominic.gernert@students.bfh.ch>
 
 Scrum Master: Lukas von Allmen <lukaschristian.vonallmen@students.bfh.ch>
 
