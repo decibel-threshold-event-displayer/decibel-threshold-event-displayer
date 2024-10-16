@@ -4,7 +4,7 @@ Issue Board: https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-
 
 Sprint duration: 2 weeks
 
-Daily Scrums (Standup Meetings): Usually Wednesday 18:15
+Daily Scrums (Standup Meetings): Usually Wednesday 18:15 (15min timeslot)
 
 Sprint Reviews: TBD
 
