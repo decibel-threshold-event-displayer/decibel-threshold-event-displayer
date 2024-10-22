@@ -1,30 +1,117 @@
 \section{Evaluation}
-Lorem ipsum
-
 \subsection{Technology stack}
+Since the project description does not mention specific technologies to be used except for the LaTeX package pgfplots, 
+the project team decided to evaluate different technologies for the project by creating working prototypes. The following chapters describe the evaluation criteria and the results of the evaluation.
+\subsubsection{Criteria}
 The following criteria are used to decide which technologies should be used for the project:
+% TODO: should we add information on how we decided on the criteria and the weights?
 \begin{itemize}
-    \item Know-how (20\%)
-    \item Complexity (35\%)
-    \item Distribution (45\%)
+    \item Know-how (10\%)
+    \item Complexity (20\%)
+    \item Usability (30\%)
+    \item Distribution (40\%)
+\end{itemize}
+\subsubsection{Calculation}
+The formula for calculating the weighted value of each criterion is:
+% TODO: should this be weight * 100 due to the percentages? and should the formular just be the sum for all critera?
+$$
+v_w = \text{weight} \cdot \frac{\text{evaluation}}{\text{5}}
+$$
+Where $evaluation$ is the scoring between 1-5. The total score for a given technology is the sum
+of weighted values.
+\subsubsection{Technologies}
+The following technologies were evaluated:
+% TODO: should we add information on how we decided to evaluate these technologies?
+\begin{itemize}
+    \item Kotlin with pdflatex as a dependency
+    \item Kotlin bundled with pdflatex
+    \item Website with swiftlatex
 \end{itemize}
 
 
-\subsubsection{Kotlin with pdflatex}
-Description. Licenses used. \newline
-Pros:
-\begin{itemize}
-    \item pro 1
-    \item pro 2
-\end{itemize}
-Cons:
-\begin{itemize}
-    \item con 1
-    \item con 2
-\end{itemize}
+\subsubsection{Kotlin minimal - Kotlin with pdflatex as a dependency}
+\label{subsubsec:kotlin_minimal}
+This prototype uses Kotlin to satisfy platform-independence and invokes the pdflatex binary which is included in the TexLive distribution.
+The project team chose to evaluate this technology because it satisfies the base requirements according to the project description and because
+the project team is familiar with Kotlin. Another advantage of this technology is that the distribution of the necessary LaTeX installation and packages is relegated to the user. This greatly reduces distribution complexity.\\
+An obvious disadvantage of this approach is that the user needs to install TeXLive (and the pgfplots package) on their system, which might be difficult for non-technical users.\\
+% licensing
+This prototype is dependent on both TeXLive and pgfplots.
+TeXLive uses a libre license that allows for the free redistribution with or without modifications \cite{texlive_license} in accordance with the Free Software Foundations's free software definition \cite{fsf_free_software}.
+The pgfplots package uses the GPLv3 license \cite{pgfplots}.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Criterion} & \textbf{Evaluation (1-5)} & \textbf{Weighted value} \\
+        \hline
+        Know-how & 4 & 8 \\
+        \hline
+        Complexity & 5 & 20 \\
+        \hline
+        Usability & 1 & 6 \\
+        \hline
+        Distribution & 5 & 40 \\
+        \hline
+        \textbf{Total} & n.a & \textbf{74} \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation of Kotlin with pdflatex as a dependency}
+    \label{table:kotlin_minimal_evaluation}
+\end{table}
+
+
+\subsubsection{Kotlin bundled - Kotlin bundled with pdflatex}
+\label{sec:kotlin_bundled}
+Similarily to the prototype in Kotlin minimal \ref{subsubsec:kotlin_minimal}, this prototype uses Kotlin and invokes the pdflatex binary. The major difference is that the pdflatex binary is provided alongside
+the software. The advantage of this approach is that the user does not have to install TexLive or any dependencies, greatly improving usability. However, this comes with the disadvantage
+that the complexity of the distribution. This approach also limits the advantages of using a platform-independent programming language because for every platform there has to be a release
+which packages the appropriate binary.\\
+% licensing
+The licensing is equivalent to the licenses of the prototype in Kotlin minimal \ref{subsubsec:kotlin_minimal}.\\
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Criterion} & \textbf{Evaluation (1-5)} & \textbf{Weighted value} \\
+        \hline
+        Know-how & 3 & 6 \\
+        \hline
+        Complexity & 3 & 12 \\
+        \hline
+        Usability & 5 & 30 \\
+        \hline
+        Distribution & 1 & 8 \\
+        \hline
+        \textbf{Total} & n.a & \textbf{56} \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation of Kotlin bundled with pdflatex}
+    \label{table:kotlin_bundled_evaluation}
+\end{table}
 
 \subsubsection{Web with swiftlatex}
 Lorem ipsum
 
-\subsection{Licence}
+\subsubsection{Chosen Solution}
+Using the evaluations given to the selected technologies, the following demonstrates the combined results:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Technology} & \textbf{Total score} \\
+        \hline
+        Kotlin minimal & 74 \\
+        \hline
+        Kotlin bundled & 56 \\
+        \hline
+        Web swiftlatex & TBD \\
+        \hline
+    \end{tabular}
+    \caption{Technology stack evaluation}
+    \label{table:technology_evaluation}
+\end{table}
+In accordance with the table above, the project team decided to use \textbf{TBD}.
+
+\subsection{License}
 Lorem ipsum
