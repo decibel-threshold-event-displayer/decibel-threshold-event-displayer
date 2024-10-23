@@ -71,4 +71,3 @@ Improvements:
 - Decibel values can be calculated
 - Licence is defined
 - Git repository and documentation skeleton are created
-
