@@ -27,3 +27,27 @@ Lukas:
 - next steps:
   - try to publish page on github pages
   - evaluate pros and cons
+
+
+## 23.10.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+
+---
+Dominic:
+- Tried to inform himself about Wavfiles: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/27
+  - It turns out that the measurement of sound in DB is not as absolute as one might think
+  - We added our concern/question to the faq.md
+
+Darius:
+- Finalized his work and documentation on: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/16
+
+Lukas
+- Mostly finalized work and documentation on: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/9
+  - Implement local loading of LaTeX dependencies - today
+  - Implement parallel loading of LaTex dependencies - today
+  - Finalizes documentation - today
+

@@ -41,8 +41,6 @@ Zielpublikum muss das Programm bedienen können
 According to the mail in the appendix of the document, along with the declaration of authorship.
 
 ## "doc-Verzeichnis: README.TXT" => is MD also allowed?
-
-
 - Scrum: hebling ist Ansprechsperson
 - BBB und Anruf ist erwünscht, alles ander findet er nicht toll
 - Kramer ist Stakeholder 
@@ -53,3 +51,5 @@ According to the mail in the appendix of the document, along with the declaratio
 - Tabellen verwenden (Hebling liebt das)
 - Filtering machen, wenn kein Decibel überschreitung statt findet
 - Wenn man Ideen hat aber keine Zeit, in Conclusion als "future work" festhalten
+
+## How should we implement the Audio/DB filter as DB are not absolute values?
