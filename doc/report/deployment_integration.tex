@@ -4,13 +4,29 @@ application for end users and simplifies the maintenance for developers.
 The GitHub organization is located under: https://github.com/decibel-threshold-event-displayer
 The application is deployed as a GitHub Page under: https://decibel-threshold-event-displayer.github.io/
 
-% TODO: How do we build/deploy from our gitlab repository (private) to the github repository (punblic)
+% TODO: How do we build/deploy from our gitlab repository (private) to the github repository (public)
 
 \subsection{Licensing}
 Lorem ipsum
 
 \subsection{Installation Manuel \& Script}
-Lorem ipsum
+We are using a Makefile to automate the development setup, build and deploy the application to GitHub Pages.
+
+\subsubsection{Development setup}
+A local webserver is needed work on the application as some Browsers will not execute web workers on locally served files~\cite{stackoverflow_chrome_cant_load_web_worker}.
+By default, the project uses the builtin webserver of Python 3.
+Python 3 can be installed with the systems package manager or by downloading it from the official website: https://www.python.org/downloads/
+Afterward the following command can be used to run the local webserver on http://0.0.0.0:8000/:
+
+\begin{lstlisting}[caption={Makefile: Start local webserver},label={lst:makefile_start_local_webserver},language=Bash]
+$ make dev
+\end{lstlisting}
+
+\subsubsection{Build}
+% TODO: Describe how we build the application (mabe not needed)
+
+\subsubsection{Deploy}
+% TODO: Describe how we deploy the apllication to GitHub Pages
 
 \subsection{User Manuel (hopfully not)}
 Lorem ipsum
