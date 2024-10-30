@@ -1,14 +1,39 @@
 \section{Specification}
-Lorem ipsum
+The following chapter describes the system specification. The specification is derived from the requirements in the project description
+as well as the discussions with the stakeholder. Assumptions and constraints are described in the following sections and were validated by
+the defined product owner and the stakeholders if necessary.
 
 \subsection{System Delimitation}
-Lorem ipsum
+The system delimination is split into the static system environment (\ref{subsubsec:system_environment})
+and the dynamic process environment (\ref{subsubsec:process_environment}).
 
 \subsubsection{System Environment}
-Lorem ipsum
+\label{subsubsec:system_environment}
+System:
+\begin{itemize}
+    \item Frontend (User interaction)
+    \item LaTeX and pgfplots
+\end{itemize}
+System context:
+\begin{itemize}
+    \item Stakeholder (tutor)
+    \item User
+    \item Lärmliga
+    \item (Accurate conversion to absolute decibel)
+\end{itemize}
+Out of scope:
+\begin{itemize}
+    \item Integration in legal complaints
+    \item (Accurate conversion to absolute decibel)
+\end{itemize}
 
 \subsubsection{Process Environment}
-Lorem ipsum
+\label{subsubsec:process_environment}
+\begin{itemize}
+    \item Selecting a file
+    \item WAV file analysis (validation, parsing, conversion to absolute db values, threshold filtering)
+    \item Plotting (LaTeX / pgfplots) and PDF generation
+\end{itemize}
 
 \subsection{Requirements}
 Lorem ipsum
@@ -19,7 +44,7 @@ Lorem ipsum
 \subsubsection{Boundary and Pre-Conditions}
 Lorem ipsum
 
-\subsubsection{Usability}
+\subsection{Usability}
 Lorem ipsum
 
 \subsubsection{Personas}
