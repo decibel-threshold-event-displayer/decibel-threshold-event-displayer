@@ -36,10 +36,42 @@ Out of scope:
 \end{itemize}
 
 \subsection{Requirements}
-Lorem ipsum
+In the following section the requirements are detailed. Also the project boundaries and pre-conditions are described.
 
 \subsubsection{Functional requirements}
-Lorem ipsum
+The project team identified the following functional requirements:
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|c|X|c|c|c|}
+        \hline
+        \textbf{ID} & \textbf{Requirement} & \textbf{Priority} \\
+        \hline
+        R1 & Allow users to upload a .wav audio file. & MUST \\
+        \hline
+        R2 & Validate the uploaded file to ensure it is in .wav format, providing an error message if it is not. & MUST \\
+        \hline
+        R3 & Analyze the uploaded .wav file and calculate the noise level in decibels (dB). & MUST \\
+        \hline
+        R4 & Allow users to download the plotted noise data as an image or PDF. & MUST \\
+        \hline
+        R5 & Allow users to input metadata for the audio file, such as location, date, and time. & MUST \\
+        \hline
+        R6 & Plot the noise level data over time, with the x-axis representing time and the y-axis representing noise level (in dB). & MUST \\
+        \hline
+        R7 & Generate a PDF report including the plotted noise data and user input metadata. & MUST \\
+        \hline
+        R8 & Provide clear feedback and error messages. & SHOULD \\
+        \hline
+        R9 & Intuitive and responsive UI for selecting files, configuring options, and viewing results. & SHOULD \\
+        \hline
+        R10 & Allow the user to configure custom thresholds for noise levels. & COULD \\
+        \hline
+        R11 & Allow the user to change the language of the application. & COULD \\
+        \hline
+    \end{tabularx}
+    \caption{Functional Requirements}
+    \label{table:functional_requirements}
+\end{table}
 
 \subsubsection{Boundary and Pre-Conditions}
 Lorem ipsum
