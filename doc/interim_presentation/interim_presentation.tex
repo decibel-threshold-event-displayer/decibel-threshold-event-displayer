@@ -1,11 +1,27 @@
-\documentclass{beamer}
-
+\documentclass[authorontitle=true]{bfhbeamer}
 \usepackage{amsmath}
 
+\setbeamertemplate{page number in head/foot}[framenumber]
+\title{Decibel Threshold Event Displayer}
+\subtitle{Interim Presentation}
+\author{Dominic Gernert, Lukas von Allmen, Darius Degel}
+
+% macro which adds fancy ToC to all sections
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
 \begin{document}
-    \section{TEST}
+    \maketitle
     \input{./title_page}
+    \section{Problem Description}
     \input{./problem_description}
+    \section{Problem Solving}
     \input{./problem_solving}
+    \section{Scrum \& Project Management}
     \input{./scrum}
 \end{document}
