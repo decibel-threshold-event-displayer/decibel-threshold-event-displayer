@@ -25,7 +25,7 @@ Not done:
 - [Create and init git repository](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/6)
   - The Hello World (Example) program is missing because the stack was just evaluated at the end of the sprint.
 - [Define licence](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/19)
-  - We are currently not sure if we will need any additional libraries, so does not make sense to define the license already.
+  - We are currently not sure if we will need any additional libraries, so it does not make sense to define the license already.
 
 What went well:
 - Creation of prototypes
