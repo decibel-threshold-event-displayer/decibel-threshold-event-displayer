@@ -8,9 +8,9 @@
 - Git repository and documentation skeleton are created
 
 ## Review
-- Demo
-  - PoC Build PoC with Kotlin and pdflatex: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/16
-  - PoC SwiftLaTeX: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/9
+Demo
+- PoC Kotlin and pdflatex: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/16
+- PoC SwiftLaTeX: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/9
 
 Done:
 - [Create backlog](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/5)
@@ -25,13 +25,13 @@ Not done:
 - [Create and init git repository](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/6)
   - The Hello World (Example) program is missing because the stack was just evaluated at the end of the sprint.
 - [Define licence](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/19)
-  - We are currently not sure if we will need any additional libraries, so it makes not sense to already define the license.
+  - We are currently not sure if we will need any additional libraries, so does not make sense to define the license already.
 
 What went well:
 - Creation of prototypes
 
 Problems:
-- Understanding of Decibel in the context of Audio
+- Understanding of decibel in the context of audio
 
 Goals:
 - [x] Prototypes with two different technologies are implemented and their pros and cons are evaluated
@@ -48,18 +48,18 @@ What went well:
 - Working with LaTeX and Markdown for documentation
 
 Problems:
-- Correct setup LaTeX Bibtex for citations
+- Correct setup of Bibtex for citations
 - Gitlab:
     - Merge requests cannot be enabled at the moment
-    - The issue board viewm (Kanban) based on tags is not really usable
+    - The issue board view (Kanban) based on tags is not really usable
 - We did not properly plan the first sprint, thus we had make adjustments while the sprint was already running
     - We had to split issues into tasks because multiple people working on the same issue
-    - We did not do the planning poker before the sprint and had to weight the tasks during the sprint
+    - We did not do the planning poker before the sprint and had to weigh the tasks during the sprint
 - We underestimated the required time for each package of work
 
 Improvements:
-- Properly prepare the sprint with issues, tasks and planning poker
-- More realistic weighting the tasks and issues
+- Properly prepare the sprint with issues, tasks, and planning poker
+- More realistically weighing the tasks and issues
 
 # Sprint 2
 
@@ -67,7 +67,7 @@ Improvements:
 - Intermediate presentation is prepared and presented
 - Requirements are specified
 - UX-Prototype is defined
-- System delimitation is specified
+- System delimination is specified
 - Decibel values can be calculated
 - Licence is defined
 - Git repository and documentation skeleton are created
