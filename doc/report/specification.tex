@@ -73,8 +73,25 @@ The project team identified the following functional requirements:
     \label{table:functional_requirements}
 \end{table}
 
-\subsubsection{Boundary and Pre-Conditions}
-Lorem ipsum
+\subsubsection{Pre-Conditions and Boundaries}
+Research done by the project team has revelead that reading absolute decibel values from WAV-files is more difficult than anticipated.
+The reason for this is that normal consumer microphones are not calibrated for scientifically accurate measurements\cite{stackoverflow_spl}. Furthermore, it is trivial for a user
+to increase the volume of a WAV-file using free, easy-to-use software like Audacity\cite{audacity}\cite{audacity_amplify}. Therefore, the project team has decided 
+on a tentative working hypothesis together with the Stakeholder. \\ \\
+Pre-Conditions:
+\begin{itemize}
+    \item The user must use a properly calibrated microphone or use a phone app which has built-in calibrations like Decibel X\cite{decibelx_ios}\cite{decibelx_android}.
+    \item The user must have a way to export their audio recording as a WAV-file.
+    \item The user must have access to a web browser capable of running WebAssembly.
+    \item The user must not edit the exported WAV-file in any way except to decrease the length of the recording.
+\end{itemize}
+Boundaries:
+\begin{itemize}
+    \item The application supports only the analysis of pre-calibrated, un-edited WAV-files.
+    \item The application supports only single-channel WAV-files.
+    \item The user is presumed to be using properly calibrated equipment. There is no validation done in the application to ensure proper calibration.
+    \item The user is presumed to be honest and to not have edited the WAV-file. There is no validation done in the application to ensure the file has not been edited.
+\end{itemize}
 
 \subsection{Usability}
 Lorem ipsum
