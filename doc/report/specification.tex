@@ -69,29 +69,29 @@ The project team identified the following functional requirements:
     \centering
     \begin{tabularx}{\textwidth}{c X c c c}
         \toprule
-        \textbf{ID} & \textbf{Requirement} & \textbf{Priority} \\
+        \textbf{ID} & \textbf{Requirement}                                                                                                    & \textbf{Priority} \\
         \midrule
-        R1 & Allow users to upload a WAV audio file. & MUST \\
+        R1          & Allow users to upload a WAV audio file.                                                                                 & MUST              \\
         \midrule
-        R2 & Validate the uploaded file to ensure it is in WAV format, providing an error message if it is not. & MUST \\
+        R2          & Validate the uploaded file to ensure it is in WAV format, providing an error message if it is not.                      & MUST              \\
         \midrule
-        R3 & Analyse the uploaded WAV file and calculate the noise level in decibels (dB). & MUST \\
+        R3          & Analyse the uploaded WAV file and calculate the noise level in decibels (dB).                                           & MUST              \\
         \midrule
-        R4 & Allow users to download the plotted noise data as an image or PDF.& MUST \\
+        R4          & Allow users to download the plotted noise data as an image or PDF.                                                      & MUST              \\
         \midrule
-        R5 & Allow users to input metadata for the audio file, such as location, date, and time. & MUST \\
+        R5          & Allow users to input metadata for the audio file, such as location, date, and time.                                     & MUST              \\
         \midrule
-        R6 & Plot the noise level data over time, with the x-axis representing time and the y-axis representing noise level (in dB). & MUST \\
+        R6          & Plot the noise level data over time, with the x-axis representing time and the y-axis representing noise level (in dB). & MUST              \\
         \midrule
-        R7 & Generate a PDF report including the plotted noise data and user input metadata. & MUST \\
+        R7          & Generate a PDF report including the plotted noise data and user input metadata.                                         & MUST              \\
         \midrule
-        R8 & Provide clear feedback and error messages. & SHOULD \\
+        R8          & Provide clear feedback and error messages.                                                                              & SHOULD            \\
         \midrule
-        R9 & Intuitive and responsive UI for selecting files, configuring options, and viewing results. & SHOULD \\
+        R9          & Intuitive and responsive UI for selecting files, configuring options, and viewing results.                              & SHOULD            \\
         \midrule
-        R10 & Allow the user to configure custom thresholds for noise levels. & COULD \\
+        R10         & Allow the user to configure custom thresholds for noise levels.                                                         & COULD             \\
         \midrule
-        R11 & Allow the user to change the language of the application. & COULD \\
+        R11         & Allow the user to change the language of the application.                                                               & COULD             \\
         \bottomrule
     \end{tabularx}
     \caption{Functional Requirements}\label{table:functional_requirements}
@@ -100,7 +100,7 @@ The project team identified the following functional requirements:
 \subsubsection{Pre-Conditions and Boundaries}\label{subsubsec:pre_conditions_and_boundaries}
 Research done by the project team has revealed that reading absolute decibel values from WAV files is more difficult than anticipated.
 The reason for this is that normal consumer microphones are not calibrated for scientifically accurate measurements\cite{stackoverflow_spl}. Furthermore, it is trivial for a user
-to increase the volume of a WAV file using free, easy-to-use software like Audacity\cite{audacity}\cite{audacity_amplify}. Therefore, the project team has decided 
+to increase the volume of a WAV file using free, easy-to-use software like Audacity\cite{audacity}\cite{audacity_amplify}. Therefore, the project team has decided
 on a tentative working hypothesis together with the Stakeholder. \\ \\
 Pre-Conditions:
 \begin{itemize}
@@ -129,27 +129,27 @@ likely to use the application. \\
     \centering
     \begin{tabularx}{\textwidth}{l X}
         \toprule
-        \textbf{Name} & Daniel \\
+        \textbf{Name}           & Daniel                                                                                                                      \\
         \midrule
-        \textbf{Age} & 42 \\
+        \textbf{Age}            & 42                                                                                                                          \\
         \midrule
-        \textbf{Sex} & Male \\
+        \textbf{Sex}            & Male                                                                                                                        \\
         \midrule
-        \textbf{Occupation} & Business consultant \\
+        \textbf{Occupation}     & Business consultant                                                                                                         \\
         \midrule
-        \textbf{Marital Status} & Married \& has two young children \\
+        \textbf{Marital Status} & Married \& has two young children                                                                                           \\
         \midrule
-        \textbf{Lifestyle} & Daniel usually has to get up early in the morning because his
-        customers are spread across the entire German-speaking part of Switzerland, and they expect him to meet them in their offices. \\
+        \textbf{Lifestyle}      & Daniel usually has to get up early in the morning because his
+        customers are spread across the entire German-speaking part of Switzerland, and they expect him to meet them in their offices.                        \\
         \midrule
-        \textbf{Goals} & Daniel wants to expand his client base in hopes of possibly quitting at his workplace and founding his own consulting firm. \\
+        \textbf{Goals}          & Daniel wants to expand his client base in hopes of possibly quitting at his workplace and founding his own consulting firm. \\
         \midrule
-        \textbf{Frustrations} & Daniel needs a lot of sleep which has been difficult ever since his first child was born.
+        \textbf{Frustrations}   & Daniel needs a lot of sleep which has been difficult ever since his first child was born.
         Much worse however, is that his new upstairs neighbours are up late every night, playing loud music,
-        stomping across the floor, or arguing loudly. Daniel has already asked them to be more considerate but to no avail. \\
+        stomping across the floor, or arguing loudly. Daniel has already asked them to be more considerate but to no avail.                                   \\
         \midrule
-        \textbf{Expectations} & Daniel expects to find a way to prove to the police that his neighbours are consistently
-        breaking the law and interfering with his and his families' lives. He expects this solution to be free, easy to use, and reliable. \\
+        \textbf{Expectations}   & Daniel expects to find a way to prove to the police that his neighbours are consistently
+        breaking the law and interfering with his and his families' lives. He expects this solution to be free, easy to use, and reliable.                    \\
         \bottomrule
     \end{tabularx}
     \caption{Persona 1 (Daniel)}\label{table:persona1}
@@ -159,26 +159,26 @@ likely to use the application. \\
     \centering
     \begin{tabularx}{\textwidth}{l X}
         \toprule
-        \textbf{Name} & Julia \\
+        \textbf{Name}           & Julia                                                                                                                \\
         \midrule
-        \textbf{Age} & 25 \\
+        \textbf{Age}            & 25                                                                                                                   \\
         \midrule
-        \textbf{Sex} & Female \\
+        \textbf{Sex}            & Female                                                                                                               \\
         \midrule
-        \textbf{Occupation} & Student \\
+        \textbf{Occupation}     & Student                                                                                                              \\
         \midrule
-        \textbf{Marital Status} & Single \\
+        \textbf{Marital Status} & Single                                                                                                               \\
         \midrule
-        \textbf{Lifestyle} & During the day Julia is mostly attending lectures at university, running errands, or going after one of her hobbies.
-        In the evenings she studies, often long into the night. \\
+        \textbf{Lifestyle}      & During the day Julia is mostly attending lectures at university, running errands, or going after one of her hobbies.
+        In the evenings she studies, often long into the night.                                                                                        \\
         \midrule
-        \textbf{Goals} & Julia wants to land a scholarship at a prestigious university, meaning she has to be top of her class. \\
+        \textbf{Goals}          & Julia wants to land a scholarship at a prestigious university, meaning she has to be top of her class.               \\
         \midrule
-        \textbf{Frustrations} & Julia's apartment has windows facing a busy street, and she regularly faces difficulties focussing on her studies
-        due to the noise. She is convinced her landlord has neglected to install the noise isolation required by law. \\
+        \textbf{Frustrations}   & Julia's apartment has windows facing a busy street, and she regularly faces difficulties focussing on her studies
+        due to the noise. She is convinced her landlord has neglected to install the noise isolation required by law.                                  \\
         \midrule
-        \textbf{Expectations} & Julia is looking for a way to make her landlord install better noise isolation to the apartment complex so she and
-        her neighbours can spend their evenings without being bothered by the noise of passing cars and trucks. \\
+        \textbf{Expectations}   & Julia is looking for a way to make her landlord install better noise isolation to the apartment complex so she and
+        her neighbours can spend their evenings without being bothered by the noise of passing cars and trucks.                                        \\
         \bottomrule
     \end{tabularx}
     \caption{Persona 2 (Julia)}\label{table:persona2}

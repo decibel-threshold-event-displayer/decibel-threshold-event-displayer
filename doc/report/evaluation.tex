@@ -1,7 +1,7 @@
 \section{Evaluation}\label{sec:evaluation}
 
 \subsection{Technology stack}\label{subsec:technology_stack}
-Since the project description does not mention specific technologies to be used except for the LaTeX package pgfplots, 
+Since the project description does not mention specific technologies to be used except for the LaTeX package pgfplots,
 the project team decided to evaluate different technologies for the project by creating working prototypes.
 The following chapters describe the evaluation criteria and the results of the evaluation.
 
@@ -19,7 +19,7 @@ The following criteria are used to decide which technologies should be used for 
 The formula for calculating the weighted value of each criterion is:
 % TODO: should this be weight * 100 due to the percentages? and should the formular just be the sum for all critera?
 \[
-v_w = \text{weight} \cdot \frac{\text{evaluation}}{5}
+    v_w = \text{weight} \cdot \frac{\text{evaluation}}{5}
 \]
 Where \(evaluation\) is the scoring between 1--5.
 The total score for a given technology is the sum
@@ -107,15 +107,15 @@ The pgfplots package uses the GPLv3 license~\cite{pgfplots}.
         \toprule
         \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
         \midrule
-        Know-how & 4 & 8 \\
+        Know-how           & 4                           & 8                       \\
         \midrule
-        Complexity & 5 & 20 \\
+        Complexity         & 5                           & 20                      \\
         \midrule
-        Usability & 1 & 6 \\
+        Usability          & 1                           & 6                       \\
         \midrule
-        Distribution & 5 & 40 \\
+        Distribution       & 5                           & 40                      \\
         \midrule
-        \textbf{Total} & n.a. & \textbf{74} \\
+        \textbf{Total}     & n.a.                        & \textbf{74}             \\
         \bottomrule
     \end{tabular}
     \caption{Evaluation of Kotlin with pdflatex as a dependency}\label{table:kotlin_minimal_evaluation}
@@ -140,15 +140,15 @@ The licensing is equivalent to the licenses of the prototype in Kotlin minimal~\
         \toprule
         \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
         \midrule
-        Know-how & 3 & 6 \\
+        Know-how           & 3                           & 6                       \\
         \midrule
-        Complexity & 3 & 12 \\
+        Complexity         & 3                           & 12                      \\
         \midrule
-        Usability & 5 & 30 \\
+        Usability          & 5                           & 30                      \\
         \midrule
-        Distribution & 1 & 8 \\
+        Distribution       & 1                           & 8                       \\
         \midrule
-        \textbf{Total} & n.a. & \textbf{56} \\
+        \textbf{Total}     & n.a.                        & \textbf{56}             \\
         \bottomrule
     \end{tabular}
     \caption{Evaluation of Kotlin bundled with pdflatex}\label{table:kotlin_bundled_evaluation}
@@ -235,15 +235,15 @@ As this solution was worth exploring, we deployed the prototype with GitHub page
         \toprule
         \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
         \midrule
-        Know-how & 3 & 6 \\
+        Know-how           & 3                           & 6                       \\
         \midrule
-        Complexity & 3 & 12 \\
+        Complexity         & 3                           & 12                      \\
         \midrule
-        Usability & 4 & 24 \\
+        Usability          & 4                           & 24                      \\
         \midrule
-        Distribution & 5 & 40 \\
+        Distribution       & 5                           & 40                      \\
         \midrule
-        \textbf{Total} & n.a. & \textbf{82} \\
+        \textbf{Total}     & n.a.                        & \textbf{82}             \\
         \bottomrule
     \end{tabular}
     \caption{Evaluation of SwiftLaTeX JavaScript/WebAssembly library}\label{table:SwiftLaTeX_evaluation}
@@ -257,11 +257,11 @@ Using the evaluations given to the selected technologies, the following demonstr
         \toprule
         \textbf{Technology} & \textbf{Total score} \\
         \midrule
-        Kotlin minimal & 74 \\
+        Kotlin minimal      & 74                   \\
         \midrule
-        Kotlin bundled & 56 \\
+        Kotlin bundled      & 56                   \\
         \midrule
-        Web SwiftLaTeX & 82 \\
+        Web SwiftLaTeX      & 82                   \\
         \bottomrule
     \end{tabular}
     \caption{Technology stack evaluation}\label{table:technology_evaluation}
