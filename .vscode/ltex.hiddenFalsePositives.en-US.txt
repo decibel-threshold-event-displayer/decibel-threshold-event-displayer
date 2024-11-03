@@ -1,0 +1,6 @@
+{"rule":"PHRASE_REPETITION","sentence":"^\\QSystem: Selecting (uploading) a WAV file WAV file analysis (validation, parsing, conversion to absolute db values, threshold filtering) Plotting analysis result (LaTeX / pgfplots) and PDF generation System context: Recording noise Producing noise Out of scope: Device calibration (see \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q)\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMUST R4 Allow users to download the plotted noise data as an image or PDF.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMUST R5 Allow users to input metadata for the audio file, such as location, date, and time.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMUST R6 Plot the noise level data over time, with the x-axis representing time and the y-axis representing noise level (in dB).\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMUST R7 Generate a PDF report including the plotted noise data and user input metadata.\\E$"}
+{"rule":"ENGLISH_WORD_REPEAT_BEGINNING_RULE","sentence":"^\\QMUST R8 Provide clear feedback and error messages.\\E$"}
