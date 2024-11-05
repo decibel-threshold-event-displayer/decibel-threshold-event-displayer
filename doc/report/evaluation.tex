@@ -1,9 +1,7 @@
-\section{Evaluation}
-\label{sec:evaluation}
+\section{Evaluation}\label{sec:evaluation}
 
-\subsection{Technology stack}
-\label{subsec:technology_stack}
-Since the project description does not mention specific technologies to be used except for the LaTeX package pgfplots, 
+\subsection{Technology stack}\label{subsec:technology_stack}
+Since the project description does not mention specific technologies to be used except for the LaTeX package pgfplots,
 the project team decided to evaluate different technologies for the project by creating working prototypes.
 The following chapters describe the evaluation criteria and the results of the evaluation.
 
@@ -21,9 +19,9 @@ The following criteria are used to decide which technologies should be used for 
 The formula for calculating the weighted value of each criterion is:
 % TODO: should this be weight * 100 due to the percentages? and should the formular just be the sum for all critera?
 \[
-v_w = \text{weight} \cdot \frac{\text{evaluation}}{5}
+    v_w = \text{weight} \cdot \frac{\text{evaluation}}{5}
 \]
-Where $evaluation$ is the scoring between 1--5.
+Where \(evaluation\) is the scoring between 1--5.
 The total score for a given technology is the sum
 of weighted values.
 
@@ -33,11 +31,10 @@ The following technologies were evaluated:
 \begin{itemize}
     \item Kotlin with pdflatex as a dependency
     \item Kotlin bundled with pdflatex
-    \item Website with swiftlatex
+    \item Website with SwiftLaTeX
 \end{itemize}
 
-\subsection{Reference LaTeX pgfplots template}
-\label{subsec:reference_latex_pgfplots_template}
+\subsubsection{Reference LaTeX pgfplots template}\label{subsec:reference_latex_pgfplots_template}
 For building the prototypes we will use the following reference LaTeX template which includes a pgfplots object:~\cite{pgfplots_gallery_sourceforge}
 
 \begin{lstlisting}[caption={Reference LaTeX template with a pgfplots object},label={lst:reference_latex_pgfplots_template},language={[LaTeX]{TeX}}]
@@ -90,8 +87,7 @@ For building the prototypes we will use the following reference LaTeX template w
 \end{document}
 \end{lstlisting}
 
-\subsubsection{Kotlin minimal - Kotlin with pdflatex as a dependency}
-\label{subsubsec:kotlin_minimal}
+\subsubsection{Kotlin minimal – Kotlin with pdflatex as a dependency}\label{subsubsec:kotlin_minimal}
 This prototype uses Kotlin to satisfy platform-independence and invokes the pdflatex binary which is included in the TexLive distribution.
 The project team chose to evaluate this technology because it satisfies the base requirements according to the project description and because
 the project team is familiar with Kotlin.
@@ -101,39 +97,36 @@ An obvious disadvantage of this approach is that the user needs to install TeXLi
 
 \paragraph{Licensing}\mbox{}\newline
 This prototype is dependent on both TeXLive and pgfplots.
-TeXLive uses a libre license that allows for the free redistribution with or without modifications~\cite{texlive_license} in accordance with the Free Software Foundations's free software definition~\cite{fsf_free_software}.
+TeXLive uses a libre license that allows for the free redistribution with or without modifications~\cite{texlive_license} in accordance with the Free Software Foundation's free software definition~\cite{fsf_free_software}.
 The pgfplots package uses the GPLv3 license~\cite{pgfplots}.
 
 \paragraph{Evaluation}\mbox{}\newline
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|c|c|}
-        \hline
-        \textbf{Criterion} & \textbf{Evaluation (1-5)} & \textbf{Weighted value} \\
-        \hline
-        Know-how & 4 & 8 \\
-        \hline
-        Complexity & 5 & 20 \\
-        \hline
-        Usability & 1 & 6 \\
-        \hline
-        Distribution & 5 & 40 \\
-        \hline
-        \textbf{Total} & n.a & \textbf{74} \\
-        \hline
+    \begin{tabular}{l c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
+        \midrule
+        Know-how           & 4                           & 8                       \\
+        \midrule
+        Complexity         & 5                           & 20                      \\
+        \midrule
+        Usability          & 1                           & 6                       \\
+        \midrule
+        Distribution       & 5                           & 40                      \\
+        \midrule
+        \textbf{Total}     & n.a.                        & \textbf{74}             \\
+        \bottomrule
     \end{tabular}
-    \caption{Evaluation of Kotlin with pdflatex as a dependency}
-    \label{table:kotlin_minimal_evaluation}
+    \caption{Evaluation of Kotlin with pdflatex as a dependency}\label{table:kotlin_minimal_evaluation}
 \end{table}
 
-\subsubsection{Kotlin bundled - Kotlin bundled with pdflatex}
-\label{sec:kotlin_bundled}
-Similarily to the prototype in Kotlin minimal~\ref{subsubsec:kotlin_minimal}, this prototype uses Kotlin and invokes the pdflatex binary.
+\subsubsection{Kotlin bundled – Kotlin bundled with pdflatex}\label{sec:kotlin_bundled}
+Similarly to the prototype in Kotlin minimal~\ref{subsubsec:kotlin_minimal}, this prototype uses Kotlin and invokes the pdflatex binary.
 The major difference is that the pdflatex binary is provided alongside
 the software.
 The advantage of this approach is that the user does not have to install TexLive or any dependencies, greatly improving usability.
-However, this comes with the disadvantage
-that the complexity of the distribution.
+However, this comes with the disadvantage that the complexity of the distribution is much higher.
 This approach also limits the advantages of using a platform-independent programming language because for every platform there has to be a release
 which packages the appropriate binary.
 
@@ -143,26 +136,25 @@ The licensing is equivalent to the licenses of the prototype in Kotlin minimal~\
 \paragraph{Evaluation}\mbox{}\newline
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|c|c|}
-        \hline
-        \textbf{Criterion} & \textbf{Evaluation (1-5)} & \textbf{Weighted value} \\
-        \hline
-        Know-how & 3 & 6 \\
-        \hline
-        Complexity & 3 & 12 \\
-        \hline
-        Usability & 5 & 30 \\
-        \hline
-        Distribution & 1 & 8 \\
-        \hline
-        \textbf{Total} & n.a & \textbf{56} \\
-        \hline
+    \begin{tabular}{l c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
+        \midrule
+        Know-how           & 3                           & 6                       \\
+        \midrule
+        Complexity         & 3                           & 12                      \\
+        \midrule
+        Usability          & 5                           & 30                      \\
+        \midrule
+        Distribution       & 1                           & 8                       \\
+        \midrule
+        \textbf{Total}     & n.a.                        & \textbf{56}             \\
+        \bottomrule
     \end{tabular}
-    \caption{Evaluation of Kotlin bundled with pdflatex}
-    \label{table:kotlin_bundled_evaluation}
+    \caption{Evaluation of Kotlin bundled with pdflatex}\label{table:kotlin_bundled_evaluation}
 \end{table}
 
-\subsubsection{Web with swiftlatex}
+\subsubsection{Web with SwiftLaTeX}
 During the projects initial discussions, which had brainstorm like character, we wondered if we could render latex files directly in the browser, which would have the following benefits:
 \begin{itemize}
     \item Providing the functionality as a web application would be probably the easiest and most accessible way for an end user to use the tool.
@@ -171,38 +163,37 @@ During the projects initial discussions, which had brainstorm like character, we
 After a quick search we found the following open source JavaScript/WebWebassembly project: \href{https://www.swiftlatex.com/}{SwiftLaTeX: WYSIWYG LaTeX Editor for Browsers}
 According to their website, the JavaScript/WebWebassembly library has the following characteristics~\cite{swiftlatex_website}:
 \begin{itemize}
-    \item 100\% Browser - PdfTeX and XeTeX written in 100\% WebAssembly and run in browsers.
-    \item Compatibility - Produce exact same output you would get from TexLive or MikTeX\@.
-    \item Library Support - Simply include a script tag and use PdfTeX or XeTeX in your own webpage.
-    \item WYSIWYG - Support WYSIWYG editing on LaTeX documents using XeTeX engine.
-    \item Speed - Run merely 2X slower than native binaries.
-    \item Open Source - Completely Open Source. You can find the code on \href{https://github.com/SwiftLaTeX/SwiftLaTeX/}{GitHub}.
+    \item 100\% Browser – PdfTeX and XeTeX written in 100\% WebAssembly and run in browsers.
+    \item Compatibility – Produce exact same output you would get from TexLive or MikTeX\@.
+    \item Library Support – Simply include a script tag and use PdfTeX or XeTeX in your own webpage.
+    \item WYSIWYG – Support WYSIWYG editing on LaTeX documents using XeTeX engine.
+    \item Speed – Run merely 2X slower than native binaries.
+    \item Open Source – Completely Open Source. You can find the code on \href{https://github.com/SwiftLaTeX/SwiftLaTeX/}{GitHub}.
 \end{itemize}
 If the statements on the SwiftLaTeX website hold true, it would neatly full-fill our requirements for building a client side only web application.
 
 \paragraph{Verifying basic functionality}\mbox{}\newline
-To make a first feasibility test we can insert our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} into the \href{https://www.swiftlatex.com/\#demo}{SwiftLaTeX Demo tool}.
-Even though it took more than one and a half minute to process, we were very surprised that this just worked, see figure~\ref{fig:swiftlatex_demo_rendering_latex_pgfplots_template}:
+To make a first feasibility test we can insert our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} into the \href{https://www.SwiftLaTeX.com/\#demo}{SwiftLaTeX Demo tool}.
+Even though it took more than one and a half minute to process, we were very surprised that this just worked, see figure~\ref{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}:
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{swiftlatex_demo_pgfplots}
-    \caption{Screenshot of the SwiftLaTeX Demo tool rendering the reference LaTeX pgfplots template}
-    \label{fig:swiftlatex_demo_rendering_latex_pgfplots_template}
+    \includegraphics[width=0.5\textwidth]{SwiftLaTeX_demo_pgfplots}
+    \caption{Screenshot of the SwiftLaTeX Demo tool rendering the reference LaTeX pgfplots template}\label{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}
 \end{figure}
 
 \paragraph{Investigating dependencies are loaded}\mbox{}\newline
-After investigating what actually happens on the page with the browsers developer tools network tab, we saw that SwiftLaTeX will load all dependencies asynchronously via https://texlive2.swiftlatex.com/.
-This process and how self-host those files, is documented in the README.md of the SwiftLaTeX GitHub library~\cite{swiftlatex_github_repository}.
+After investigating what actually happens on the page with the browsers developer tools network tab, we saw that SwiftLaTeX will load all dependencies asynchronously via https://texlive2.SwiftLaTeX.com/.
+This process and how self-host those files, is documented in the README.md of the SwiftLaTeX GitHub library~\cite{SwiftLaTeX_github_repository}.
 As we will be able to specify which LaTeX dependencies our application will use, it would be interesting to download and serve only the files we actually need.
 We also saw that the dependencies are loaded sequentially, which we would like to optimize to reduce the pdf generation time.
 
 \paragraph{Local development setup}\mbox{}\newline
 To make the same example working on a local machine, we can download the latest release from the GitHub repository: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{Releases 20/02/2022}.
-The release contains the website visible at \href{https://www.swiftlatex.com/}{swiftlatex.com} including the compiled WebAssembly files.
-As expected, opening the index.html file from the unzipped release folder in a browser will look like the website \href{https://www.swiftlatex.com/}{swiftlatex.com}.
+The release contains the website visible at \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com} including the compiled WebAssembly files.
+As expected, opening the index.html file from the unzipped release folder in a browser will look like the website \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com}.
 Validating the basic functionality with our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} did not work, as we get the following error message in the JavaScript console:
-\begin{lstlisting}[caption={SwiftLaTeX local development setup: JavaScript error message},label={lst:swiftlatex_local_setup_js_error}]
-PdfTeXEngine.js:89 Uncaught (in promise) SecurityError: Failed to construct 'Worker': Script at 'file:///home/lukas/Downloads/20-02-2022/swiftlatexpdftex.js' cannot be accessed from origin 'null'.
+\begin{lstlisting}[caption={SwiftLaTeX local development setup: JavaScript error message},label={lst:SwiftLaTeX_local_setup_js_error}]
+PdfTeXEngine.js:89 Uncaught (in promise) SecurityError: Failed to construct 'Worker': Script at 'file:///home/lukas/Downloads/20-02-2022/SwiftLaTeXpdftex.js' cannot be accessed from origin 'null'.
 ...
 \end{lstlisting}
 
@@ -231,51 +222,49 @@ As this solution was worth exploring, we deployed the prototype with GitHub page
 
 \paragraph{Licensing}
 \begin{itemize}
-    \item SwiftLaTeX: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/blob/master/LICENSE}{SwiftLaTeX License}, \href{https://www.gnu.org/licenses/agpl-3.0.en.html}{GNU AFFERO GENERAL PUBLIC LICENSE}
-    \item LaTeX: \href{https://www.latex-project.org/lppl.txt}{The LaTeX project public license}
-    \item TeXLive: \href{https://www.tug.org/texlive/copying.html}{TeX Live licensing, copying, and redistribution}, \href{https://www.tug.org/texlive/LICENSE.TL}{COPYING CONDITIONS FOR TeX Live}
-    \item pgfplots: \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License, version 3 or newer}
+    \item SwiftLaTeX:\ \href{https://github.com/SwiftLaTeX/SwiftLaTeX/blob/master/LICENSE}{SwiftLaTeX License}, \href{https://www.gnu.org/licenses/agpl-3.0.en.html}{GNU AFFERO GENERAL PUBLIC LICENSE}
+    \item LaTeX:\ \href{https://www.latex-project.org/lppl.txt}{The LaTeX project public license}
+    \item TeXLive:\ \href{https://www.tug.org/texlive/copying.html}{TeX Live licensing, copying, and redistribution}, \href{https://www.tug.org/texlive/LICENSE.TL}{COPYING CONDITIONS FOR TeX Live}
+    \item pgfplots:\ \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License, version 3 or newer}
 \end{itemize}
 
 \paragraph{Evaluation}\mbox{}\newline
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|c|c|}
-        \hline
-        \textbf{Criterion} & \textbf{Evaluation (1-5)} & \textbf{Weighted value} \\
-        \hline
-        Know-how & 3 & 6 \\
-        \hline
-        Complexity & 3 & 12 \\
-        \hline
-        Usability & 4 & 24 \\
-        \hline
-        Distribution & 5 & 40 \\
-        \hline
-        \textbf{Total} & n.a & \textbf{82} \\
-        \hline
+    \begin{tabular}{l c c}
+        \toprule
+        \textbf{Criterion} & \textbf{Evaluation (1{-}5)} & \textbf{Weighted value} \\
+        \midrule
+        Know-how           & 3                           & 6                       \\
+        \midrule
+        Complexity         & 3                           & 12                      \\
+        \midrule
+        Usability          & 4                           & 24                      \\
+        \midrule
+        Distribution       & 5                           & 40                      \\
+        \midrule
+        \textbf{Total}     & n.a.                        & \textbf{82}             \\
+        \bottomrule
     \end{tabular}
-    \caption{Evaluation of SwiftLaTeX JavaScript/WebAssembly library}
-    \label{table:swiftlatex_evaluation}
+    \caption{Evaluation of SwiftLaTeX JavaScript/WebAssembly library}\label{table:SwiftLaTeX_evaluation}
 \end{table}
 
 \subsubsection{Chosen Solution}
 Using the evaluations given to the selected technologies, the following demonstrates the combined results:
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|c|c|}
-        \hline
+    \begin{tabular}{l c c}
+        \toprule
         \textbf{Technology} & \textbf{Total score} \\
-        \hline
-        Kotlin minimal & 74 \\
-        \hline
-        Kotlin bundled & 56 \\
-        \hline
-        Web SwiftLaTeX & 82 \\
-        \hline
+        \midrule
+        Kotlin minimal      & 74                   \\
+        \midrule
+        Kotlin bundled      & 56                   \\
+        \midrule
+        Web SwiftLaTeX      & 82                   \\
+        \bottomrule
     \end{tabular}
-    \caption{Technology stack evaluation}
-    \label{table:technology_evaluation}
+    \caption{Technology stack evaluation}\label{table:technology_evaluation}
 \end{table}
 In accordance with the table above, the project team decided to use \textbf{Web SwiftLaTeX} with the distribution option 3 \textbf{GitHub Pages}.
 

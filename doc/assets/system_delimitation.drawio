@@ -1,0 +1,73 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:131.0) Gecko/20100101 Firefox/131.0" version="24.8.3">
+  <diagram name="Page-1" id="AeJiXiW678Va_N95Xo20">
+    <mxGraphModel dx="1514" dy="727" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-3" value="Out of Scope" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=20;dashed=1;dashPattern=1 4;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" vertex="1">
+          <mxGeometry x="6" y="-7.105427357601002e-15" width="815" height="593.75" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-2" value="System Context" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;verticalAlign=top;dashed=1;dashPattern=8 8;fillColor=#fff2cc;strokeColor=#d6b656;" parent="1" vertex="1">
+          <mxGeometry x="103.5" y="83.12" width="620" height="427.5" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-1" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;System&lt;br&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="208.5" y="166.87" width="410" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-4" value="Frontend (User Interaction)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="338.5" y="236.87" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-5" value="WAV file analyser" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="308.5" y="316.87" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-6" value="LaTeX/pgfplots " style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="498.5" y="296.87" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-8" value="Stakeholder (tutor)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="198.5" y="166.87" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-9" value="User" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="373.5" y="446.87" width="40" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-10" value="Lärmliga" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="588.5" y="176.87" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="dmXY7w49LvJ7ycQANwbT-11" value="Integration in legal complaints" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="368.5" y="536.87" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-2" value="Noise producer" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="548.5" y="406.87" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-8" value="Recording Device" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="148.5" y="361.87" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-10" value="Out of Scope" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=20;dashed=1;dashPattern=1 4;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="6" y="600" width="815" height="593.75" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-11" value="System Context" style="ellipse;whiteSpace=wrap;html=1;fontSize=20;verticalAlign=top;dashed=1;dashPattern=8 8;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="103.5" y="683.12" width="620" height="427.5" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-12" value="&lt;font style=&quot;font-size: 20px;&quot;&gt;System&lt;br&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="208.5" y="766.87" width="410" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-13" value="Selecting (uploading) a WAV file" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="258.5" y="840" width="110" height="53.13" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-14" value="WAV file analysis (validation, parsing, conversion to absolute db values, threshold filtering)" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="318" y="910" width="191.5" height="73.13" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-15" value="Plotting analysis result (LaTeX / pgfplots) and PDF generation" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="400" y="830" width="171.5" height="53.13" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-16" value="Recording noise" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="198.5" y="766.87" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-17" value="Producing noise" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="373.5" y="1046.87" width="56.5" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="o9xJ8-mMakQT4EwWSreq-19" value="Device calibration" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="368.5" y="1139" width="110" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

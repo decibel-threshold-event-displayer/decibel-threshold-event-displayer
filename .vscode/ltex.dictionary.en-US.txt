@@ -1,0 +1,10 @@
+pdflatex
+TexLive
+pgfplots
+SwiftLaTeX
+TeXLive
+libre
+PdfTeX
+XeTeX
+MikTeX
+Lärmliga
