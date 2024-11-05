@@ -29,5 +29,7 @@ After the format block comes the data block. This block starts with a 4 byte lon
 If an audio file consists of several channels, we use the average of the channels as the value of the sample.
 When we want to analyse where a certain decibel threshold has been exceeded, we must have accurate values. People only perceive something as loud if it is loud over a longer period of time. Short peaks are perceived less. Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, the root mean squere, as we are interested in the absolute amplitude values.
 The calculated average then depends heavily on how long the time period is. In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}. This is also the default value, which can be adjusted by the user via the settings.
-The decibel value is calculate with the following formula: 
+The decibel value is calculate with the following formula\cite{decibel_wikipedia}:
+\[20 * \log_{10} (sample)\] 
+
 As mentioned in the introduction, the audio file only contains relativ values. We therefore need to map the RMS values to the number range of the reference values.
