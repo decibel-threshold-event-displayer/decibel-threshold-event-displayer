@@ -1,7 +1,7 @@
 \section{Introduction}\label{sec:introduction}
 
 \subsection{Initial Situation}\label{subsec:initial-situation}
-According to the~\href{https://www.bafu.admin.ch//}{Federal Office for the Environment} (DE: BAFU) one in seven people in Switzerland is affected by noise pollution~\cite{foen_noise_pollution}.
+According to the~\href{https://www.bafu.admin.ch//}{Federal Office for the Environment} (DE:\ BAFU) one in seven people in Switzerland is affected by noise pollution~\cite{foen_noise_pollution}.
 The pollution comes primarily from road traffic, followed by railways and then air traffic.
 In addition to these noise sources, construction sites, nightclubs and public facilities also produce noise.
 Because of this, Switzerland has set up upper noise limits that must be respected.
@@ -23,6 +23,6 @@ A wave file (.wav) contains samples of the recorded audio, where each sample rep
 Those amplitude values are relative to each other and not absolute.
 It is therefore impossible to determine the actual dB(A) (loudness relative to the human ear) someone would perceive without any further information~\cite{adobe_community_how_to_know_the_real_world_db_level_of_a_file,stackoverflow_how_can_i_calculate_audio_db_level,stackexchange_exteracting_sound_pressure_from_wav_file}.
 Because of this, we require the user to also give information about the minimal and maximal dB(A) measured in the given audio file.
-To do this, we recommend to use a smartphone app like \href{https://apps.apple.com/ch/app/dezibel-x-dba-l%C3%A4rm-messger%C3%A4t/id448155923}{DecibelX for IOS},
+To do this, we recommend using a smartphone app like \href{https://apps.apple.com/ch/app/dezibel-x-dba-l\%C3\%A4rm-messger\%C3\%A4t/id448155923}{DecibelX for IOS},
 which allows the user to record the audio and also conveniently inspect the minimal and maximal dB measured in that recording.
-With those two values, we can then map the relative values from the .wav file to its db(A) values.
+With those two values, we can then map the relative values from the wave file to its db(A) values.
