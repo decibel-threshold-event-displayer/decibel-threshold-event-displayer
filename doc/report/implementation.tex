@@ -16,8 +16,6 @@ The following diagram shows which steps are involved when creating a noise repor
 \subsubsection{Parsing the Wave File}
 The WaveFileWrapper class will be responsible for parsing the file. The format itself is straight forward\cite{wav_file_format_wikipedia}, the only importend thing is that the whole file is Little-Endian. It starts with a 12 byte header which we use to verify that the given file is actually a wave file. After the header comes a 24 byte block which contains information about the data format. We are interested in the following fields:
 \begin{itemize}
-    \item FormatBlocID (4 bytes): is used to verfy that it is a known format. This field should always have the value 'fmt '.
-    \item BlocSize (4 bytes): is needed to parse the format information itself 
     \item AudioFormat (2 bytes): only handle PCM i guess?
     \item NbrChannels (2 bytes): is used to parse individual samples
     \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarzing 
