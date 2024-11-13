@@ -7,7 +7,7 @@
 - Licence is defined
 - Git repository and documentation skeleton are created
 
-## Review
+## Review - 23.10.2024
 **Demo:**
 - PoC Kotlin and pdflatex: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/16
 - PoC SwiftLaTeX: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/9
@@ -33,10 +33,11 @@
 - [ ] Licence is defined
 - [ ] Git repository and documentation skeleton are created
 
-[Sprint overview](https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-/cadences/56/iterations/715)
+[Sprint overview 1](https://gitlab.ti.bfh.ch/groups/decibel-threshold-event-displayer/-/cadences/56/iterations/715)
+
 ![Burndown sprint 1](../assets/burndown_sprint_001.png)
 
-## Retro
+## Retro - 23.10.2024
 
 **What went well:**
 - Creation of prototypes
@@ -67,3 +68,61 @@
 - Decibel values can be calculated
 - Licence is defined
 - Git repository and documentation skeleton are created
+
+## Review - 05.11.2024
+**Demo:**
+- Every team member presented his slides for the intermediate presentation
+- Darius: Presented the scrum report
+- Lukas: Presented the UX prototypes
+- Dominic: Presented how the dB mapping works
+
+**Done:**
+- [Write Introduction](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/71)
+- [Write specification](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/63)
+- [Create a github organization for distributing the application as github pages](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/56)
+- [Calculate db(A) from relativ db values](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/55)
+- [Prepare intermediate presentation](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/28)
+- [Define licence](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/19)
+- [Create and init git repository](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/6)
+
+**Not done:**
+- [Define content](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21)
+  - Because of the presentation deadline, the documentation of this task was not done yet
+
+**Goals:**
+- [x] Intermediate presentation is prepared and presented
+- [x] Requirements are specified
+- [x] UX-Prototype is defined
+- [x] System delimination is specified
+- [x] Decibel values can be calculated
+- [x] Licence is defined
+- [x] Git repository and documentation skeleton are created
+
+[Sprint overview 2](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/cadences/56/iterations/716)
+
+![Burndown sprint 2](../assets/burndown_sprint_002.png)
+
+## Retro - 06.11.2024
+
+**What went well:**
+- The presentation was prepared in time, and we are confident that the presentation went well
+- We finally know how the dB values actually should be calculated
+- Because we specified a lot of things we have now a clear way forward for building the product
+
+**Problems:**
+- The criteria for the intermediate presentation were available on a short notice
+- Because we focused manly on the presentation, we didn't make a lot of progress on the product itself
+- We had some issues with the table of contents in the intermediate presentation, because we used LaTeX
+
+**Improvements:**
+- We want to use the GitLab issue board lanes with scoped labels to change the issue priority with drag and drop
+
+
+# Sprint 3
+
+## Goals
+- Write documentation for interface
+- Read and parse *.wav files correctly
+- Filter audio data correctly
+- Enable repository mirroring for distribution
+- Implement MVP frontend application
