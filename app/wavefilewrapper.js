@@ -72,51 +72,45 @@ class WaveFileWrapper {
         // https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
         let identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
 
-        if (identifier == LIST_IDENTIFIER) {
+        if (identifier == LIST_IDENTIFIER) 
             return dataView.getInt32(LIST_OFFSET_SIZE, true) + 8;
-        } else {
+        else
             return 0;
-        }
     }
 
     parseAndVerifyRiffChunk = function(dataView) {
         // check identifiert
         var identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
 
-        if (identifier != RIFF_IDENTIFIER) {
+        if (identifier != RIFF_IDENTIFIER) 
             throw "File identifiert is not 'RIFF'";
-        }
 
         // check file format
         var fileFormatId = dataView.getInt32(RIFF_OFFSET_FILE_FORMAT_ID);
     
-        if (fileFormatId != WAVE_FILE_FORMAT){
+        if (fileFormatId != WAVE_FILE_FORMAT)
             throw "RIFF format is not 'WAVE'";
-        }
     }
 
     parseAndVerifyFormatChunk = function(dataView) {
         // check identifiert
         let identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
 
-        if (identifier != FORMAT_IDENTIFIER) {
+        if (identifier != FORMAT_IDENTIFIER) 
             throw "Format chunk identifiert is not 'fmt '";
-        }
 
         let audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
 
         // must be PCM for the moment
-        if (audioFormat != 1) {
+        if (audioFormat != 1) 
             throw "Only PCM Format is supported";
-        }
 
         this.nbrOfChannels = dataView.getInt16(FORMAT_OFFSET_NBR_OF_CHANNELS, true);
         this.samplesPerSecond = dataView.getInt32(FORMAT_OFFSET_SAMPLES_PER_SECOND, true);
         let bitsPerSample = dataView.getInt16(FORMAT_OFFSET_BITS_PER_SAMPLE, true);
 
-        if (bitsPerSample % 8 != 0) {
+        if (bitsPerSample % 8 != 0) 
             throw "Bits per sample have to be a multiple of 8";
-        }
 
         this.bytesPerSample = bitsPerSample / 8;
     }
@@ -124,29 +118,47 @@ class WaveFileWrapper {
     parseAndVerifyDataChunk = function(dataView) {
         // check identifier
         let identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
-        console.log(identifier.toString(16));
-        // must be "data"
-        if (identifier != DATA_IDENTIFIER) {
+        
+        if (identifier != DATA_IDENTIFIER) 
             throw "Data chunk identifiert is not 'data'";
-        }
-        dataView.getI
+        
         let dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
         
         let nbrOfSamples = dataSize / (this.bytesPerSample * this.nbrOfChannels);
         let offset = DATA_OFFSET_SAMPLES;
         this.samples = [];
-        
 
         for (let i = 0; i < nbrOfSamples; ++i) {
             this.samples[i] = [];
             
-            // FIXME: dont use getInt16(), instead read as many bytes as this.bytesPerSamples defines
             for (let channel = 0; channel < this.nbrOfChannels; ++channel) {
-                this.samples[i][channel] = dataView.getInt16(offset, true);
+                let sample = 0;
                 
-                offset += this.bytesPerSample;
+                for(let byte = 0; byte < this.bytesPerSample; ++byte){
+                    let b = dataView.getInt8(offset);
+                    sample = (b << (byte * 8)) | sample;
+                    ++offset;
+                }
+
+                this.samples[i][channel] = sample;
             }
         }
+
+        var min = 999999999;
+        var max = 0;
+
+        for (let i = 0; i < this.samples.length; i++) {
+            let absAmp = Math.abs(this.samples[i][0]);
+
+            if(absAmp > max)
+                max = absAmp;
+
+            if(absAmp < min)
+                min = absAmp 
+        }
+
+        console.log("Max: " + max);
+        console.log("Min: " + min);
     }
 }
 
