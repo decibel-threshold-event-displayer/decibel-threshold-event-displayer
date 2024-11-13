@@ -98,3 +98,39 @@ Lukas:
 - next steps:
   - Ask Mr. Kramer if usage of make instead of bash scripts is okey
   - Implement UX-Prototyping
+
+
+# 06.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+---
+
+Dominic:
+- Finalize demo application: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/55
+  - Implemented decibel mapping according to min and max db specified
+  - Wrote documentation about how the process works
+- Write report introduction: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/71
+  - Wrote about the goals, requirements and the issue of calculating the decibel values
+- Prepare intermediate presentation: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/28
+  - created slides for the initial situation, the goals and the way audio processing works
+- next steps:
+  - Work on the WAV file reader
+
+Darius:
+- Write and rehearse Scrum part of the intermediate presentation https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/work_items/57
+- Write project specification (system delimitation, requirements, boundaries, pre-conditions, and persona) https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/63
+- Write Scrum report (scrum roles, sprint goals, requirements, and scrum adaptations) https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/work_items/57
+
+Lukas:
+- Defined contents of the Result PDF: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21
+- UX prototypes: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/63?show=38640
+  - Created UX Prototype - Result PDF (based on Defined contents)
+  - Created UX Prototype - Website (based on functional requirements)
+  - Documented UX Prototypes
+- Prepare intermediate presentation: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/28
+  - Wrote about the given situation and how we plan to solve it
+- next steps:
+  - Enable repository mirroring: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76
