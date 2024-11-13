@@ -134,3 +134,15 @@ Lukas:
   - Wrote about the given situation and how we plan to solve it
 - next steps:
   - Enable repository mirroring: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76
+
+
+
+# 13.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+---
+
+The team didn't make any progress, because of the BFH block week
