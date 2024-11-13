@@ -1,11 +1,10 @@
-
 class WaveFileWrapper {
     constructor(file) { 
         if(!file)
             throw "No file given";
 
         this.filename = file.name;
-        this.readAndParse();
+        this.readAndParse(file);
     }
 
     readAndParse = function(file) {
@@ -19,7 +18,7 @@ class WaveFileWrapper {
             throw "Error while reading the file:" + reader.error;
         });
 
-        reader.readAsArrayBuffer(document.getElementById("file").files[0]);
+        reader.readAsArrayBuffer(file);
     }
 
     parseFile = function(arrayBuffer) {
@@ -32,7 +31,7 @@ class WaveFileWrapper {
         this.parseAndVerifyFormatChunk(formatView);
 
         let dataView = new DataView(arrayBuffer, 36);
-        this.parseDataChunk(dataView);
+        this.parseAndVerifyDataChunk(dataView);
     };
 
     parseAndVerifyRiffChunk = function(dataView) {
@@ -65,7 +64,6 @@ class WaveFileWrapper {
         let audioFormat = dataView.getInt16(8, true);
 
         // must be PCM for the moment
-        console.log(audioFormat.toString(16));
         if (audioFormat != 1) {
             throw "Only PCM Format is supported";
         }
@@ -75,16 +73,22 @@ class WaveFileWrapper {
         this.bitsPerSample = dataView.getInt16(22, true);
     }
 
-    parseDataChunk = function(dataView) {
+    parseAndVerifyDataChunk = function(dataView) {
+        // check identifier
+        let dataBlocId = dataView.getInt32(0);
 
+        // must be "data"
+        if (dataBlocId != 0x64617461) {
+            throw "Data chunk identifiert is not 'data'";
+        }
     }
 }
 
 
 function test(){
     var f = document.getElementById("file").files[0];
-
-    new WaveFileWrapper(f);
+    var wrapper = new WaveFileWrapper(f);
+    console.log(wrapper);
 }
 
 async function init(){
