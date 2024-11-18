@@ -3,7 +3,7 @@ const CHUNK_OFFSET_FORMAT = 12;
 const CHUNK_OFFSET_LIST = 36;
 
 const CHUNK_LENGTH_RIFF = 12;
-const CHUNK_LENGHT_FORMAT = 24;
+const CHUNK_LENGTH_FORMAT = 24;
 
 const RIFF_OFFSET_IDENTIFIER = 0;
 const RIFF_OFFSET_FILE_FORMAT_ID = 8;
@@ -28,16 +28,25 @@ const DATA_IDENTIFIER = 0x64617461; // 'data'
 
 const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 
-class WaveFileWrapper {
-    constructor(file) { 
-        if(!file)
-            throw "No file given";
+export class WaveFileWrapper {
+    constructor(file) {
+        this.nbrOfChannels = 0;
+        this.nbrOfSamples = 0;
+        this.samplesPerSecond = 0;
+        this.bytesPerSample = 0;
 
-        this.filename = file.name;
-        this.readAndParse(file);
+        if (file instanceof ArrayBuffer) {
+            this.filename = "Unknown File";
+            this.parseFile(file);
+        } else if (file instanceof File) {
+            this.filename = file.name;
+            this.readAndParse(file);
+        } else {
+            throw new InvalidFileError("No File given");
+        }
     }
 
-    readAndParse = function(file) {
+    readAndParse = function (file) {
         const reader = new FileReader()
 
         reader.addEventListener("loadend", () => {
@@ -45,19 +54,23 @@ class WaveFileWrapper {
         });
 
         reader.addEventListener("error", () => {
-            throw "Error while reading the file:" + reader.error;
+            throw new InvalidFileError("Error in FileReader():" + reader.error);
         });
 
-        reader.readAsArrayBuffer(file);
+        try {
+            reader.readAsArrayBuffer(file);
+        } catch (error) {
+            throw new InvalidFileError("Error while reading the file:" + reader.error);
+        }
     }
 
-    parseFile = function(arrayBuffer) {
+    parseFile = function (arrayBuffer) {
         // https://en.wikipedia.org/wiki/WAV#WAV_file_header
 
         let riffView = new DataView(arrayBuffer, CHUNK_OFFSET_RIFF, CHUNK_LENGTH_RIFF);
         this.parseAndVerifyRiffChunk(riffView);
 
-        let formatView = new DataView(arrayBuffer, CHUNK_OFFSET_FORMAT, CHUNK_LENGHT_FORMAT)
+        let formatView = new DataView(arrayBuffer, CHUNK_OFFSET_FORMAT, CHUNK_LENGTH_FORMAT)
         this.parseAndVerifyFormatChunk(formatView);
 
         // skip list and find the start point of the data
@@ -68,73 +81,73 @@ class WaveFileWrapper {
         this.parseAndVerifyDataChunk(dataView);
     };
 
-    getDataOffset = function(dataView) {
+    getDataOffset = function (dataView) {
         // https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
         let identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
 
-        if (identifier == LIST_IDENTIFIER) 
+        if (identifier == LIST_IDENTIFIER)
             return dataView.getInt32(LIST_OFFSET_SIZE, true) + 8;
         else
             return 0;
     }
 
-    parseAndVerifyRiffChunk = function(dataView) {
+    parseAndVerifyRiffChunk = function (dataView) {
         // check identifiert
         var identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
 
-        if (identifier != RIFF_IDENTIFIER) 
-            throw "File identifiert is not 'RIFF'";
+        if (identifier != RIFF_IDENTIFIER)
+            throw new InvalidRiffChunkError("File identifiert is not 'RIFF'");
 
         // check file format
         var fileFormatId = dataView.getInt32(RIFF_OFFSET_FILE_FORMAT_ID);
-    
+
         if (fileFormatId != WAVE_FILE_FORMAT)
-            throw "RIFF format is not 'WAVE'";
+            throw new InvalidRiffChunkError("RIFF format is not 'WAVE'");
     }
 
-    parseAndVerifyFormatChunk = function(dataView) {
+    parseAndVerifyFormatChunk = function (dataView) {
         // check identifiert
         let identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
 
-        if (identifier != FORMAT_IDENTIFIER) 
-            throw "Format chunk identifiert is not 'fmt '";
+        if (identifier != FORMAT_IDENTIFIER)
+            throw new InvalidFormatChunkError("Format chunk identifiert is not 'fmt '");
 
         let audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
 
         // must be PCM for the moment
-        if (audioFormat != 1) 
-            throw "Only PCM Format is supported";
+        if (audioFormat != 1)
+            throw new InvalidFormatChunkError("Only PCM Format is supported");
 
         this.nbrOfChannels = dataView.getInt16(FORMAT_OFFSET_NBR_OF_CHANNELS, true);
         this.samplesPerSecond = dataView.getInt32(FORMAT_OFFSET_SAMPLES_PER_SECOND, true);
         let bitsPerSample = dataView.getInt16(FORMAT_OFFSET_BITS_PER_SAMPLE, true);
 
-        if (bitsPerSample % 8 != 0) 
-            throw "Bits per sample have to be a multiple of 8";
+        if (bitsPerSample % 8 != 0)
+            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be a multiple of 8`);
 
         this.bytesPerSample = bitsPerSample / 8;
     }
 
-    parseAndVerifyDataChunk = function(dataView) {
+    parseAndVerifyDataChunk = function (dataView) {
         // check identifier
         let identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
-        
-        if (identifier != DATA_IDENTIFIER) 
-            throw "Data chunk identifiert is not 'data'";
-        
+
+        if (identifier != DATA_IDENTIFIER)
+            throw new InvalidDataChunkError("Data chunk identifiert is not 'data'");
+
         let dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
-        
+
         let nbrOfSamples = dataSize / (this.bytesPerSample * this.nbrOfChannels);
         let offset = DATA_OFFSET_SAMPLES;
         this.samples = [];
 
         for (let i = 0; i < nbrOfSamples; ++i) {
             this.samples[i] = [];
-            
+
             for (let channel = 0; channel < this.nbrOfChannels; ++channel) {
                 let sample = 0;
-                
-                for(let byte = 0; byte < this.bytesPerSample; ++byte){
+
+                for (let byte = 0; byte < this.bytesPerSample; ++byte) {
                     let b = dataView.getInt8(offset);
                     sample = (b << (byte * 8)) | sample;
                     ++offset;
@@ -143,33 +156,48 @@ class WaveFileWrapper {
                 this.samples[i][channel] = sample;
             }
         }
+    }
 
-        var min = 999999999;
-        var max = 0;
-
-        for (let i = 0; i < this.samples.length; i++) {
-            let absAmp = Math.abs(this.samples[i][0]);
-
-            if(absAmp > max)
-                max = absAmp;
-
-            if(absAmp < min)
-                min = absAmp 
-        }
-
-        console.log("Max: " + max);
-        console.log("Min: " + min);
+    toString = function () {
+        return `Filename: ${this.filename}\n
+                Number of channels: ${this.nbrOfChannels}\n
+                Number of samples ${this.nbrOfSamples}\n
+                Samples per second ${this.samplesPerSecond}\n
+                Bytes per samples ${this.bytesPerSample}\n`;
     }
 }
 
-function test(){
-    var f = document.getElementById("file").files[0];
-    var wrapper = new WaveFileWrapper(f);
-    console.log(wrapper);
+export class WaveFileWrapperError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = "WaveFileWrapperError";
+    }
 }
 
-async function init(){
-    document.getElementById("test").addEventListener('click', () => test());
+export class InvalidFileError extends WaveFileWrapperError {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidFileError";
+    }
 }
 
-init()
+export class InvalidRiffChunkError extends WaveFileWrapperError {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidRiffChunkError";
+    }
+}
+
+export class InvalidFormatChunkError extends WaveFileWrapperError {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidFormatChunkError";
+    }
+}
+
+export class InvalidDataChunkError extends WaveFileWrapperError {
+    constructor(message) {
+        super(message);
+        this.name = "InvalidDataChunkError";
+    }
+}
