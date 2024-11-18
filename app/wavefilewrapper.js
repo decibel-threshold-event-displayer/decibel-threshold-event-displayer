@@ -158,7 +158,7 @@ export class WaveFileWrapper {
         }
     }
 
-    toString = function () {
+    toString = function() {
         return `Filename: ${this.filename}\n
                 Number of channels: ${this.nbrOfChannels}\n
                 Number of samples ${this.nbrOfSamples}\n
