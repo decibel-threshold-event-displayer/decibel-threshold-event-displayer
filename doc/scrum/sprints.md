@@ -84,9 +84,10 @@
 - [Prepare intermediate presentation](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/28)
 - [Define licence](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/19)
 - [Create and init git repository](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/6)
+- [Define content](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21)
 
 **Not done:**
-- [Define content](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21)
+- [Define interface](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/17)
   - Because of the presentation deadline, the documentation of this task was not done yet
 
 **Goals:**
@@ -127,8 +128,37 @@
 - Enable repository mirroring for distribution
 - Implement MVP frontend application
 
-As time for all members was limited this sprint, not much got done. We decided to cancel this sprints review and retro as we have not much to talk about.
+## Review - 20.11.2024
+**Demo:**
+- Dominic: Presented how he implemented
+- Lukas: Presented the mirroring of the repositories from GitLab to GitHub
 
+**Done:**
+- [Read WAV file](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/10)
+- [Define interface](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/17)
+- [Enable repository mirroring](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76)
+
+**Not done:**
+- [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11)
+- [Implement frontend application](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/24)
+
+**Goals:**
+- [x] Write documentation for interface
+- [x] Read and parse *.wav files correctly
+- [ ] Filter audio data correctly
+- [x] Enable repository mirroring for distribution
+- [ ] Implement MVP frontend application
+
+## Retro - 20.11.2024
+
+**What went well:**
+- 
+
+**Problems:**
+- 
+
+**Improvements:**
+- 
 
 # Sprint 4
 
