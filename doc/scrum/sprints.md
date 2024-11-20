@@ -152,19 +152,22 @@
 ## Retro - 20.11.2024
 
 **What went well:**
-- 
+- We finally started with the implementation
+- We have a rudimentary javascript test environment (not automated yet)
+- We know that the automatic mirroring of the repositories is working
 
 **Problems:**
-- 
+- The special week 3 took our focus entirely (we were in the same team)
+- Getting used to writing javascript again
+- Mirroring repositories is way harder than we thought
 
 **Improvements:**
-- 
+- Getting our focus back to project 1
 
 # Sprint 4
 
 ## Goals
-- Write documentation for interface
-- Read and parse *.wav files correctly
 - Filter audio data correctly
-- Enable repository mirroring for distribution
 - Implement MVP frontend application
+- Improve javascript test environment
+- 
