@@ -3,13 +3,34 @@ Lorem ipsum
 
 \subsection{Architecture}
 
-\subsubsection{Wave File Wrapper}
-The WaveFileWrapper class is responsible for reading, parsing and validating the wave file. It provides an API for accessing all information need for creating the report. When creating such a wrapper object, an error is thrown when the validation fails at some point. The samples are provieded as an array of arrays. Each element of the outer array represents one sample and the elements of the inner array represent the amplitude of each channel. 
+\subsubsection{Data Structures}
+
+\paragraph{WAV File Wrapper}
+For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
+
+\paragraph{Filter Results}
+The filter will return its findings as an object of the FilterResult class. This data class contains all information from the audio file that is need for rendering the report. 
+
+\begin{itemize}
+    \item duration: the length of the recording in seconds
+    \item durationOverLimit: the total amount of time in seconds for which the threshold was exceeded
+    \item peak: the peak RMS in dB(A)
+    \item average: the average RMS in dB(A)
+    \item samplesOverLimit: a list of all samples which exceeded the threshold
+\end{itemize}
+
+
+The class Sample represents a RMS sample which exceeded the threshold. 
+
+\begin{itemize}
+    \item time: seconds since the beginning of the recording. As the RMS is used for analyzing, the time represents the average time of all samples used for calculating it.
+    \item decibel: the RMS dB(A) of that point in time
+\end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{../assets/wave_file_wrapper.png}
-    \caption{WaveFileWrapper class overview}
+    \includegraphics[width=0.8\textwidth]{../assets/interface.png}
+    \caption{Sqeuence diagram of steps involved when creating a noise report}
 \end{figure}
 
 \subsection{Processes}
@@ -33,9 +54,9 @@ After the format chunk comes an optional list chunk containing some additional m
 
 \subsubsection{Calculating Decibel Values}
 If an audio file consists of several channels, we use the average of the channels as the value of the sample.
-When we want to analyse where a certain decibel threshold has been exceeded, we must have accurate values. People only perceive something as loud if it is loud over a longer period of time. Short peaks are perceived less. Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, the root mean squere, as we are interested in the absolute amplitude values.
+When we want to analyse where a certain decibel threshold has been exceeded, we must have accurate values. People only perceive something as loud if it is loud over a longer period of time. Short peaks are perceived less. Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, use the root mean squere (RMS), as we are interested in the absolute amplitude values.
 The calculated average then depends heavily on how long the time period is. In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}. This is also the default value, which can be adjusted by the user via the settings.
 The decibel value is calculate with the following formula\cite{decibel_wikipedia}:
 \[20 * \log_{10} (sample)\] 
 
-As mentioned in the introduction, the audio file only contains relativ values. We therefore need to map the RMS values to the number range of the reference values.
+As mentioned in the introduction, the audio file only contains relativ values. We therefore need to map the RMS values to the number range of the reference values, where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured. 
