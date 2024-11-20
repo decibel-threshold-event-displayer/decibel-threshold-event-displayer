@@ -136,7 +136,6 @@ Lukas:
   - Enable repository mirroring: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76
 
 
-
 # 13.11.2024
 
 **Participants**: Darius, Dominic, Lukas
@@ -146,3 +145,31 @@ Lukas:
 ---
 
 The team didn't make any progress, because of the BFH block week
+
+
+# 20.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+---
+
+Dominic:
+- Continued working on the WAV file reader:
+  - Implemented parsing logic to handle audio files
+  - Added error handling for unsupported formats
+  - Added testcases
+- Documented the interface
+- Next Steps:
+  - Begin integration testing with audio filtering logic
+
+Darius:
+- Had no time to work on the project
+- Next Steps:
+  - Focus on implementing frontend
+
+Lukas:
+- Implemented and documented repository mirroring process
+- Next Steps:
+  - Implement the filtering algorithm
