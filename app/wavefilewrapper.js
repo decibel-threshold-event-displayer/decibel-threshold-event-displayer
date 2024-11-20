@@ -30,11 +30,6 @@ const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 
 export class WaveFileWrapper {
     constructor(file) {
-        this.nbrOfChannels = 0;
-        this.nbrOfSamples = 0;
-        this.samplesPerSecond = 0;
-        this.bytesPerSample = 0;
-
         if (file instanceof ArrayBuffer) {
             this.filename = "Unknown File";
             this.parseFile(file);
@@ -159,11 +154,11 @@ export class WaveFileWrapper {
     }
 
     toString = function() {
-        return `Filename: ${this.filename}\n
-                Number of channels: ${this.nbrOfChannels}\n
-                Number of samples ${this.nbrOfSamples}\n
-                Samples per second ${this.samplesPerSecond}\n
-                Bytes per samples ${this.bytesPerSample}\n`;
+        return `Filename: ${this.filename}
+Number of channels: ${this.nbrOfChannels}
+Number of samples ${this.samples.length}
+Samples per second ${this.samplesPerSecond}
+Bytes per samples ${this.bytesPerSample}`;
     }
 }
 
