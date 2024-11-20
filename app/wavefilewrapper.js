@@ -29,37 +29,30 @@ const DATA_IDENTIFIER = 0x64617461; // 'data'
 const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 
 export class WaveFileWrapper {
-    constructor(file) {
-        if (file instanceof ArrayBuffer) {
-            this.filename = "Unknown File";
-            this.parseFile(file);
-        } else if (file instanceof File) {
-            this.filename = file.name;
-            this.readAndParse(file);
-        } else {
-            throw new InvalidFileError("No File given");
-        }
-    }
-
-    readAndParse = function (file) {
-        const reader = new FileReader()
-
-        reader.addEventListener("loadend", () => {
-            this.parseFile(reader.result);
-        });
-
-        reader.addEventListener("error", () => {
-            throw new InvalidFileError("Error in FileReader():" + reader.error);
-        });
+    async readAndParse(file) {
+        let arrayBuffer;
 
         try {
-            reader.readAsArrayBuffer(file);
+            arrayBuffer = await this.readFile(file);
         } catch (error) {
-            throw new InvalidFileError("Error while reading the file:" + reader.error);
+            throw new InvalidFileError(`File can not be read: ${error.message}`);
         }
+
+        this.parseFile(arrayBuffer);
+    }
+    
+    readFile(file){
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();  
+          reader.onload = () => {
+            resolve(reader.result)
+          };
+          reader.onerror = reject;
+          reader.readAsArrayBuffer(file);
+        });
     }
 
-    parseFile = function (arrayBuffer) {
+    parseFile(arrayBuffer) {
         // https://en.wikipedia.org/wiki/WAV#WAV_file_header
 
         let riffView = new DataView(arrayBuffer, CHUNK_OFFSET_RIFF, CHUNK_LENGTH_RIFF);
@@ -76,7 +69,7 @@ export class WaveFileWrapper {
         this.parseAndVerifyDataChunk(dataView);
     };
 
-    getDataOffset = function (dataView) {
+    getDataOffset(dataView) {
         // https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
         let identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
 
@@ -86,7 +79,7 @@ export class WaveFileWrapper {
             return 0;
     }
 
-    parseAndVerifyRiffChunk = function (dataView) {
+    parseAndVerifyRiffChunk(dataView) {
         // check identifiert
         var identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
 
@@ -100,7 +93,7 @@ export class WaveFileWrapper {
             throw new InvalidRiffChunkError("RIFF format is not 'WAVE'");
     }
 
-    parseAndVerifyFormatChunk = function (dataView) {
+    parseAndVerifyFormatChunk(dataView) {
         // check identifiert
         let identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
 
@@ -123,7 +116,7 @@ export class WaveFileWrapper {
         this.bytesPerSample = bitsPerSample / 8;
     }
 
-    parseAndVerifyDataChunk = function (dataView) {
+    parseAndVerifyDataChunk(dataView) {
         // check identifier
         let identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
 
@@ -153,9 +146,8 @@ export class WaveFileWrapper {
         }
     }
 
-    toString = function() {
-        return `Filename: ${this.filename}
-Number of channels: ${this.nbrOfChannels}
+    toString() {
+        return `Number of channels: ${this.nbrOfChannels}
 Number of samples ${this.samples.length}
 Samples per second ${this.samplesPerSecond}
 Bytes per samples ${this.bytesPerSample}`;
@@ -195,4 +187,10 @@ export class InvalidDataChunkError extends WaveFileWrapperError {
         super(message);
         this.name = "InvalidDataChunkError";
     }
+}
+
+export async function buildWrapper(file){
+    const wrapper = new WaveFileWrapper(); 
+    await wrapper.readAndParse(file);
+    return wrapper;
 }

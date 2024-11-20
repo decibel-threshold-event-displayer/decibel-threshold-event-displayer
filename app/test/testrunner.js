@@ -1,5 +1,5 @@
 import * as waveFileWrapperTest from './wavefilewrappertest.js';
-import {WaveFileWrapper} from "../wavefilewrapper.js";
+import {buildWrapper} from "../wavefilewrapper.js";
 
 const output = document.getElementById("output");
 
@@ -30,14 +30,15 @@ async function runTestGroup(testModule, name) {
     output.innerHTML += "--------------------------------------------------------------------------------<br>";
 }
 
-function createWavObject() {
+async function createWavObject() {
     output.innerHTML = "";
     const file = document.getElementById("file").files[0];
+
     try {
-        const wrapper = new WaveFileWrapper(file);
+        const wrapper = await buildWrapper(file);
         output.innerHTML += wrapper.toString();
     } catch (error) {
-
+        output.innerHTML += `Error while building the wrapper: ${error.message}`;
     }
 }
 
@@ -46,7 +47,7 @@ function runTests() {
     runTestGroup(waveFileWrapperTest, "Wave File Wrapper");
 }
 
-async function init() {
+function init() {
     document.getElementById("btnWaveFileWrapper").addEventListener('click', () => createWavObject());
     document.getElementById("btnRunTests").addEventListener('click', () => runTests());
 }
