@@ -126,3 +126,15 @@
 - Filter audio data correctly
 - Enable repository mirroring for distribution
 - Implement MVP frontend application
+
+As time for all members was limited this sprint, not much got done. We decided to cancel this sprints review and retro as we have not much to talk about.
+
+
+# Sprint 4
+
+## Goals
+- Write documentation for interface
+- Read and parse *.wav files correctly
+- Filter audio data correctly
+- Enable repository mirroring for distribution
+- Implement MVP frontend application
