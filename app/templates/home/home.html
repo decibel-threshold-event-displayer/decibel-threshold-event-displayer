@@ -1,5 +1,123 @@
-<h1>HOME</h1>
-<h2>TODO: ADD CONTENT</h2>
-<button id="render">render</button>
-<p id="status"></p>
+<div>
+  <h1>dB threshold event displayer</h1>
+  <p>This tool was built to help people create evidence or noise pollution.</p>
+</div>
+<hr />
+<form class="needs-validation" novalidate>
+  <div>
+    <label for="threshold" class="form-label">Applied threshold*</label>
+    <div class="input-group">
+      <input
+        id="threshold"
+        data-model="threshold"
+        class="form-control"
+        type="number"
+        min="0"
+        required
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">dB</span>
+      </div>
+      <div class="invalid-feedback">Threshold is required.</div>
+    </div>
+  </div>
+  <div>
+    <label for="minDb" class="form-label">min dB*</label>
+    <div class="input-group">
+      <input
+        id="minDb"
+        data-model="minDb"
+        class="form-control"
+        type="number"
+        min="0"
+        required
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">dB</span>
+      </div>
+      <div class="invalid-feedback">
+        Minimum dB is required and has to be positive.
+      </div>
+    </div>
+  </div>
+  <div>
+    <label for="maxDb" class="form-label">max dB*</label>
+    <div class="input-group">
+      <input
+        id="maxDb"
+        data-model="maxDb"
+        class="form-control"
+        type="number"
+        min="0"
+        required
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">dB</span>
+      </div>
+      <div class="invalid-feedback">
+        Maximum dB is required and has to be greater than min dB.
+      </div>
+    </div>
+  </div>
+  <div>
+    <label for="location" class="form-label">Location</label>
+    <input
+      id="location"
+      data-model="location"
+      type="text"
+      class="form-control"
+    />
+  </div>
+  <div>
+    <label for="date-time" class="form-label">Date & Time</label>
+    <input
+      id="date-time"
+      data-model="time"
+      type="datetime-local"
+      class="form-control"
+    />
+  </div>
+  <div>
+    <label for="device" class="form-label">Device</label>
+    <input id="device" data-model="device" type="text" class="form-control" />
+  </div>
+  <div>
+    <label for="distance" class="form-label">Distance to noise source</label>
+    <div class="input-group">
+      <input
+        id="distance"
+        data-model="distance"
+        type="number"
+        class="form-control"
+        min="0"
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">m</span>
+      </div>
+    </div>
+  </div>
+  <input
+    id="file"
+    data-model="file"
+    type="file"
+    class="form-control"
+    accept=".wav"
+    required
+  />
+  <button id="render" class="btn btn-primary btn-block">Generate PDF</button>
+  <p id="status" data-model="status"></p>
+</form>
 <embed id="embed" width="100%" height="400px" type="application/pdf" />
+<hr />
+<div>
+  <a
+    href="https://github.com/decibel-threshold-event-displayer/decibel-threshold-event-displayer.github.io"
+    target="_blank"
+    >Repository</a
+  >
+  <p>
+    Disclaimer: The accuracy of measurements can vary depending on the distance
+    to the noise source as well as the max/min dB values you provide.
+  </p>
+  <p>Technical Information: TODO</p>
+</div>
