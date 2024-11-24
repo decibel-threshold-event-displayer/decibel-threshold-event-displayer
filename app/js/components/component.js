@@ -29,8 +29,7 @@ export class Component {
       .then((response) =>
         response.ok ? response.text() : Promise.reject(response)
       )
-      .then((template) => (this.#view.innerHTML = template))
-      .catch(() => (footer.innerHTML = `Template ${templatePath} not found`));
+      .then((template) => (this.#view.innerHTML = template));
   }
 
   _bind(model) {

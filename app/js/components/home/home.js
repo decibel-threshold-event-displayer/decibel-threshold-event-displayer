@@ -1,4 +1,6 @@
 import { engine } from "../../engine.js";
+import { toast } from "../../toast.js";
+import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
 
 export class Home extends Component {
@@ -32,8 +34,19 @@ export class Home extends Component {
 
   async #onRender() {
     if (!this.#validateForm()) return;
-    const res = await engine.generate((status) => this.#onStatusUpdate(status));
-    this.#embed.src = res;
+
+    try {
+      this.#renderButton.disabled = true;
+      const res = await engine.generate((status) =>
+        this.#onStatusUpdate(status)
+      );
+      this.#embed.src = res;
+    } catch (e) {
+      toast.show("Something went wrong preparing your file.");
+      console.error(e);
+    }
+
+    this.#renderButton.disabled = false;
   }
 
   #validateForm() {
@@ -53,7 +66,20 @@ export class Home extends Component {
   }
 
   #onStatusUpdate(status) {
-    this.#status.innerHTML = `STATUS: ${status}`;
+    this.#renderButton.innerHTML = this.#formatGenerationStatus(status);
+  }
+
+  #formatGenerationStatus(status) {
+    switch (status) {
+      case ENGINE_GENERATE_STATUS.INITIALIZATION:
+        return "Initializing PDF engine...";
+      case ENGINE_GENERATE_STATUS.READYING_FILE:
+        return "Preparing file structure...";
+      case ENGINE_GENERATE_STATUS.GENERATING:
+        return "Generating your PDF...";
+      default:
+        return "Generate PDF";
+    }
   }
 
   #formatDateToDatetimeLocal(date) {

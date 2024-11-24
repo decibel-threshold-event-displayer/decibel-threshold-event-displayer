@@ -11,7 +11,6 @@ class Engine {
 
   async #init() {
     store.setEngineStatus(ENGINE_STATUS.LOADING);
-    console.log("INITING");
     try {
       const dependencies = await fetch(
         "js/swiftlatex/dependencies.local.json"
@@ -59,12 +58,10 @@ class Engine {
       engine.setEngineMainFile("main.tex");
       onStatusUpdate(ENGINE_GENERATE_STATUS.GENERATING);
       const result = await engine.compileLaTeX();
-      console.log(result.log);
 
       if (result.status === 0) {
         const pdfblob = new Blob([result.pdf], { type: "application/pdf" });
         const objectURL = URL.createObjectURL(pdfblob);
-        console.log(objectURL);
         onStatusUpdate(ENGINE_GENERATE_STATUS.DONE);
         return objectURL;
       } else throw new Error("Something went wrong generating the PDF.");
