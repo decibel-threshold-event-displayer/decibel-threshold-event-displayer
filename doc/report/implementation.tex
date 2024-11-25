@@ -58,20 +58,53 @@ The following diagram shows which steps are involved when creating a noise repor
 \end{figure}
 
 \subsubsection{Parsing the Wave File}
-The WaveFileWrapper class will be responsible for parsing the file. The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian. It starts with a 12 byte header which we use to verify that the given file is actually a wave file. After the header comes a 24 byte chunk which contains information about the data format. We are interested in the following fields:
+The WaveFileWrapper class will be responsible for parsing the file.
+The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
+It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
+After the header comes a 24 byte chunk which contains information about the data format.
+We are interested in the following fields:
 \begin{itemize}
     \item AudioFormat (2 bytes): only handle PCM I guess?
     \item NbrChannels (2 bytes): is used to parse individual samples
     \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarising
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
 \end{itemize}
-After the format chunk comes an optional list chunk containing some additional metadata in which we are not interested. There we skip that chunk and go straight to the data chunk. This chunk starts with a 4 byte long DataBlocID, which should always have the value 'data'. The next 4 byte represent the number of samples in the data. After that comes the actual audio data. To parse a single sample, we need to parse a frame. A frame contains the data of all channels and has therefore a size of \[\frac{NbrChannels * BitsPerSample}{8}\] bytes.
+After the format chunk comes an optional list chunk containing some additional metadata in which we are not interested.
+There we skip that chunk and go straight to the data chunk.
+This chunk starts with a 4 byte long DataBlocID, which should always have the value 'data'.
+The next 4 byte represent the number of samples in the data.
+After that comes the actual audio data.
+To parse a single sample, we need to parse a frame.
+A frame contains the data of all channels and has therefore a size of \[\frac{NbrChannels * BitsPerSample}{8}\] bytes.
 
 \subsubsection{Calculating Decibel Values}
 If an audio file consists of several channels, we use the average of the channels as the value of the sample.
-When we want to analysed where a certain decibel threshold has been exceeded, we must have accurate values. People only perceive something as loud if it is loud over a longer period of time. Short peaks are perceived less. Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, use the root mean squere (RMS), as we are interested in the absolute amplitude values.
-The calculated average then depends heavily on how long the time period is. In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}. This is also the default value, which can be adjusted by the user via the settings.
+When we want to analyze where a certain decibel threshold has been exceeded, we must have accurate values.
+People only perceive something as loud if it is loud over a longer period of time.
+Short peaks are perceived less.
+Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, use the root mean squere (RMS), as we are interested in the absolute amplitude values.
+The calculated average then depends heavily on how long the time period is.
+In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}.
+This is also the default value, which can be adjusted by the user via the settings.
 The decibel value is calculated with the following formula\cite{decibel_wikipedia}:
 \[20 * \log_{10} (sample)\]
 
-As mentioned in the introduction, the audio file only contains relative values. We therefore need to map the RMS values to the number range of the reference values, where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
+As mentioned in the introduction, the audio file only contains relative values.
+We therefore need to map the RMS values to the number range of the reference values, where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
+
+\subsubsection{Performance improvements}
+Generating the PDF file from a LaTeX document in the browser takes quite some time, as it loads all dependencies
+on the fly.
+To speed up this process, we serve all required LaTeX files ourselves and prefetch them in parallel.
+This means we have to download all LaTeX files from a public source, we are using the same source as SwiftLaTeX:
+\href{https://texlive2.swiftlatex.com/}{texlive2.swiftlatex.com}
+
+We collected all required LaTeX dependencies by modifying the SwiftLaTeX JavaScript, in such a way that during a sample
+all requests pdf generation, are stored in an array, which is then printed to the console.
+We put the console output in the file ``app/dependencies.json`` and created a python script under ``app/download\_dependencies.py``,
+which downloads all LaTeX files to the directory ``app/dependencies/``.
+We then copied the contents of ``app/dependencies.json`` to ``app/dependencies.local.json`` and made the paths relative.
+Now we load this file in our main JavaScript file ``app/app.js`` and use ``Promise.all`` together with ``fetch`` to load
+all dependencies into the cache of the browser.
+
+Currently, this process involves some manual steps and could be automated in a later step.
