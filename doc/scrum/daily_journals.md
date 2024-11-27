@@ -173,3 +173,29 @@ Lukas:
 - Implemented and documented repository mirroring process
 - Next Steps:
   - Implement the filtering algorithm
+
+
+# 27.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Implemented the assert function for the javascript test suite
+- Next steps:
+  - Working on test improvements
+
+Darius:
+- Demonstrated the following two tasks:
+  - Implement SPA framework
+  - Created html content of website
+- Next:
+  - Styling the website
+  - Documentation
+
+Lukas:
+- Configure GitHub Pages to display the app as index
+- Next steps
+  - Filter data
+
