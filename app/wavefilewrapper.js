@@ -28,6 +28,16 @@ const DATA_IDENTIFIER = 0x64617461; // 'data'
 
 const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 
+/**
+ * Represents a root-mean-square
+ */
+class RMSFrame {
+    constructor(millisecond, value) {
+        this.millisecond = millisecond;
+        this.value = value;
+    }
+}
+
 export class WaveFileWrapper {
     samples = [];
     nbrOfChannels = 0;
@@ -185,7 +195,7 @@ export class WaveFileWrapper {
      * Calculate the root-mean-square value for all samples in a frame
      *
      * @param framesPerSecond
-     * @returns {*[]}
+     * @returns {RMSFrame[]}
      */
     mapRMSFrames(framesPerSecond = 0.3) {
         // Validate arguments
@@ -221,13 +231,26 @@ export class WaveFileWrapper {
             // This handles the edge case for the last frame, where we might have fewer samples as the full frame
             const actualFrameSize = endSample - startSample;
             const meanSquare = frameSum / (actualFrameSize * this.nbrOfChannels);
-            rmsFrames.push({
-                millisecond: startSample / (this.samplesPerSecond * 1000),
-                value: this.sampleToDecibel(Math.sqrt(meanSquare)),
-            });
+            rmsFrames.push(new RMSFrame(
+                startSample / (this.samplesPerSecond * 1000),
+                this.sampleToDecibel(Math.sqrt(meanSquare))
+            ))
         }
 
         return rmsFrames;
+    }
+
+    /**
+     * Gets the RMS frames and filters them by a certain threshold
+     *
+     * @param threshold
+     * @param framesPerSecond
+     * @returns {RMSFrame[]}
+     */
+    filterRMSFrames(threshold, framesPerSecond = 0.3) {
+        const frames = this.mapRMSFrames(framesPerSecond);
+
+        return frames.filter(frame => frame.value > threshold)
     }
 }
 
