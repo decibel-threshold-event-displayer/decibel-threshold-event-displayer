@@ -166,6 +166,12 @@ export class WaveFileWrapper {
                 Bytes per samples ${this.bytesPerSample}\n`;
     }
 
+    /**
+     * Takes the value of a sample and returns it as decibel
+     *
+     * @param sample
+     * @returns {Promise<number>}
+     */
     async sampleToDecibel(sample) {
         // Validate arguments
         if (!Number.isInteger(sample) || sample < 0 ) {
