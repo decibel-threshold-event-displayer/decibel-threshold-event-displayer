@@ -33,6 +33,21 @@ The class Sample represents an RMS sample which exceeded the threshold.
     \caption{Sequence diagram of steps involved when creating a noise report}
 \end{figure}
 
+\subsubsection{JavaScript Frontend (SPA)}
+The frontend hosted on \href{https://decibel-threshold-event-displayer.github.io/}{Github Pages} is implemented as a single page application (SPA) following the architecture provided by the BFH in the module BTI1301 Web Programming.
+In this architecture, the web server provides the index.html file as and uses JavaScript to manage the web contents (DOM updates) without changing the HTML file itself. Currently, the application only has one route; however, the project team chose to
+implement a small framework allowing for future expansion without rewriting the entire application. Since the application uses SwiftLaTeX, which is run locally using WebAssembly, the SPA provides an interface for the PDF engine to
+its components.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/spa_diagram.png}
+    \caption{SPA Architecture}
+\end{figure}
+In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
+
+\subsubsection{High-Level architecture}
+!TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
+
 \subsection{Processes}
 The following diagram shows which steps are involved when creating a noise report from a wave file.
 
