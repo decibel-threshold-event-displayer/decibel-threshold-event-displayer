@@ -29,14 +29,112 @@ const DATA_IDENTIFIER = 0x64617461; // 'data'
 const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 
 /**
- * Represents a root-mean-square
+ * Takes a rms value and returns it as decibel
+ *
+ * @param rms
+ * @returns {number}
  */
-class RMSFrame {
-    constructor(millisecond, value) {
-        this.millisecond = millisecond;
-        this.value = value;
+export function rmsToDb(rms) {
+    // Validate arguments
+    if (rms < 0 ) {
+        throw new Error("Invalid argument, sample must be an integer equal or greater than 0!");
+    }
+
+    return 20 * Math.log10(rms)
+}
+
+/**
+ * Represents a frame (window) of samples
+ */
+export class Frame {
+    /**
+     * Frame constructor
+     *
+     * @param samples
+     * @param start
+     * @param end
+     */
+    constructor(samples, start, end) {
+        this.samples = samples;
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * Converts a Frame to a RMSFrame
+     *
+     * @returns {RMSFrame}
+     */
+    toRMSFrame() {
+        const sum = this.samples.map(sample => Math.pow(sample, 2)).reduce((a, b) => a + b);
+        const mean = sum / this.samples.length;
+        const meanSquare = Math.sqrt(mean);
+
+        return new RMSFrame(meanSquare, this.start, this.end);
     }
 }
+
+/**
+ * Represents a root-mean-square frame
+ */
+export class RMSFrame {
+    /**
+     * RMSFrame constructor
+     *
+     * @param rms
+     * @param start
+     * @param end
+     */
+    constructor(rms, start, end) {
+        this.rms = rms;
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * Converts a RMSFrame to a DbFrame
+     *
+     * @returns {DbFrame}
+     */
+    toDbFrame() {
+        return new DbFrame(
+            rmsToDb(this.rms),
+            this.start,
+            this.end
+        );
+    }
+}
+
+/**
+ * Represents a decibel frame
+ */
+export class DbFrame{
+    /**
+     * DbFrame constructor
+     *
+     * @param db
+     * @param start
+     * @param end
+     */
+    constructor(db, start, end) {
+        this.db = db;
+        this.start = start;
+        this.end = end;
+    }
+}
+
+const longToByteArray = function(/*long*/long) {
+    // we want to represent the input as a 8-bytes array
+    var byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
+
+    for ( var index = 0; index < byteArray.length; index ++ ) {
+        var byte = long & 0xff;
+        byteArray [ index ] = byte;
+        long = (long - byte) / 256 ;
+    }
+
+    return byteArray;
+};
 
 export class WaveFileWrapper {
     samples = [];
@@ -103,11 +201,11 @@ export class WaveFileWrapper {
     }
 
     parseAndVerifyRiffChunk(dataView) {
-        // check identifiert
+        // check identifier
         var identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
 
         if (identifier !== RIFF_IDENTIFIER)
-            throw new InvalidRiffChunkError("File identifiert is not 'RIFF'");
+            throw new InvalidRiffChunkError("File identifier is not 'RIFF'");
 
         // check file format
         var fileFormatId = dataView.getInt32(RIFF_OFFSET_FILE_FORMAT_ID);
@@ -117,11 +215,11 @@ export class WaveFileWrapper {
     }
 
     parseAndVerifyFormatChunk(dataView) {
-        // check identifiert
+        // check identifier
         let identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
 
         if (identifier !== FORMAT_IDENTIFIER)
-            throw new InvalidFormatChunkError("Format chunk identifiert is not 'fmt '");
+            throw new InvalidFormatChunkError("Format chunk identifier is not 'fmt '");
 
         let audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
 
@@ -144,7 +242,7 @@ export class WaveFileWrapper {
         let identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
 
         if (identifier !== DATA_IDENTIFIER)
-            throw new InvalidDataChunkError("Data chunk identifiert is not 'data'");
+            throw new InvalidDataChunkError("Data chunk identifier is not 'data'");
 
         let dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
 
@@ -159,7 +257,13 @@ export class WaveFileWrapper {
 
                 for (let byte = 0; byte < this.bytesPerSample; ++byte) {
                     let b = dataView.getInt8(offset);
-                    sample = (b << (byte * 8)) | sample;
+                    sample |= ((b & 0xFF) << (byte * 8));
+
+                    // Convert to signed 16-bit value (two's complement)
+                    if (sample >= 0x8000) {
+                        sample -= 0x10000;
+                    }
+
                     ++offset;
                 }
 
@@ -177,18 +281,54 @@ export class WaveFileWrapper {
     }
 
     /**
-     * Takes the value of a sample and returns it as decibel
+     * Groups the sample in frames (windows), the group size is determined by the framesPerSecond and samplesPerSecond
      *
-     * @param sample
-     * @returns {Promise<number>}
+     * @param framesPerSecond
+     * @returns {*[]}
      */
-    async sampleToDecibel(sample) {
+    getFrames(framesPerSecond = 0.3) {
         // Validate arguments
-        if (!Number.isInteger(sample) || sample < 0 ) {
-            throw new Error("Invalid argument, sample must be an integer equal or greater than 0!");
+        if (!Number.isFinite(framesPerSecond) || framesPerSecond <= 0 ) {
+            throw new Error("Invalid argument, framesPerSecond must be an integer greater than 0!");
         }
 
-        return 20 * Math.log10(sample)
+        // Check that we have at least some samples
+        if (!this.samples || this.samples.length === 0) {
+            throw new Error("No samples available to calculate RMS");
+        }
+
+        const frameSize =  Math.floor(framesPerSecond * this.samplesPerSecond);
+        const frames = [];
+
+        // We round up, otherwise some samples might get cut off or no samples get processed at all,
+        // if the frameSize is larger than the number of samples
+        const totalFrames = Math.ceil(this.samples.length / frameSize);
+
+        for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
+            console.log("================== frameIndex: " + frameIndex);
+            const startSample = frameIndex * frameSize;
+            // This handles the edge case for the last frame, where we might have fewer samples as the full frame
+            const endSample = Math.min( startSample + frameSize, this.samples.length);
+            console.log("startSample: " + startSample);
+            console.log("endSample: " + endSample);
+            const samples = [];
+
+            for (let i = startSample; i < endSample; i++) {
+                // We merge all channels and just take the mean
+                const sum = this.samples[i].reduce((a, b) => a + b);
+                const mean = sum / this.nbrOfChannels;
+                samples.push(mean);
+            }
+
+            const samplesPerMillisecond =  this.samplesPerSecond * 1000;
+            frames.push(new Frame(
+                samples,
+                startSample / samplesPerMillisecond,
+                endSample /  samplesPerMillisecond
+            ));
+        }
+
+        return frames;
     }
 
     /**
@@ -197,57 +337,28 @@ export class WaveFileWrapper {
      * @param framesPerSecond
      * @returns {RMSFrame[]}
      */
-    mapRMSFrames(framesPerSecond = 0.3) {
-        // Validate arguments
-        if (!Number.isFinite(framesPerSecond) || framesPerSecond <= 0 ) {
-            throw new Error("Invalid argument, chungDurationMilliseconds must be an integer greater than 0!");
-        }
-
-        // Check that we have at least some samples
-        if (!this.samples || this.samples.length === 0) {
-            throw new Error("No samples available to calculate RMS");
-        }
-
-        const frameSize =  Math.floor(framesPerSecond * this.samplesPerSecond)
-
-        const rmsFrames = [];
-        // We round up, otherwise some samples might get cut off or no samples get processed at all,
-        // if the frameSize is larger than the number of samples
-        const totalFrames = Math.ceil(this.samples.length / frameSize);
-
-        for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
-            const startSample = frameIndex * frameSize;
-            // This handles the edge case for the last frame, where we might have fewer samples as the full frame
-            const endSample = Math.min( startSample + frameSize, this.samples.length);
-            let frameSum = 0;
-
-            for (let i = startSample; i < endSample; i++) {
-                for (let channel = 0; channel < this.nbrOfChannels; channel++) {
-                    const sample = this.samples[i][channel];
-                    frameSum += sample ** 2;
-                }
-            }
-
-            // This handles the edge case for the last frame, where we might have fewer samples as the full frame
-            const actualFrameSize = endSample - startSample;
-            const meanSquare = frameSum / (actualFrameSize * this.nbrOfChannels);
-            rmsFrames.push(new RMSFrame(
-                startSample / (this.samplesPerSecond * 1000),
-                this.sampleToDecibel(Math.sqrt(meanSquare))
-            ))
-        }
-
-        return rmsFrames;
+    getRMSFrames(framesPerSecond = 0.3) {
+        return this.getFrames().map(frame => frame.toRMSFrame());
     }
 
     /**
-     * Gets the RMS frames and filters them by a certain threshold
+     * Gets the RMS frames and converts them to Db frames
+     *
+     * @param framesPerSecond
+     * @returns {DbFrame[]}
+     */
+    getDbFrames(framesPerSecond = 0.3) {
+        return this.getRMSFrames().map(rmsFrame => rmsFrame.toDbFrame())
+    }
+
+    /**
+     * Gets the Db frames and filters them by a certain threshold
      *
      * @param threshold
      * @param framesPerSecond
      * @returns {RMSFrame[]}
      */
-    filterRMSFrames(threshold, framesPerSecond = 0.3) {
+    getFilteredDbFrames(threshold, framesPerSecond = 0.3) {
         const frames = this.mapRMSFrames(framesPerSecond);
 
         return frames.filter(frame => frame.value > threshold)
