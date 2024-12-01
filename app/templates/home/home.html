@@ -91,15 +91,27 @@
       </div>
     </div>
   </div>
-  <input
-    id="file"
-    data-model="file"
-    type="file"
-    class="form-control"
-    accept=".wav"
-    required
-  />
+  <div>
+    <label for="file" class="form-label">File*</label>
+    <div class="input-group">
+      <input
+        id="file"
+        data-model="file"
+        type="file"
+        class="form-control"
+        accept=".wav"
+        required
+      />
+      <div class="invalid-feedback">Please select a .wav file</div>
+    </div>
+  </div>
+
   <button id="render" class="btn btn-primary btn-block">Generate PDF</button>
-  <p id="status" data-model="status"></p>
+  <button id="download" class="btn btn-secondary btn-block">
+    Download File
+  </button>
 </form>
-<embed id="embed" width="100%" height="900px" type="application/pdf" />
+<div>
+  <h2>Preview</h2>
+  <embed id="embed" width="100%" height="900px" type="application/pdf" />
+</div>

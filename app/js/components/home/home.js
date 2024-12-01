@@ -4,9 +4,10 @@ import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
 
 export class Home extends Component {
-  #status;
   #embed;
   #renderButton;
+  #downloadButton;
+  #pdfLink;
   #formData = {
     threshold: 90,
     minDb: null,
@@ -25,10 +26,12 @@ export class Home extends Component {
 
   async #init() {
     await this._load("home/home.html");
-    this.#status = this._select("#status");
     this.#embed = this._select("#embed");
     this.#renderButton = this._select("#render");
     this.#renderButton.onclick = () => this.#onRender();
+    this.#downloadButton = this._select("#download");
+    this.#downloadButton.onclick = () => this.#onDownload();
+    this.#downloadButton.style.display = "none";
     this._bind(this.#formData);
   }
 
@@ -37,10 +40,13 @@ export class Home extends Component {
 
     try {
       this.#renderButton.disabled = true;
+      this.#downloadButton.style.display = "none";
       const res = await engine.generate((status) =>
         this.#onStatusUpdate(status)
       );
-      this.#embed.src = res;
+      this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";
+      this.#pdfLink = res;
+      this.#downloadButton.style.display = "block";
     } catch (e) {
       toast.show("Something went wrong preparing your file.");
       console.error(e);
@@ -53,9 +59,14 @@ export class Home extends Component {
     const form = this._select("form");
     const minDb = this._select("#minDb");
     const maxDb = this._select("#maxDb");
+    const fileUpload = this._select("#file");
 
     if (minDb.value >= maxDb.value) maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
+
+    if (!this.#formData.file?.endsWith(".wav"))
+      fileUpload.setCustomValidity("invalid");
+    else fileUpload.setCustomValidity("");
 
     if (!form.checkValidity()) {
       form.classList.add("was-validated");
@@ -63,6 +74,13 @@ export class Home extends Component {
     }
 
     return true;
+  }
+
+  #onDownload() {
+    var link = document.createElement("a");
+    link.download = "report.pdf";
+    link.href = this.#pdfLink;
+    link.click();
   }
 
   #onStatusUpdate(status) {
