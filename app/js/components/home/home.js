@@ -4,10 +4,11 @@ import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
 
 export class Home extends Component {
-  #embed;
   #renderButton;
   #downloadButton;
   #pdfLink;
+  #preview;
+  #embed;
   #formData = {
     threshold: 90,
     minDb: null,
@@ -26,6 +27,8 @@ export class Home extends Component {
 
   async #init() {
     await this._load("home/home.html");
+    this.#preview = this._select("#preview");
+    this.#preview.style.display = "none";
     this.#embed = this._select("#embed");
     this.#renderButton = this._select("#render");
     this.#renderButton.onclick = () => this.#onRender();
@@ -41,12 +44,14 @@ export class Home extends Component {
     try {
       this.#renderButton.disabled = true;
       this.#downloadButton.style.display = "none";
+      this.#preview.style.display = "none";
       const res = await engine.generate((status) =>
         this.#onStatusUpdate(status)
       );
       this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";
       this.#pdfLink = res;
       this.#downloadButton.style.display = "block";
+      this.#preview.style.display = "block";
     } catch (e) {
       toast.show("Something went wrong preparing your file.");
       console.error(e);
