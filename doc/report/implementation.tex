@@ -9,7 +9,7 @@ Lorem ipsum
 For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
 
 \paragraph{Filter Results}
-The filter will return its findings as an object of the FilterResult class. This data class contains all information from the audio file that is need for rendering the report. 
+The filter will return its findings as an object of the FilterResult class. This data class contains all information from the audio file that is need for rendering the report.
 
 \begin{itemize}
     \item duration: the length of the recording in seconds
@@ -20,7 +20,7 @@ The filter will return its findings as an object of the FilterResult class. This
 \end{itemize}
 
 
-The class Sample represents a RMS sample which exceeded the threshold. 
+The class Sample represents an RMS sample which exceeded the threshold.
 
 \begin{itemize}
     \item time: seconds since the beginning of the recording. As the RMS is used for analyzing, the time represents the average time of all samples used for calculating it.
@@ -30,8 +30,23 @@ The class Sample represents a RMS sample which exceeded the threshold.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/interface.png}
-    \caption{Sqeuence diagram of steps involved when creating a noise report}
+    \caption{Sequence diagram of steps involved when creating a noise report}
 \end{figure}
+
+\subsubsection{JavaScript Frontend (SPA)}
+The frontend hosted on \href{https://decibel-threshold-event-displayer.github.io/}{Github Pages} is implemented as a single page application (SPA) following the architecture provided by the BFH in the module BTI1301 Web Programming.
+In this architecture, the web server provides the index.html file as and uses JavaScript to manage the web contents (DOM updates) without changing the HTML file itself. Currently, the application only has one route; however, the project team chose to
+implement a small framework allowing for future expansion without rewriting the entire application. Since the application uses SwiftLaTeX, which is run locally using WebAssembly, the SPA provides an interface for the PDF engine to
+its components.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/spa_diagram.png}
+    \caption{SPA Architecture}
+\end{figure}
+In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
+
+\subsubsection{High-Level architecture}
+!TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
 
 \subsection{Processes}
 The following diagram shows which steps are involved when creating a noise report from a wave file.
@@ -39,19 +54,19 @@ The following diagram shows which steps are involved when creating a noise repor
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/sequence_diagram_from_wave_file_to_pdf.png}
-    \caption{Sqeuence diagram of steps involved when creating a noise report}
+    \caption{Sequence diagram of steps involved when creating a noise report}
 \end{figure}
 
 \subsubsection{Parsing the Wave File}
 The WaveFileWrapper class will be responsible for parsing the file.
-The format itself is straight forward\cite{wav_file_format_wikipedia}, the only importend thing is that the whole file is Little-Endian.
+The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
 It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
 After the header comes a 24 byte chunk which contains information about the data format.
 We are interested in the following fields:
 \begin{itemize}
-    \item AudioFormat (2 bytes): only handle PCM i guess?
+    \item AudioFormat (2 bytes): only handle PCM I guess?
     \item NbrChannels (2 bytes): is used to parse individual samples
-    \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarzing 
+    \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarising
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
 \end{itemize}
 After the format chunk comes an optional list chunk containing some additional metadata in which we are not interested.
@@ -71,10 +86,10 @@ Therefore, when determining the effective loudness of audio, we do not use the l
 The calculated average then depends heavily on how long the time period is.
 In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}.
 This is also the default value, which can be adjusted by the user via the settings.
-The decibel value is calculate with the following formula\cite{decibel_wikipedia}:
-\[20 * \log_{10} (sample)\] 
+The decibel value is calculated with the following formula\cite{decibel_wikipedia}:
+\[20 * \log_{10} (sample)\]
 
-As mentioned in the introduction, the audio file only contains relativ values.
+As mentioned in the introduction, the audio file only contains relative values.
 We therefore need to map the RMS values to the number range of the reference values, where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
 
 \subsubsection{Performance improvements}
