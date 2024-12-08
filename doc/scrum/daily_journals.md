@@ -199,3 +199,36 @@ Lukas:
 - Next steps
   - Filter data
 
+
+# 08.12.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Extended, improved and streamlined the JavaScript testing framework
+  - All tests are now async/await
+  - Created new test util functions
+  - Improved the test frameworks UI
+- Next steps:
+  - Documentation for JavaScript test framework
+
+Darius:
+- Implemented the frontend:
+  - Structure
+  - Content
+  - State management
+  - Documentation
+- Next:
+  - Improve styling
+  - Extend Documentation
+
+Lukas:
+- Implemented filter data logic
+  - Calculate RMS
+  - Apply threshold filter
+  - Started to implement tests and got stuck
+- Next steps
+  - Resolve issues with filter data logic and tests
+  - Write Documentation
