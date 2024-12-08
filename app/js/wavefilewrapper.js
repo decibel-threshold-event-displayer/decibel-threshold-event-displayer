@@ -31,11 +31,17 @@ const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 export class WaveFileWrapper {
     async readAndParse(file) {
         let arrayBuffer;
-
-        try {
-            arrayBuffer = await this.readFile(file);
-        } catch (error) {
-            throw new InvalidFileError(`File can not be read: ${error.message}`);
+        
+        if(file instanceof File){
+            try {
+                arrayBuffer = await this.readFile(file);
+            } catch (error) {
+                throw new InvalidFileError(`File can not be read: ${error.message}`);
+            }
+        } else if(typeof file === "string"){
+            arrayBuffer = await this.fetchFile(file);
+        } else {
+            throw new InvalidFileError("No file to read was given");
         }
 
         this.parseFile(arrayBuffer);
@@ -51,6 +57,17 @@ export class WaveFileWrapper {
           reader.readAsArrayBuffer(file);
         });
     }
+
+    fetchFile(filePath){
+        return fetch(filePath)
+            .then(response => response.blob())
+            .then(blob => blob.arrayBuffer())
+            .then(arrayBuffer => arrayBuffer)
+            .catch(error => {
+                throw new Error(`Error while fetching ${filePath}: ${error.message}`);
+        });
+    }
+    
 
     parseFile(arrayBuffer) {
         // https://en.wikipedia.org/wiki/WAV#WAV_file_header
