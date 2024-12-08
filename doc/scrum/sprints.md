@@ -209,4 +209,7 @@
 # Sprint 5
 
 ## Goals
-- 
+- Finalize and document "Filter audio data correctly"
+- Document "Improve javascript test environment"
+- Create LaTeX template and fill in placeholders
+- Render LaTeX to PDF
