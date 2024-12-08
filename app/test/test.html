@@ -1,28 +1,107 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>PFD Latex Tests</title>
+    <title>Wave File Tests</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="./styles.css" rel="stylesheet">
     <script src="../wavefilewrapper.js" type="module"></script>
     <script src="./wavefilewrappertest.js" type="module"></script>
     <script src="./testrunner.js" type="module"></script>
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-flow: column;
-            gap: 2rem;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body>
-    <input type="file" id="file" name="file" accept="audio/wav"/>
-    <button id="btnWaveFileWrapper">Create WaveFileWrapper from the given file</button>
-    <button id="btnRunTests">Run Tests</button>
-    <div id="output"></div>
+    <div class="container test-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Wave File Tests</h1>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="darkModeSwitch">
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </div>
+        </div>
+        
+        <!-- Wave File Creator Section -->
+        <div class="card mb-4">
+            <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#waveFileCreator" aria-expanded="true" aria-controls="waveFileCreator">
+                <div class="d-flex align-items-center">
+                    <span class="collapse-icon me-2">▼</span>
+                    <h3 class="card-title h5 mb-0">Wave File Creator</h3>
+                </div>
+            </div>
+            <div id="waveFileCreator" class="collapse show">
+                <div class="card-body">
+                    <div class="controls mb-3">
+                        <div class="mb-3">
+                            <input type="file" class="form-control" id="file" name="file" accept="audio/wav"/>
+                        </div>
+                        <button id="btnWaveFileWrapper" class="btn btn-primary">Create WaveFileWrapper</button>
+                    </div>
+                    <div id="waveFileOutput"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Test Runner Section -->
+        <div class="card">
+            <div class="card-header" role="button" data-bs-toggle="collapse" data-bs-target="#testRunner" aria-expanded="true" aria-controls="testRunner">
+                <div class="d-flex align-items-center">
+                    <span class="collapse-icon me-2">▼</span>
+                    <h3 class="card-title h5 mb-0">Test Runner</h3>
+                </div>
+            </div>
+            <div id="testRunner" class="collapse show">
+                <div class="card-body">
+                    <div class="controls mb-3">
+                        <button id="btnRunTests" class="btn btn-success">Run Tests</button>
+                    </div>
+                    <div id="testOutput"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        .card-header {
+            cursor: pointer;
+        }
+        .card-header:hover {
+            background-color: rgba(0,0,0,.03);
+        }
+        [data-bs-theme="dark"] .card-header:hover {
+            background-color: rgba(255,255,255,.03);
+        }
+        .collapse-icon {
+            transition: transform 0.3s;
+        }
+        .collapsed .collapse-icon {
+            transform: rotate(-90deg);
+        }
+    </style>
+
+    <script>
+        // Dark mode toggle functionality
+        const darkModeSwitch = document.getElementById('darkModeSwitch');
+        
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            darkModeSwitch.checked = true;
+        }
+
+        darkModeSwitch.addEventListener('change', () => {
+            if (darkModeSwitch.checked) {
+                document.documentElement.setAttribute('data-bs-theme', 'dark');
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                document.documentElement.setAttribute('data-bs-theme', 'light');
+                localStorage.setItem('darkMode', 'false');
+            }
+        });
+    </script>
 </body>
 </html>
