@@ -193,24 +193,20 @@
 - [x] Implement MVP frontend application
 - [ ] Improve javascript test environment
 
-## Retro - 20.11.2024
+## Retro - 08.12.2024
 
 **What went well:**
-- We finally started with the implementation
-- We have a rudimentary javascript test environment (not automated yet)
-- We know that the automatic mirroring of the repositories is working
+- We could code a lot
+- The progress was good
 
 **Problems:**
-- The special week 3 took our focus entirely (we were in the same team)
-- Getting used to writing javascript again
-- Mirroring repositories is way harder than we thought
+- Filter data turned out to be much more difficult due to JavaScripts quirks
+- Stress keeps building up to the end of the semester
 
 **Improvements:**
-- Getting our focus back to project 1
+- Do not postpone Scrum meetings
 
-# Sprint 4
+# Sprint 5
 
 ## Goals
-- Filter audio data correctly
-- Implement MVP frontend application
-- Improve javascript test environment
+- 
