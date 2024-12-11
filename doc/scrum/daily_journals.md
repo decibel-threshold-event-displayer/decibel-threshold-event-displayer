@@ -232,3 +232,31 @@ Lukas:
 - Next steps
   - Resolve issues with filter data logic and tests
   - Write Documentation
+
+
+# 11.12.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Helped Lukas to debug data filter logic in an extensive debugging session
+- Started writing the documentation for javascript test framework
+- Next steps:
+  - Finish documentation for javascript test framework
+  - Add support for IEEE float format in *.wav files
+
+Darius:
+- Started styling improvements
+- Next:
+  - Finalize styling improvements
+  - Extend Documentation
+
+Lukas:
+- Implemented filter data logic
+  - Still stuck with the tests implementation as some values do not match with the reference
+  - Got help from Dominic in an extensive debugging session
+- Next steps
+  - Resolve issues with filter data logic and tests
+  - Write Documentation
