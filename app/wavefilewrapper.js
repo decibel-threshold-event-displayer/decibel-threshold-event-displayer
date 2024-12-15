@@ -40,7 +40,21 @@ export function rmsToDb(rms) {
         throw new Error("Invalid argument, sample must be an integer equal or greater than 0!");
     }
 
-    return 20 * Math.log10(rms)
+    return 20 * Math.log10(rms);
+}
+
+/**
+ * Takes a Db value and returns it as Dba
+ *
+ * @param db
+ * @param dbMin
+ * @param dbMax
+ * @param dbaMin
+ * @param dbaMax
+ * @returns {*}
+ */
+export function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax){
+    return (db - dbMin) * (dbaMax - dbaMin) / (dbMax - dbMin) + dbaMin;
 }
 
 /**
@@ -51,13 +65,13 @@ export class Frame {
      * Frame constructor
      *
      * @param samples
-     * @param start
-     * @param end
+     * @param startSample
+     * @param endSample
      */
-    constructor(samples, start, end) {
+    constructor(samples, startSample, endSample) {
         this.samples = samples;
-        this.start = start;
-        this.end = end;
+        this.startSample = startSample;
+        this.endSample = endSample;
     }
 
     /**
@@ -70,7 +84,7 @@ export class Frame {
         const mean = sum / this.samples.length;
         const meanSquare = Math.sqrt(mean);
 
-        return new RMSFrame(meanSquare, this.start, this.end);
+        return new RMSFrame(meanSquare, this.startSample, this.endSample);
     }
 }
 
@@ -82,13 +96,13 @@ export class RMSFrame {
      * RMSFrame constructor
      *
      * @param rms
-     * @param start
-     * @param end
+     * @param startSample
+     * @param endSample
      */
-    constructor(rms, start, end) {
+    constructor(rms, startSample, endSample) {
         this.rms = rms;
-        this.start = start;
-        this.end = end;
+        this.startSample = startSample;
+        this.endSample = endSample;
     }
 
     /**
@@ -99,8 +113,8 @@ export class RMSFrame {
     toDbFrame() {
         return new DbFrame(
             rmsToDb(this.rms),
-            this.start,
-            this.end
+            this.startSample,
+            this.endSample
         );
     }
 }
@@ -108,18 +122,49 @@ export class RMSFrame {
 /**
  * Represents a decibel frame
  */
-export class DbFrame{
+export class DbFrame {
     /**
      * DbFrame constructor
      *
      * @param db
-     * @param start
-     * @param end
+     * @param startSample
+     * @param endSample
      */
-    constructor(db, start, end) {
+    constructor(db, startSample, endSample) {
         this.db = db;
-        this.start = start;
-        this.end = end;
+        this.startSample = startSample;
+        this.endSample = endSample;
+    }
+
+    /**
+     * Converts a DbFrame to a DbaFrame
+     *
+     * @returns {DbaFrame}
+     */
+    toDbaFrame(dbMin, dbMax, dbaMin, dbaMax) {
+        return new DbaFrame(
+            dbToDba(this.db, dbMin, dbMax, dbaMin, dbaMax),
+            this.startSample,
+            this.endSample
+        );
+    }
+}
+
+/**
+ * Represents a decibel frame
+ */
+export class DbaFrame {
+    /**
+     * DbaFrame constructor
+     *
+     * @param dba
+     * @param startSample
+     * @param endSample
+     */
+    constructor(dba, startSample, endSample) {
+        this.dba = dba;
+        this.startSample = startSample;
+        this.endSample = endSample;
     }
 }
 
@@ -281,15 +326,15 @@ export class WaveFileWrapper {
     }
 
     /**
-     * Groups the sample in frames (windows), the group size is determined by the framesPerSecond and samplesPerSecond
+     * Groups the sample in frames (windows), the group size is determined by the frameDuration
      *
-     * @param framesPerSecond
+     * @param frameDuration in seconds, e.g.: 0.2 = 200ms
      * @returns {*[]}
      */
-    getFrames(framesPerSecond = 0.3) {
+    getFrames(frameDuration = 0.2) {
         // Validate arguments
-        if (!Number.isFinite(framesPerSecond) || framesPerSecond <= 0 ) {
-            throw new Error("Invalid argument, framesPerSecond must be an integer greater than 0!");
+        if (!Number.isFinite(frameDuration) || frameDuration <= 0 ) {
+            throw new Error("Invalid argument, frameDuration must be an float greater than 0!");
         }
 
         // Check that we have at least some samples
@@ -297,7 +342,7 @@ export class WaveFileWrapper {
             throw new Error("No samples available to calculate RMS");
         }
 
-        const frameSize =  Math.floor(framesPerSecond * this.samplesPerSecond);
+        const frameSize =  Math.floor(frameDuration * this.samplesPerSecond);
         const frames = [];
 
         // We round up, otherwise some samples might get cut off or no samples get processed at all,
@@ -305,12 +350,9 @@ export class WaveFileWrapper {
         const totalFrames = Math.ceil(this.samples.length / frameSize);
 
         for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
-            console.log("================== frameIndex: " + frameIndex);
             const startSample = frameIndex * frameSize;
             // This handles the edge case for the last frame, where we might have fewer samples as the full frame
             const endSample = Math.min( startSample + frameSize, this.samples.length);
-            console.log("startSample: " + startSample);
-            console.log("endSample: " + endSample);
             const samples = [];
 
             for (let i = startSample; i < endSample; i++) {
@@ -320,11 +362,10 @@ export class WaveFileWrapper {
                 samples.push(mean);
             }
 
-            const samplesPerMillisecond =  this.samplesPerSecond * 1000;
             frames.push(new Frame(
                 samples,
-                startSample / samplesPerMillisecond,
-                endSample /  samplesPerMillisecond
+                startSample,
+                endSample
             ));
         }
 
@@ -334,34 +375,39 @@ export class WaveFileWrapper {
     /**
      * Calculate the root-mean-square value for all samples in a frame
      *
-     * @param framesPerSecond
+     * @param frameDuration
      * @returns {RMSFrame[]}
      */
-    getRMSFrames(framesPerSecond = 0.3) {
-        return this.getFrames().map(frame => frame.toRMSFrame());
+    getRMSFrames(frameDuration = 0.2) {
+        return this.getFrames(frameDuration).map(frame => frame.toRMSFrame());
     }
 
     /**
      * Gets the RMS frames and converts them to Db frames
      *
-     * @param framesPerSecond
+     * @param frameDuration
      * @returns {DbFrame[]}
      */
-    getDbFrames(framesPerSecond = 0.3) {
-        return this.getRMSFrames().map(rmsFrame => rmsFrame.toDbFrame())
+    getDbFrames(frameDuration = 0.2) {
+        return this.getRMSFrames(frameDuration).map(rmsFrame => rmsFrame.toDbFrame());
     }
 
     /**
-     * Gets the Db frames and filters them by a certain threshold
+     * Gets the Db frames and converts them to Dba frames
      *
-     * @param threshold
-     * @param framesPerSecond
-     * @returns {RMSFrame[]}
+     * @param dbaMin
+     * @param dbaMax
+     * @param frameDuration
+     * @returns {DbaFrame[]}
      */
-    getFilteredDbFrames(threshold, framesPerSecond = 0.3) {
-        const frames = this.mapRMSFrames(framesPerSecond);
+    getDbaFrames(dbaMin, dbaMax, frameDuration = 0.2) {
+        const dbFrames = this.getDbFrames(frameDuration);
+        const dbValues = dbFrames.map(dbFrame => dbFrame.db);
+        console.log(dbValues)
+        const dbMin = Math.min(...dbValues);
+        const dbMax = Math.max(...dbValues);
 
-        return frames.filter(frame => frame.value > threshold)
+        return dbFrames.map(dbFrame => dbFrame.toDbaFrame(dbMin, dbMax, dbaMin, dbaMax));
     }
 }
 

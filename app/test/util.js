@@ -32,3 +32,9 @@ export async function fetchLocalFile(filePath) {
         throw new Error(`Error while fetching ${filePath}: ${error.message}`);
     }
 }
+
+export async function fetchLocalJson(filePath){
+    const arrayBuffer = await fetchLocalFile(filePath);
+    const jsonString = new TextDecoder().decode(arrayBuffer);
+    return JSON.parse(jsonString);
+}

@@ -1,4 +1,4 @@
-import {assertNotThrows, assertThrows, fetchLocalFile} from './util.js';
+import {assertNotThrows, assertThrows, fetchLocalFile, fetchLocalJson} from './util.js';
 import {
     InvalidDataChunkError,
     InvalidFileError,
@@ -8,7 +8,7 @@ import {
     rmsToDb
 } from "../wavefilewrapper.js";
 
-const epsilon = 0.01;
+const epsilon = 0.000000000001;
 
 export async function testPassNullInConstructor() {
     await assertThrows(() => {
@@ -66,8 +66,7 @@ export async function testReadValidAudioFile() {
 
 export async function testVerifySampleValues(){
     // Arrange
-    const json = await fetchLocalFile('./resources/valid_sample_values.json');
-    const expectedSampleValues = JSON.parse(new TextDecoder().decode(json));
+    const expectedSampleValues = await fetchLocalJson('./resources/valid_sample_values.json');
     const file = await fetchLocalFile('./resources/valid.wav');
 
     // Act
@@ -83,18 +82,16 @@ export async function testVerifySampleValues(){
 
 export async function testVerifyMeanValues(){
     // Arrange
-    const json = await fetchLocalFile('./resources/valid_mean_values.json');
-    const expectedMeanValues = JSON.parse(new TextDecoder().decode(json));
+    const expectedMeanValues = await fetchLocalJson('./resources/valid_mean_values.json');
     const file = await fetchLocalFile('./resources/valid.wav');
+    const waveFileWrapper = new WaveFileWrapper(file);
 
     // Act
-    const waveFileWrapper = new WaveFileWrapper(file);
     const frames = waveFileWrapper.getFrames()
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
         const mean = frames[i].samples.reduce((a, b) => a + b) / frames[i].samples.length;
-        console.log(mean)
         if (expectedMeanValues[i] !== mean){
             throw Error("Mean value mismatch: index = " + i + ", expected = " + expectedMeanValues[i] + ", actual = " + mean + "");
         }
@@ -103,18 +100,16 @@ export async function testVerifyMeanValues(){
 
 export async function testVerifySquareMeanValues(){
     // Arrange
-    const json = await fetchLocalFile('./resources/valid_square_mean_values.json');
-    const expectedMeanValues = JSON.parse(new TextDecoder().decode(json));
+    const expectedMeanValues = await fetchLocalJson('./resources/valid_square_mean_values.json');
     const file = await fetchLocalFile('./resources/valid.wav');
+    const waveFileWrapper = new WaveFileWrapper(file);
 
     // Act
-    const waveFileWrapper = new WaveFileWrapper(file);
     const frames = waveFileWrapper.getFrames()
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
         const squaredMean = frames[i].samples.map(sample => Math.pow(sample, 2)).reduce((a, b) => a + b) / frames[i].samples.length;
-        console.log(frames[i].samples.map(sample => Math.pow(sample, 2)))
         if (expectedMeanValues[i] !== squaredMean){
             throw Error("Square mean value mismatch: index = " + i + ", expected = " + expectedMeanValues[i] + ", actual = " + squaredMean + "");
         }
@@ -123,43 +118,56 @@ export async function testVerifySquareMeanValues(){
 
 export async function testGetRMSFrames() {
     // Arrange
-    const expectedRMSValues = [
-        21.64333821736453,
-        37.051704389757035,
-        38.38045806921041,
-        33.19422560862979,
-        43.768309633723575,
-        12.942707638974419,
-        13.155339712944054,
-        17.914743080834437,
-        52.63297524503407,
-        47.21190470186763,
-        24.79068077652503,
-        41.91000327971256,
-        46.382441063426874,
-        27.082055263756217,
-        14.337638440109467,
-        9.908954393531713,
-        37.83140298449356
-    ]
+    const expectedRMSValues = await fetchLocalJson('./resources/valid_rms_values.json');
     const file = await fetchLocalFile('./resources/valid.wav');
     const waveFileWrapper = new WaveFileWrapper(file);
 
     // Act
     const rmsFrames = waveFileWrapper.getRMSFrames()
 
-    console.log(waveFileWrapper.samplesPerSecond);
-    console.log(waveFileWrapper.samples);
-    console.log(rmsFrames);
-    console.log(expectedRMSValues.map(frame => rmsToDb(frame)));
-
     //Assert
     for (let i = 0; i < expectedRMSValues.length; i++) {
-
         const diff = Math.abs(expectedRMSValues[i] - rmsFrames[i].rms);
         if (diff > epsilon){
-            console.log(diff)
             throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedRMSValues[i] + ", actual = " +  rmsFrames[i].rms + "");
+        }
+    }
+}
+
+export async function testGetDbFrames() {
+    // Arrange
+    const expectedDbValues = await fetchLocalJson('./resources/valid_db_values.json');
+    const file = await fetchLocalFile('./resources/valid.wav');
+    const waveFileWrapper = new WaveFileWrapper(file);
+
+    // Act
+    const dbFrames = waveFileWrapper.getDbFrames()
+
+    //Assert
+    for (let i = 0; i < expectedDbValues.length; i++) {
+        const diff = Math.abs(expectedDbValues[i] - dbFrames[i].db);
+        if (diff > epsilon){
+            throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbValues[i] + ", actual = " +  dbFrames[i].db + "");
+        }
+    }
+}
+
+export async function testGetDbaFrames() {
+    // Arrange
+    const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
+    const file = await fetchLocalFile('./resources/valid.wav');
+    const waveFileWrapper = new WaveFileWrapper(file);
+    const dbaMax = 96.2
+    const dbaMin = 35.3
+
+    // Act
+    const dbaFrames = waveFileWrapper.getDbaFrames(dbaMin, dbaMax)
+
+    //Assert
+    for (let i = 0; i < expectedDbaValues.length; i++) {
+        const diff = Math.abs(expectedDbaValues[i] - dbaFrames[i].dba);
+        if (diff > epsilon){
+            throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbaValues[i] + ", actual = " +  dbaFrames[i].dba + "");
         }
     }
 }
