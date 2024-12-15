@@ -136,7 +136,6 @@ Lukas:
   - Enable repository mirroring: https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76
 
 
-
 # 13.11.2024
 
 **Participants**: Darius, Dominic, Lukas
@@ -146,3 +145,118 @@ Lukas:
 ---
 
 The team didn't make any progress, because of the BFH block week
+
+
+# 20.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+---
+
+Dominic:
+- Continued working on the WAV file reader:
+  - Implemented parsing logic to handle audio files
+  - Added error handling for unsupported formats
+  - Added testcases
+- Documented the interface
+- Next Steps:
+  - Begin integration testing with audio filtering logic
+
+Darius:
+- Had no time to work on the project
+- Next Steps:
+  - Focus on implementing frontend
+
+Lukas:
+- Implemented and documented repository mirroring process
+- Next Steps:
+  - Implement the filtering algorithm
+
+
+# 27.11.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Implemented the assert function for the javascript test suite
+- Next steps:
+  - Working on test improvements
+
+Darius:
+- Demonstrated the following two tasks:
+  - Implement SPA framework
+  - Created html content of website
+- Next:
+  - Styling the website
+  - Documentation
+
+Lukas:
+- Configure GitHub Pages to display the app as index
+- Next steps
+  - Filter data
+
+
+# 08.12.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Extended, improved and streamlined the JavaScript testing framework
+  - All tests are now async/await
+  - Created new test util functions
+  - Improved the test frameworks UI
+- Next steps:
+  - Documentation for JavaScript test framework
+
+Darius:
+- Implemented the frontend:
+  - Structure
+  - Content
+  - State management
+  - Documentation
+- Next:
+  - Improve styling
+  - Extend Documentation
+
+Lukas:
+- Implemented filter data logic
+  - Calculate RMS
+  - Apply threshold filter
+  - Started to implement tests and got stuck
+- Next steps
+  - Resolve issues with filter data logic and tests
+  - Write Documentation
+
+
+# 11.12.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Helped Lukas to debug data filter logic in an extensive debugging session
+- Started writing the documentation for javascript test framework
+- Next steps:
+  - Finish documentation for javascript test framework
+  - Add support for IEEE float format in *.wav files
+
+Darius:
+- Started styling improvements
+- Next:
+  - Finalize styling improvements
+  - Extend Documentation
+
+Lukas:
+- Implemented filter data logic
+  - Still stuck with the tests implementation as some values do not match with the reference
+  - Got help from Dominic in an extensive debugging session
+- Next steps
+  - Resolve issues with filter data logic and tests
+  - Write Documentation

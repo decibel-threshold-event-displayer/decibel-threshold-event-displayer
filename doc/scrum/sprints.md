@@ -84,9 +84,10 @@
 - [Prepare intermediate presentation](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/28)
 - [Define licence](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/19)
 - [Create and init git repository](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/6)
+- [Define content](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21)
 
 **Not done:**
-- [Define content](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/21)
+- [Define interface](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/17)
   - Because of the presentation deadline, the documentation of this task was not done yet
 
 **Goals:**
@@ -126,3 +127,89 @@
 - Filter audio data correctly
 - Enable repository mirroring for distribution
 - Implement MVP frontend application
+
+## Review - 20.11.2024
+**Demo:**
+- Dominic: Presented how he implemented
+- Lukas: Presented the mirroring of the repositories from GitLab to GitHub
+
+**Done:**
+- [Read WAV file](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/10)
+- [Define interface](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/17)
+- [Enable repository mirroring](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76)
+
+**Not done:**
+- [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11)
+- [Implement frontend application](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/24)
+
+**Goals:**
+- [x] Write documentation for interface
+- [x] Read and parse *.wav files correctly
+- [ ] Filter audio data correctly
+- [x] Enable repository mirroring for distribution
+- [ ] Implement MVP frontend application
+
+## Retro - 20.11.2024
+
+**What went well:**
+- We finally started with the implementation
+- We have a rudimentary javascript test environment (not automated yet)
+- We know that the automatic mirroring of the repositories is working
+
+**Problems:**
+- The special week 3 took our focus entirely (we were in the same team)
+- Getting used to writing javascript again
+- Mirroring repositories is way harder than we thought
+
+**Improvements:**
+- Getting our focus back to project 1
+
+# Sprint 4
+
+## Goals
+- Filter audio data correctly
+- Implement MVP frontend application
+- Improve javascript test environment
+
+## Review - 08.12.2924
+**Demo:**
+- Darius: Presented the frontend application
+- Dominic: Presented the JavaScript test framework
+- Lukas: Presented where and why he got stuck in the [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11) task
+
+**Done:**
+- [Implement frontend application](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/24)
+- [Configure GitHub Pages to display the app as index](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/94)
+- [Read WAV file](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/10)
+- [Define interface](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/17)
+- [Enable repository mirroring](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/76)
+
+**Not done:**
+- [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11)
+- [Improve testing](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/95)
+
+**Goals:**
+- [ ] Filter audio data correctly
+- [x] Implement MVP frontend application
+- [ ] Improve javascript test environment
+
+## Retro - 08.12.2024
+
+**What went well:**
+- We could code a lot
+- The progress was good
+
+**Problems:**
+- Filter data turned out to be much more difficult due to JavaScripts quirks
+- Stress keeps building up to the end of the semester
+
+**Improvements:**
+- Do not postpone Scrum meetings
+
+# Sprint 5
+
+## Goals
+- Finalize and document "Filter audio data correctly"
+- Document "Improve javascript test environment"
+- Create LaTeX template and fill in placeholders
+- Render LaTeX to PDF

@@ -1,76 +1,70 @@
 import {assertNotThrows, assertThrows, fetchLocalFile, fetchLocalJson} from './util.js';
+
 import {
     InvalidDataChunkError,
     InvalidFileError,
     InvalidFormatChunkError,
     InvalidRiffChunkError,
     WaveFileWrapper,
-    rmsToDb
+    buildWrapper
 } from "../wavefilewrapper.js";
 
 const epsilon = 0.000000000001;
 
 export async function testPassNullInConstructor() {
-    await assertThrows(() => {
-        new WaveFileWrapper(null);
+    await assertThrows(async () => {
+        await buildWrapper(null);
     }, InvalidFileError);
 }
 
 export async function testPassNonFileInConstructor() {
-    await assertThrows(() => {
-        new WaveFileWrapper(4);
+    await assertThrows(async () => {
+        await buildWrapper(4);
     }, InvalidFileError);
 }
 
 export async function testInvalidRiffIdentifier() {
-    await assertThrows(async () => {
-        const file = await fetchLocalFile('./resources/invalid_riff_identifier.wav');
-        new WaveFileWrapper(file);
+     await assertThrows(async () => {
+         await buildWrapper("./resources/invalid_riff_identifier.wav");
     }, InvalidRiffChunkError);
 }
 
 export async function testInvalidWaveFormat() {
     await assertThrows(async () => {
-        const file = await fetchLocalFile('./resources/invalid_wave_format.wav');
-        new WaveFileWrapper(file);
+        await buildWrapper('./resources/invalid_wave_format.wav');
     }, InvalidRiffChunkError);
 }
 
 export async function testInvalidFmtIdentifier() {
     await assertThrows(async () => {
-        const file = await fetchLocalFile('./resources/invalid_fmt_identifier.wav');
-        new WaveFileWrapper(file);
+        await buildWrapper('./resources/invalid_fmt_identifier.wav');
     }, InvalidFormatChunkError);
 }
 
 export async function testIllegalNumberOfBitsPerSample() {
     await assertThrows(async () => {
-        const file = await fetchLocalFile('./resources/illegal_number_of_bit_per_sample.wav');
-        new WaveFileWrapper(file);
+        await buildWrapper("./resources/illegal_number_of_bit_per_sample.wav");
     }, InvalidFormatChunkError);
 }
 
 export async function testInvalidDataIdentifier() {
-    await assertThrows(async () => {
-        const file = await fetchLocalFile('./resources/invalid_data_identifier.wav');
-        new WaveFileWrapper(file);
+    await assertThrows(async() => {
+        await buildWrapper('./resources/invalid_data_identifier.wav');
     }, InvalidDataChunkError);
 }
 
 export async function testReadValidAudioFile() {
-    await assertNotThrows(async () => {
-        const file = await fetchLocalFile('./resources/valid.wav');
-        new WaveFileWrapper(file);
+    await assertNotThrows(async() => {
+        await buildWrapper('./resources/valid.wav');
     });
 }
 
 export async function testVerifySampleValues(){
     // Arrange
     const expectedSampleValues = await fetchLocalJson('./resources/valid_sample_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
 
     // Act
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Assert
     for (let i = 0; i < expectedSampleValues.length; i++){
@@ -83,8 +77,7 @@ export async function testVerifySampleValues(){
 export async function testVerifyMeanValues(){
     // Arrange
     const expectedMeanValues = await fetchLocalJson('./resources/valid_mean_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
     const frames = waveFileWrapper.getFrames()
@@ -101,8 +94,7 @@ export async function testVerifyMeanValues(){
 export async function testVerifySquareMeanValues(){
     // Arrange
     const expectedMeanValues = await fetchLocalJson('./resources/valid_square_mean_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
     const frames = waveFileWrapper.getFrames()
@@ -119,8 +111,7 @@ export async function testVerifySquareMeanValues(){
 export async function testGetRMSFrames() {
     // Arrange
     const expectedRMSValues = await fetchLocalJson('./resources/valid_rms_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
     const rmsFrames = waveFileWrapper.getRMSFrames()
@@ -137,8 +128,7 @@ export async function testGetRMSFrames() {
 export async function testGetDbFrames() {
     // Arrange
     const expectedDbValues = await fetchLocalJson('./resources/valid_db_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
     const dbFrames = waveFileWrapper.getDbFrames()
@@ -155,8 +145,7 @@ export async function testGetDbFrames() {
 export async function testGetDbaFrames() {
     // Arrange
     const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
-    const file = await fetchLocalFile('./resources/valid.wav');
-    const waveFileWrapper = new WaveFileWrapper(file);
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
     const dbaMax = 96.2
     const dbaMin = 35.3
 

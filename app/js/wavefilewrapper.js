@@ -188,34 +188,43 @@ export class WaveFileWrapper {
     samplesPerSecond = 0;
     bytesPerSample = 0;
 
-    constructor(file) {
-        if (file instanceof ArrayBuffer) {
-            this.filename = "Unknown File";
-            this.parseFile(file);
-        } else if (file instanceof File) {
-            this.filename = file.name;
-            this.readAndParse(file);
+    async readAndParse(file) {
+        let arrayBuffer;
+
+        if(file instanceof File){
+            try {
+                arrayBuffer = await this.readFile(file);
+            } catch (error) {
+                throw new InvalidFileError(`File can not be read: ${error.message}`);
+            }
+        } else if(typeof file === "string"){
+            arrayBuffer = await this.fetchFile(file);
         } else {
-            throw new InvalidFileError("No File given");
+            throw new InvalidFileError("No file to read was given");
         }
+
+        this.parseFile(arrayBuffer);
     }
 
-    readAndParse(file) {
-        const reader = new FileReader()
-
-        reader.addEventListener("loadend", () => {
-            this.parseFile(reader.result);
-        });
-
-        reader.addEventListener("error", () => {
-            throw new InvalidFileError("Error in FileReader():" + reader.error);
-        });
-
-        try {
+    readFile(file){
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                resolve(reader.result)
+            };
+            reader.onerror = reject;
             reader.readAsArrayBuffer(file);
-        } catch (error) {
-            throw new InvalidFileError("Error while reading the file:" + reader.error);
-        }
+        });
+    }
+
+    fetchFile(filePath){
+        return fetch(filePath)
+            .then(response => response.blob())
+            .then(blob => blob.arrayBuffer())
+            .then(arrayBuffer => arrayBuffer)
+            .catch(error => {
+                throw new Error(`Error while fetching ${filePath}: ${error.message}`);
+            });
     }
 
     parseFile(arrayBuffer) {
@@ -444,4 +453,10 @@ export class InvalidDataChunkError extends WaveFileWrapperError {
         super(message);
         this.name = "InvalidDataChunkError";
     }
+}
+
+export async function buildWrapper(file){
+    const wrapper = new WaveFileWrapper(); 
+    await wrapper.readAndParse(file);
+    return wrapper;
 }
