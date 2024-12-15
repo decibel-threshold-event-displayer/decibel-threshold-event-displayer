@@ -1,3 +1,4 @@
+import { Component } from "./components/component.js";
 import { ENGINE_GENERATE_STATUS, ENGINE_STATUS } from "./enum.js";
 import { store } from "./store.js";
 
@@ -45,15 +46,14 @@ class Engine {
     return this.#readyPromise;
   }
 
-  async generate(onStatusUpdate = (status) => {}) {
+  async generate(data = {}, onStatusUpdate = (status) => {}) {
     try {
       onStatusUpdate(ENGINE_GENERATE_STATUS.INITIALIZATION);
       const engine = await this.#getEngine();
 
       onStatusUpdate(ENGINE_GENERATE_STATUS.READYING_FILE);
-      const template = await fetch("js/swiftlatex/template.tex").then(
-        (response) => response.text()
-      );
+      let template = await Component.fetchTemplate("latex/template.tex");
+      template = Component.interpolate(data, template);
       engine.writeMemFSFile("main.tex", template);
       engine.setEngineMainFile("main.tex");
       onStatusUpdate(ENGINE_GENERATE_STATUS.GENERATING);
