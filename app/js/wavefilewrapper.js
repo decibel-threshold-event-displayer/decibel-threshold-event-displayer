@@ -417,6 +417,41 @@ export class WaveFileWrapper {
 
         return dbFrames.map(dbFrame => dbFrame.toDbaFrame(dbMin, dbMax, dbaMin, dbaMax));
     }
+
+    /**
+     * Gets the Dba frames and filters them by the given threshold
+     *
+     * @param threshold
+     * @param dbaMin
+     * @param dbaMax
+     * @param frameDuration
+     * @returns {DbaFrame[]}
+     */
+    getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration = 0.2) {
+        const dbaFrames = this.getDbaFrames(dbaMin, dbaMax, frameDuration);
+        return dbaFrames.filter(dbaFrame => dbaFrame.dba > threshold);
+    }
+
+    /**
+     * Not sure if we need this or if it's correct
+     *
+     * @param dbaMin
+     * @param dbaMax
+     * @param frameDuration
+     * @returns {*[][]}
+     */
+    getDbaSamples(dbaMin, dbaMax, frameDuration = 0.2) {
+        const frames = this.getFrames(frameDuration);
+        const dbFrames = frames.map(frame => frame.toRMSFrame().toDbFrame());
+        const dbValues = dbFrames.map(dbFrame => dbFrame.db);
+        const dbMin = Math.min(...dbValues);
+        const dbMax = Math.max(...dbValues);
+
+        return [...frames.map(frame => {
+            return frame.samples.map(sample => dbToDba(rmsToDb(Math.abs(sample)), dbMin, dbMax, dbaMin, dbaMax))
+        })];
+
+    }
 }
 
 export class WaveFileWrapperError extends Error {

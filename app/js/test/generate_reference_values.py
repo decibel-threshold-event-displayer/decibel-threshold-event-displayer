@@ -8,7 +8,7 @@ from scipy.io import wavfile
 
 resources_path = Path("./resources")
 dba_min = 35.3
-dba_max = 96.2
+dba_max =
 
 @dataclass
 class ReferenceValueEntry:

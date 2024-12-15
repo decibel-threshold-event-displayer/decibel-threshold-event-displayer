@@ -80,7 +80,7 @@ export async function testVerifyMeanValues(){
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
-    const frames = waveFileWrapper.getFrames()
+    const frames = waveFileWrapper.getFrames();
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
@@ -97,7 +97,7 @@ export async function testVerifySquareMeanValues(){
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
-    const frames = waveFileWrapper.getFrames()
+    const frames = waveFileWrapper.getFrames();
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
@@ -114,7 +114,7 @@ export async function testGetRMSFrames() {
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
-    const rmsFrames = waveFileWrapper.getRMSFrames()
+    const rmsFrames = waveFileWrapper.getRMSFrames();
 
     //Assert
     for (let i = 0; i < expectedRMSValues.length; i++) {
@@ -131,13 +131,13 @@ export async function testGetDbFrames() {
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Act
-    const dbFrames = waveFileWrapper.getDbFrames()
+    const dbFrames = waveFileWrapper.getDbFrames();
 
     //Assert
     for (let i = 0; i < expectedDbValues.length; i++) {
         const diff = Math.abs(expectedDbValues[i] - dbFrames[i].db);
         if (diff > epsilon){
-            throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbValues[i] + ", actual = " +  dbFrames[i].db + "");
+            throw Error("Db value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbValues[i] + ", actual = " +  dbFrames[i].db + "");
         }
     }
 }
@@ -146,17 +146,38 @@ export async function testGetDbaFrames() {
     // Arrange
     const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
-    const dbaMax = 96.2
-    const dbaMin = 35.3
+    const dbaMax = 96.2;
+    const dbaMin = 35.3;
 
     // Act
-    const dbaFrames = waveFileWrapper.getDbaFrames(dbaMin, dbaMax)
+    const dbaFrames = waveFileWrapper.getDbaFrames(dbaMin, dbaMax);
 
     //Assert
     for (let i = 0; i < expectedDbaValues.length; i++) {
         const diff = Math.abs(expectedDbaValues[i] - dbaFrames[i].dba);
         if (diff > epsilon){
-            throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbaValues[i] + ", actual = " +  dbaFrames[i].dba + "");
+            throw Error("Dba value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbaValues[i] + ", actual = " +  dbaFrames[i].dba + "");
+        }
+    }
+}
+
+export async function testGetFilteredDbaFrames() {
+    // Arrange
+    const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
+    const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const dbaMax = 96.2;
+    const dbaMin = 35.3;
+    const threshold = 90;
+    const filteredExpectedDbaValues = expectedDbaValues.filter(v => v > threshold);
+
+    // Act
+    const filteredDbaFrames = waveFileWrapper.getFilteredDbaFrames(threshold, dbaMin, dbaMax);
+
+    //Assert
+    for (let i = 0; i < filteredExpectedDbaValues.length; i++) {
+        const diff = Math.abs(filteredExpectedDbaValues[i] - filteredDbaFrames[i].dba);
+        if (diff > epsilon){
+            throw Error("Dba value mismatch: index = " + i + ", diff = " + diff + ", expected = " + filteredExpectedDbaValues[i] + ", actual = " +  filteredDbaFrames[i].dba + "");
         }
     }
 }

@@ -45,7 +45,7 @@ export class Home extends Component {
       this.#renderButton.disabled = true;
       this.#downloadButton.style.display = "none";
       this.#preview.style.display = "none";
-      const res = await engine.generate((status) =>
+      const res = await engine.generate(this.#formData, (status) =>
         this.#onStatusUpdate(status)
       );
       this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";

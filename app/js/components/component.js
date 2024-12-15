@@ -23,13 +23,17 @@ export class Component {
     return this.#view;
   }
 
-  _load(templatePath) {
+  async _load(templatePath) {
+    this.#view.innerHTML = await Component.fetchTemplate(templatePath);
+  }
+
+  static async fetchTemplate(templatePath) {
     logger.debug(TEMPLATES_ROOT + templatePath);
-    return fetch(TEMPLATES_ROOT + templatePath)
-      .then((response) =>
-        response.ok ? response.text() : Promise.reject(response)
-      )
-      .then((template) => (this.#view.innerHTML = template));
+    const response = await fetch(TEMPLATES_ROOT + templatePath);
+    const template = await (response.ok
+      ? response.text()
+      : Promise.reject(response));
+    return template;
   }
 
   _bind(model) {
@@ -44,10 +48,14 @@ export class Component {
       });
   }
 
-  _interpolate(model) {
-    this.#view.innerHTML = this.#view.innerHTML.replace(
+  _interpolateHTML(model) {
+    this.#view.innerHTML = Component.interpolate(model, this.#view.innerHTML);
+  }
+
+  static interpolate(model, template) {
+    return template.replace(
       /{{(\w+)}}/g,
-      (placeholder, property) => model[property] || ""
+      (placeholder, property) => model[property] || "n.a."
     );
   }
 
