@@ -412,7 +412,6 @@ export class WaveFileWrapper {
     getDbaFrames(dbaMin, dbaMax, frameDuration = 0.2) {
         const dbFrames = this.getDbFrames(frameDuration);
         const dbValues = dbFrames.map(dbFrame => dbFrame.db);
-        console.log(dbValues)
         const dbMin = Math.min(...dbValues);
         const dbMax = Math.max(...dbValues);
 
