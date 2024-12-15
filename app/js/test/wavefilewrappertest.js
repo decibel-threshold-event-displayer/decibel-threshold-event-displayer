@@ -1,4 +1,4 @@
-import {assertNotThrows, assertThrows, fetchLocalFile, fetchLocalJson} from './util.js';
+import {assertNotThrows, assertThrows, fetchLocalJson} from './util.js';
 
 import {
     InvalidDataChunkError,

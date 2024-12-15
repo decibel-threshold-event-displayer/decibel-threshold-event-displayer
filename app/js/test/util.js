@@ -34,3 +34,20 @@ export async function assertNotEquals(actual, expected) {
         throw new Error(`Expected value to not equal ${JSON.stringify(expected)}`);
     }
 }
+
+export async function fetchLocalFile(filePath) {
+    try {
+        const response = await fetch(filePath);
+        const blob = await response.blob();
+        const arrayBuffer = await blob.arrayBuffer();
+        return arrayBuffer;
+    } catch (error) {
+        throw new Error(`Error while fetching ${filePath}: ${error.message}`);
+    }
+}
+
+export async function fetchLocalJson(filePath) {
+    const arrayBuffer = await fetchLocalFile(filePath);
+    const jsonString = (new TextDecoder()).decode(arrayBuffer);
+    return JSON.parse(jsonString);
+}
