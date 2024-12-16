@@ -2,6 +2,7 @@ import { engine } from "../../engine.js";
 import { toast } from "../../toast.js";
 import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
+import {buildWrapper} from "../../wavefilewrapper.js";
 
 export class Home extends Component {
   #renderButton;
@@ -42,10 +43,27 @@ export class Home extends Component {
     if (!this.#validateForm()) return;
 
     try {
+      const threshold = Number.parseFloat(this.#formData.threshold);
+      const fileInput = document.getElementById("file");
+      const wavFile = fileInput.files[0];
+      const waveFileWrapper = await buildWrapper(wavFile);
+      const filteredDbaFrames = waveFileWrapper.getFilteredDbaFrames(
+          threshold,
+          this.#formData.minDb,
+          this.#formData.maxDb
+      );
+      const maxDba = Number.parseInt(Math.max(...filteredDbaFrames.map(frame => frame.dba)));
+
       this.#renderButton.disabled = true;
       this.#downloadButton.style.display = "none";
       this.#preview.style.display = "none";
-      const res = await engine.generate(this.#formData, (status) =>
+      const templateContext = {
+        ...this.#formData,
+        data: filteredDbaFrames.map((frame, index) => `${index}, ${Number.parseInt(frame.dba)}`).join("\n"),
+        xmax: filteredDbaFrames.length,
+        ymax: Number.parseInt(Math.max(maxDba, threshold) * 1.333),
+      };
+      const res = await engine.generate(templateContext, (status) =>
         this.#onStatusUpdate(status)
       );
       this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";

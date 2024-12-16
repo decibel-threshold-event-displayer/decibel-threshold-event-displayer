@@ -428,7 +428,7 @@ export class WaveFileWrapper {
      * @returns {DbaFrame[]}
      */
     getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration = 0.2) {
-        const dbaFrames = this.getDbaFrames(dbaMin, dbaMax, frameDuration);
+        const dbaFrames = this.getDbaFrames(Number.parseFloat(dbaMin), Number.parseFloat(dbaMax), frameDuration);
         return dbaFrames.filter(dbaFrame => dbaFrame.dba > threshold);
     }
 
