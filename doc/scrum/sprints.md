@@ -213,3 +213,50 @@
 - Document "Improve javascript test environment"
 - Create LaTeX template and fill in placeholders
 - Render LaTeX to PDF
+
+## Review - 18.12.2924
+**Demo:**
+- Lukas: Demonstrated the filter data together with the render LaTeX implementation
+  - This included the whole work of Darius and Dominic
+  - The team decided to use the closedcycle example from https://pgfplots.sourceforge.net/gallery.html
+
+```latex
+\begin{tikzpicture}
+\begin{axis}[ymin=0,ymax=1,enlargelimits=false]
+\addplot
+	[const plot,fill=blue,draw=black] 
+coordinates
+{(0,0.1)    (0.1,0.15)  (0.2,0.5)   (0.3,0.62)
+ (0.4,0.56) (0.5,0.58)  (0.6,0.65)  (0.7,0.6)
+ (0.8,0.58) (0.9,0.55)  (1,0.52)} 
+	\closedcycle;
+\end{axis}
+\end{tikzpicture}
+```
+
+**Done:**
+- [Improve testing](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/95)
+
+**Not done:**
+- [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11)
+- [Create a sequence diagram for input handling and processing](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/18)
+- [Support IEEE float audio format](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/93)
+- [Render LaTeX](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/22)
+
+**Goals:**
+- [ ] Finalize and document "Filter audio data correctly"
+- [x] Document "Improve javascript test environment"
+- [ ] Create LaTeX template and fill in placeholders
+- [ ] Render LaTeX to PDF
+
+
+## Retro - 18.12.2024
+
+**What went well:**
+- 
+
+**Problems:**
+- 
+
+**Improvements:**
+- 
