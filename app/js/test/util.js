@@ -1,3 +1,4 @@
+// Asserts that a given exception is thrown
 export async function assertThrows(fun, expectedErrorClass) {
     try{
         await fun();
@@ -12,6 +13,7 @@ export async function assertThrows(fun, expectedErrorClass) {
     throw new Error(`Expected error of type "${expectedErrorClass.name}", but no error was thrown`);
 }
 
+// Assert that no 
 export async function assertNotThrows(fun) {
     try {
         await fun();

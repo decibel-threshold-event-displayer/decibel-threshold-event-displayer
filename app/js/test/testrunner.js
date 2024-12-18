@@ -1,15 +1,19 @@
+
 import * as waveFileWrapperTest from './wavefilewrappertest.js';
 import * as utilTest from './utiltest.js';
+
 import {buildWrapper} from "../wavefilewrapper.js";
 
+// get html elements of the output page
 const testOutput = document.getElementById("testOutput");
 const waveFileOutput = document.getElementById("waveFileOutput");
 
+// This function bootstraps a html table object for a test group.
 function createResultTable(name) {
     const table = document.createElement('table');
     table.className = 'table table-bordered mb-4';
     
-    // Add caption/title
+    // Add title
     const caption = table.createCaption();
     caption.className = 'caption-top';
     caption.innerHTML = `<h3>Test Results: ${name}</h3>`;
@@ -28,6 +32,9 @@ function createResultTable(name) {
     return table;
 }
 
+// Runs a given test group and add the result to the result page.
+// Every functions of the passed module is considered to be a independent test and is executed.
+// The passed name will be used to identify the test group in the frontend
 async function runTestGroup(testModule, name) {
     testOutput.innerHTML = "";
     // Get all tests in the module
@@ -38,9 +45,11 @@ async function runTestGroup(testModule, name) {
     let successful = 0;
     let failed = 0;
     
+    // get html elements for result
     const table = createResultTable(name);
     const tbody = table.createTBody();
-
+    
+    // run all tests
     for (let i in tests) {
         const testName = tests[i];
         const row = tbody.insertRow();
@@ -54,7 +63,8 @@ async function runTestGroup(testModule, name) {
 
         // Add error cell
         const errorCell = row.insertCell();
-
+        
+        // make sure to use await so the exceptions are thrown in this thread
         await testModule[testName]().then(response => {
             statusCell.innerHTML = '<span class="badge bg-success">Success</span>';
             successful++;
@@ -81,6 +91,7 @@ async function runTestGroup(testModule, name) {
     testOutput.appendChild(table);
 }
 
+// Creates a WaveFileWrapper object from a given file and displays it content
 async function createWavObject() {
     waveFileOutput.innerHTML = "";
     const file = document.getElementById("file").files[0];
@@ -123,11 +134,13 @@ async function createWavObject() {
     }
 }
 
+// run all test groups
 function runTests() {
     runTestGroup(utilTest, "Util");
     runTestGroup(waveFileWrapperTest, "Wave File Wrapper");
 }
 
+// Add event listeners to buttons
 function init() {
     document.getElementById("btnWaveFileWrapper").addEventListener('click', createWavObject);
     document.getElementById("btnRunTests").addEventListener('click', runTests);
