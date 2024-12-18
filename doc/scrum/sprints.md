@@ -253,10 +253,12 @@ coordinates
 ## Retro - 18.12.2024
 
 **What went well:**
-- 
+- Great overall progress even though we did not finish a lot of goals on paper
+- We could generate our first pdf plot via the web gui from an uploaded *.wav file
 
 **Problems:**
-- 
+- Tiredness before holidays
+- Filter data used way more time than expected
 
 **Improvements:**
-- 
+- We should add higher weights to tasks
