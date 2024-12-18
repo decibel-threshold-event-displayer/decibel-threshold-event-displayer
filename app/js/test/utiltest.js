@@ -1,4 +1,10 @@
-import {assertThrows, assertNotThrows, assertEquals, assertNotEquals} from './util.js';
+import {assertEquals, assertNotEquals, assertNotThrows, assertThrows} from './util.js';
+
+/**
+ * These tests verify that the assert functions work as intended.
+ *
+ * All tests throw an exception when they fail.
+ */
 
 export async function testAssertThrowsWithError() {
     // Should pass when expected error is thrown
@@ -15,7 +21,7 @@ export async function testAssertThrowsWithWrongError() {
     // Should fail when wrong error type is thrown
     try {
         await assertThrows(async () => {
-            throw new TypeError('Wrong error');     
+            throw new TypeError('Wrong error');
         }, Error);
     } catch (error) {
         throw new Error('assertThrows did not fail with wrong error type');
