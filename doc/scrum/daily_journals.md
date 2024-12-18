@@ -260,3 +260,33 @@ Lukas:
 - Next steps
   - Resolve issues with filter data logic and tests
   - Write Documentation
+
+
+# 18.12.2024
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Finalized improve testing documentation and polish
+- Reviewed MR Filter data from Lukas and gave feedback
+  - Resolve monolithic implementation of WaveFileWrapper -> create a new class
+- Next steps
+  - Support IEEE float audio format
+
+Darius:
+- Worked on Render LaTeX:
+  - Implemented Create pdf from LaTeX file
+  - Implemented Read template and fill in placeholders
+  - Moved the LaTeX template so we can use the component string interpolation
+- Next steps
+  - Refactor Create pdf from LaTeX file 
+  - Refactor Read template and fill in placeholders
+
+Lukas:
+- Worked on Filter data:
+  - Finalized working implementation
+  - Merged the frontend branch from Darius and connect the frontend to the *.wav plot generation
+- Next steps
+  - Filter data: apply feedback from Dominic: split WaveFileWrapper class

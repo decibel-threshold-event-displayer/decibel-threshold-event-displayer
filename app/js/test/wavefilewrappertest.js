@@ -1,11 +1,17 @@
 import {assertNotThrows, assertThrows, fetchLocalJson} from './util.js';
 
+/**
+ * This file contains all tests regarding the parsing of a .wav file.
+ *
+ * All tests throw an exception when they fail.
+ *
+ */
 import {
+    buildWrapper,
     InvalidDataChunkError,
     InvalidFileError,
     InvalidFormatChunkError,
-    InvalidRiffChunkError,
-    buildWrapper
+    InvalidRiffChunkError
 } from "../wavefilewrapper.js";
 
 /**
@@ -30,8 +36,8 @@ export async function testPassNonFileInConstructor() {
 }
 
 export async function testInvalidRiffIdentifier() {
-     await assertThrows(async () => {
-         await buildWrapper("./resources/invalid_riff_identifier.wav");
+    await assertThrows(async () => {
+        await buildWrapper("./resources/invalid_riff_identifier.wav");
     }, InvalidRiffChunkError);
 }
 
@@ -54,13 +60,13 @@ export async function testIllegalNumberOfBitsPerSample() {
 }
 
 export async function testInvalidDataIdentifier() {
-    await assertThrows(async() => {
+    await assertThrows(async () => {
         await buildWrapper('./resources/invalid_data_identifier.wav');
     }, InvalidDataChunkError);
 }
 
 export async function testReadValidAudioFile() {
-    await assertNotThrows(async() => {
+    await assertNotThrows(async () => {
         await buildWrapper('./resources/valid.wav');
     });
 }
