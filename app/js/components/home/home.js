@@ -59,9 +59,10 @@ export class Home extends Component {
       this.#preview.style.display = "none";
       const templateContext = {
         ...this.#formData,
-        data: filteredDbaFrames.map((frame, index) => `${index}, ${Number.parseInt(frame.dba)}`).join("\n"),
+        data: filteredDbaFrames.map((frame, index) => `${index}, ${Math.round(frame.dba)}`).join("\n"),
         xmax: filteredDbaFrames.length,
-        ymax: Number.parseInt(Math.max(maxDba, threshold) * 1.333),
+        ymin: threshold,
+        ymax: Math.round(Math.max(maxDba, threshold) * 1.333),
       };
       const res = await engine.generate(templateContext, (status) =>
         this.#onStatusUpdate(status)

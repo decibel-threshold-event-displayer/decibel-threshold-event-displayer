@@ -505,27 +505,7 @@ export class WaveFileWrapper {
      */
     getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration = 0.3) {
         const dbaFrames = this.getDbaFrames(Number.parseFloat(dbaMin), Number.parseFloat(dbaMax), frameDuration);
-        return dbaFrames.filter(dbaFrame => dbaFrame.dba > threshold);
-    }
-
-    /**
-     * Not sure if we need this or if it's correct
-     *
-     * @param dbaMin{number}
-     * @param dbaMax{number}
-     * @param frameDuration{number}
-     * @returns {number[]}
-     */
-    getDbaSamples(dbaMin, dbaMax, frameDuration = 0.3) {
-        const frames = this.getFrames(frameDuration);
-        const dbFrames = frames.map(frame => frame.toRMSFrame().toDbFrame());
-        const dbValues = dbFrames.map(dbFrame => dbFrame.db);
-        const dbMin = Math.min(...dbValues);
-        const dbMax = Math.max(...dbValues);
-
-        return frames.map(frame => {
-            return frame.samples.map(sample => dbToDba(rmsToDb(Math.abs(sample)), dbMin, dbMax, dbaMin, dbaMax))
-        }).flat();
+        return dbaFrames.map(dbaFrame => dbaFrame.dba > threshold ? dbaFrame : new DbaFrame(0, dbaFrame.startSample, dbaFrame.endSample));
     }
 }
 
