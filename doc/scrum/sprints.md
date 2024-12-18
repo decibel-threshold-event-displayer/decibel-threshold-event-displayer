@@ -262,3 +262,12 @@ coordinates
 
 **Improvements:**
 - We should add higher weights to tasks
+
+# Sprint 6
+
+## Goals
+- Finalize and document "Filter audio data correctly"
+- Finalize LaTeX template and fill in placeholders
+- Finalize LaTeX to PDF
+- Finalize SPA
+- Define legal requirements
