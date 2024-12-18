@@ -1,7 +1,7 @@
 import * as waveFileWrapperTest from './wavefilewrappertest.js';
 import * as utilTest from './utiltest.js';
 
-import {buildWrapper} from "../wavefilewrapper.js";
+import {buildWrapper} from "../audio/wavefilewrapper.js";
 
 // get html elements of the output page
 const testOutput = document.getElementById("testOutput");
