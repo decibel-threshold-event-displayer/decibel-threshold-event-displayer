@@ -5,10 +5,16 @@ import {
     InvalidFileError,
     InvalidFormatChunkError,
     InvalidRiffChunkError,
-    WaveFileWrapper,
     buildWrapper
 } from "../wavefilewrapper.js";
 
+/**
+ * To test against any weird js behavior, we generate the reference values with python.
+ * This means that there will be minimal differences in floating point numbers.
+ * We use this epsilon value to account for those differences
+ *
+ * @type {number}
+ */
 const epsilon = 0.000000000001;
 
 export async function testPassNullInConstructor() {
@@ -78,9 +84,10 @@ export async function testVerifyMeanValues(){
     // Arrange
     const expectedMeanValues = await fetchLocalJson('./resources/valid_mean_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
 
     // Act
-    const frames = waveFileWrapper.getFrames();
+    const frames = waveFileWrapper.getFrames(frameDuration);
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
@@ -95,9 +102,10 @@ export async function testVerifySquareMeanValues(){
     // Arrange
     const expectedMeanValues = await fetchLocalJson('./resources/valid_square_mean_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
 
     // Act
-    const frames = waveFileWrapper.getFrames();
+    const frames = waveFileWrapper.getFrames(frameDuration);
 
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
@@ -112,9 +120,10 @@ export async function testGetRMSFrames() {
     // Arrange
     const expectedRMSValues = await fetchLocalJson('./resources/valid_rms_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
 
     // Act
-    const rmsFrames = waveFileWrapper.getRMSFrames();
+    const rmsFrames = waveFileWrapper.getRMSFrames(frameDuration);
 
     //Assert
     for (let i = 0; i < expectedRMSValues.length; i++) {
@@ -129,9 +138,10 @@ export async function testGetDbFrames() {
     // Arrange
     const expectedDbValues = await fetchLocalJson('./resources/valid_db_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
 
     // Act
-    const dbFrames = waveFileWrapper.getDbFrames();
+    const dbFrames = waveFileWrapper.getDbFrames(frameDuration);
 
     //Assert
     for (let i = 0; i < expectedDbValues.length; i++) {
@@ -146,11 +156,12 @@ export async function testGetDbaFrames() {
     // Arrange
     const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
     const dbaMax = 96.2;
     const dbaMin = 35.3;
 
     // Act
-    const dbaFrames = waveFileWrapper.getDbaFrames(dbaMin, dbaMax);
+    const dbaFrames = waveFileWrapper.getDbaFrames(dbaMin, dbaMax, frameDuration);
 
     //Assert
     for (let i = 0; i < expectedDbaValues.length; i++) {
@@ -165,13 +176,14 @@ export async function testGetFilteredDbaFrames() {
     // Arrange
     const expectedDbaValues = await fetchLocalJson('./resources/valid_dba_values.json');
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
+    const frameDuration = 0.2;
     const dbaMax = 96.2;
     const dbaMin = 35.3;
     const threshold = 90;
     const filteredExpectedDbaValues = expectedDbaValues.filter(v => v > threshold);
 
     // Act
-    const filteredDbaFrames = waveFileWrapper.getFilteredDbaFrames(threshold, dbaMin, dbaMax);
+    const filteredDbaFrames = waveFileWrapper.getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration);
 
     //Assert
     for (let i = 0; i < filteredExpectedDbaValues.length; i++) {

@@ -31,12 +31,12 @@ const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 /**
  * Takes a rms value and returns it as decibel
  *
- * @param rms
+ * @param rms{number}
  * @returns {number}
  */
 export function rmsToDb(rms) {
     // Validate arguments
-    if (rms < 0 ) {
+    if (rms < 0) {
         throw new Error("Invalid argument, sample must be an integer equal or greater than 0!");
     }
 
@@ -46,14 +46,14 @@ export function rmsToDb(rms) {
 /**
  * Takes a Db value and returns it as Dba
  *
- * @param db
- * @param dbMin
- * @param dbMax
- * @param dbaMin
- * @param dbaMax
- * @returns {*}
+ * @param db{number}
+ * @param dbMin{number}
+ * @param dbMax{number}
+ * @param dbaMin{number}
+ * @param dbaMax{number}
+ * @returns {number}
  */
-export function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax){
+export function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax) {
     return (db - dbMin) * (dbaMax - dbaMin) / (dbMax - dbMin) + dbaMin;
 }
 
@@ -61,12 +61,13 @@ export function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax){
  * Represents a frame (window) of samples
  */
 export class Frame {
+
     /**
      * Frame constructor
      *
-     * @param samples
-     * @param startSample
-     * @param endSample
+     * @param samples{number[]}
+     * @param startSample{number}
+     * @param endSample{number}
      */
     constructor(samples, startSample, endSample) {
         this.samples = samples;
@@ -92,12 +93,13 @@ export class Frame {
  * Represents a root-mean-square frame
  */
 export class RMSFrame {
+
     /**
      * RMSFrame constructor
      *
-     * @param rms
-     * @param startSample
-     * @param endSample
+     * @param rms{number}
+     * @param startSample{number}
+     * @param endSample{number}
      */
     constructor(rms, startSample, endSample) {
         this.rms = rms;
@@ -123,12 +125,13 @@ export class RMSFrame {
  * Represents a decibel frame
  */
 export class DbFrame {
+
     /**
      * DbFrame constructor
      *
-     * @param db
-     * @param startSample
-     * @param endSample
+     * @param db{number}
+     * @param startSample{number}
+     * @param endSample{number}
      */
     constructor(db, startSample, endSample) {
         this.db = db;
@@ -154,12 +157,13 @@ export class DbFrame {
  * Represents a decibel frame
  */
 export class DbaFrame {
+
     /**
      * DbaFrame constructor
      *
-     * @param dba
-     * @param startSample
-     * @param endSample
+     * @param dba{number}
+     * @param startSample{number}
+     * @param endSample{number}
      */
     constructor(dba, startSample, endSample) {
         this.dba = dba;
@@ -168,19 +172,43 @@ export class DbaFrame {
     }
 }
 
-const longToByteArray = function(/*long*/long) {
+/**
+ * Takes a long integer and converts it to a byte array
+ *
+ * @param long{number}
+ * @returns {number[]}
+ */
+const longToByteArray = function (/*long*/long) {
     // we want to represent the input as a 8-bytes array
     var byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
 
-    for ( var index = 0; index < byteArray.length; index ++ ) {
+    for (let index = 0; index < byteArray.length; index++) {
         var byte = long & 0xff;
-        byteArray [ index ] = byte;
-        long = (long - byte) / 256 ;
+        byteArray [index] = byte;
+        long = (long - byte) / 256;
     }
 
     return byteArray;
 };
 
+/**
+ * The WaveFileWrapper class contains a *.wav files sample data and implements methods:
+ * - to load and parse *.wav files
+ *    - readAndParse
+ *    - readFile
+ *    - fetchFile
+ *    - parseFile
+ *    - getDataOffset
+ *    - parseAndVerifyRiffChunk
+ *    - parseAndVerifyFormatChunk
+ *    - parseAndVerifyDataChunk
+ * - to group samples in frames and calculate different values based on them
+ *    - getFrames
+ *    - getRMSFrames
+ *    - getDbFrames
+ *    - getDbaFrames
+ *    - getFilteredDbaFrames
+ */
 export class WaveFileWrapper {
     samples = [];
     nbrOfChannels = 0;
@@ -188,16 +216,22 @@ export class WaveFileWrapper {
     samplesPerSecond = 0;
     bytesPerSample = 0;
 
+    /**
+     * Loads a *.wav file and parses it
+     *
+     * @param file{File|string}
+     * @returns {Promise<void>}
+     */
     async readAndParse(file) {
         let arrayBuffer;
 
-        if(file instanceof File){
+        if (file instanceof File) {
             try {
                 arrayBuffer = await this.readFile(file);
             } catch (error) {
                 throw new InvalidFileError(`File can not be read: ${error.message}`);
             }
-        } else if(typeof file === "string"){
+        } else if (typeof file === "string") {
             arrayBuffer = await this.fetchFile(file);
         } else {
             throw new InvalidFileError("No file to read was given");
@@ -206,7 +240,13 @@ export class WaveFileWrapper {
         this.parseFile(arrayBuffer);
     }
 
-    readFile(file){
+    /**
+     * Reads a file from a File object and returns an ArrayBuffer
+     *
+     * @param file{File}
+     * @returns {Promise<ArrayBuffer>}
+     */
+    readFile(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => {
@@ -217,36 +257,52 @@ export class WaveFileWrapper {
         });
     }
 
-    fetchFile(filePath){
+    /**
+     * Fetches a file from a path and returns an ArrayBuffer
+     *
+     * @param filePath{string}
+     * @returns {Promise<ArrayBuffer>}
+     */
+    fetchFile(filePath) {
         return fetch(filePath)
             .then(response => response.blob())
             .then(blob => blob.arrayBuffer())
-            .then(arrayBuffer => arrayBuffer)
             .catch(error => {
                 throw new Error(`Error while fetching ${filePath}: ${error.message}`);
             });
     }
 
+    /**
+     * Parses and validates a *.wav file from an ArrayBuffer
+     *
+     * @param arrayBuffer{ArrayBuffer}
+     */
     parseFile(arrayBuffer) {
         // https://en.wikipedia.org/wiki/WAV#WAV_file_header
 
-        let riffView = new DataView(arrayBuffer, CHUNK_OFFSET_RIFF, CHUNK_LENGTH_RIFF);
+        const riffView = new DataView(arrayBuffer, CHUNK_OFFSET_RIFF, CHUNK_LENGTH_RIFF);
         this.parseAndVerifyRiffChunk(riffView);
 
-        let formatView = new DataView(arrayBuffer, CHUNK_OFFSET_FORMAT, CHUNK_LENGTH_FORMAT)
+        const formatView = new DataView(arrayBuffer, CHUNK_OFFSET_FORMAT, CHUNK_LENGTH_FORMAT)
         this.parseAndVerifyFormatChunk(formatView);
 
         // skip list and find the start point of the data
-        let listView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST);
+        const listView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST);
         let dataOffset = this.getDataOffset(listView)
 
-        let dataView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST + dataOffset);
+        const dataView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST + dataOffset);
         this.parseAndVerifyDataChunk(dataView);
-    };
+    }
 
+    /**
+     * Takes a dataView object representing a *.wav file and returns the data offset
+     *
+     * @param dataView{DataView}
+     * @returns {number}
+     */
     getDataOffset(dataView) {
         // https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
-        let identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
+        const identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
 
         if (identifier === LIST_IDENTIFIER)
             return dataView.getInt32(LIST_OFFSET_SIZE, true) + 8;
@@ -254,28 +310,38 @@ export class WaveFileWrapper {
             return 0;
     }
 
+    /**
+     * Takes a dataView object representing a *.wav file and verifies it's riff chunk
+     *
+     * @param dataView{DataView}
+     */
     parseAndVerifyRiffChunk(dataView) {
         // check identifier
-        var identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
+        const identifier = dataView.getInt32(RIFF_OFFSET_IDENTIFIER);
 
         if (identifier !== RIFF_IDENTIFIER)
             throw new InvalidRiffChunkError("File identifier is not 'RIFF'");
 
         // check file format
-        var fileFormatId = dataView.getInt32(RIFF_OFFSET_FILE_FORMAT_ID);
+        const fileFormatId = dataView.getInt32(RIFF_OFFSET_FILE_FORMAT_ID);
 
         if (fileFormatId !== WAVE_FILE_FORMAT)
             throw new InvalidRiffChunkError("RIFF format is not 'WAVE'");
     }
 
+    /**
+     * Takes a dataView object representing a *.wav file and verifies it's format chunk
+     *
+     * @param dataView{DataView}
+     */
     parseAndVerifyFormatChunk(dataView) {
         // check identifier
-        let identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
+        const identifier = dataView.getInt32(FORMAT_OFFSET_IDENTIFIER);
 
         if (identifier !== FORMAT_IDENTIFIER)
-            throw new InvalidFormatChunkError("Format chunk identifier is not 'fmt '");
+            throw new InvalidFormatChunkError("Format chunk identifier is not 'fmt'");
 
-        let audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
+        const audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
 
         // must be PCM for the moment
         if (audioFormat !== 1)
@@ -291,16 +357,21 @@ export class WaveFileWrapper {
         this.bytesPerSample = bitsPerSample / 8;
     }
 
+    /**
+     * Takes a dataView object representing a *.wav file and verifies it's data chunk
+     *
+     * @param dataView{DataView}
+     */
     parseAndVerifyDataChunk(dataView) {
         // check identifier
-        let identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
+        const identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
 
         if (identifier !== DATA_IDENTIFIER)
             throw new InvalidDataChunkError("Data chunk identifier is not 'data'");
 
-        let dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
+        const dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
 
-        let nbrOfSamples = dataSize / (this.bytesPerSample * this.nbrOfChannels);
+        const nbrOfSamples = dataSize / (this.bytesPerSample * this.nbrOfChannels);
         let offset = DATA_OFFSET_SAMPLES;
 
         for (let i = 0; i < nbrOfSamples; ++i) {
@@ -310,7 +381,7 @@ export class WaveFileWrapper {
                 let sample = 0;
 
                 for (let byte = 0; byte < this.bytesPerSample; ++byte) {
-                    let b = dataView.getInt8(offset);
+                    const b = dataView.getInt8(offset);
                     sample |= ((b & 0xFF) << (byte * 8));
 
                     // Convert to signed 16-bit value (two's complement)
@@ -326,6 +397,11 @@ export class WaveFileWrapper {
         }
     }
 
+    /**
+     * String representation of the WaveFileWrapper object
+     *
+     * @returns {string}
+     */
     toString() {
         return `Filename: ${this.filename}\n
                 Number of channels: ${this.nbrOfChannels}\n
@@ -337,12 +413,12 @@ export class WaveFileWrapper {
     /**
      * Groups the sample in frames (windows), the group size is determined by the frameDuration
      *
-     * @param frameDuration in seconds, e.g.: 0.2 = 200ms
-     * @returns {*[]}
+     * @param frameDuration{number} in seconds, e.g.: 0.3 = 300ms
+     * @returns {Frame[]}
      */
-    getFrames(frameDuration = 0.2) {
+    getFrames(frameDuration = 0.3) {
         // Validate arguments
-        if (!Number.isFinite(frameDuration) || frameDuration <= 0 ) {
+        if (!Number.isFinite(frameDuration) || frameDuration <= 0) {
             throw new Error("Invalid argument, frameDuration must be an float greater than 0!");
         }
 
@@ -351,7 +427,7 @@ export class WaveFileWrapper {
             throw new Error("No samples available to calculate RMS");
         }
 
-        const frameSize =  Math.floor(frameDuration * this.samplesPerSecond);
+        const frameSize = Math.floor(frameDuration * this.samplesPerSecond);
         const frames = [];
 
         // We round up, otherwise some samples might get cut off or no samples get processed at all,
@@ -361,7 +437,7 @@ export class WaveFileWrapper {
         for (let frameIndex = 0; frameIndex < totalFrames; frameIndex++) {
             const startSample = frameIndex * frameSize;
             // This handles the edge case for the last frame, where we might have fewer samples as the full frame
-            const endSample = Math.min( startSample + frameSize, this.samples.length);
+            const endSample = Math.min(startSample + frameSize, this.samples.length);
             const samples = [];
 
             for (let i = startSample; i < endSample; i++) {
@@ -384,32 +460,32 @@ export class WaveFileWrapper {
     /**
      * Calculate the root-mean-square value for all samples in a frame
      *
-     * @param frameDuration
+     * @param frameDuration{number}
      * @returns {RMSFrame[]}
      */
-    getRMSFrames(frameDuration = 0.2) {
+    getRMSFrames(frameDuration = 0.3) {
         return this.getFrames(frameDuration).map(frame => frame.toRMSFrame());
     }
 
     /**
      * Gets the RMS frames and converts them to Db frames
      *
-     * @param frameDuration
+     * @param frameDuration{number}
      * @returns {DbFrame[]}
      */
-    getDbFrames(frameDuration = 0.2) {
+    getDbFrames(frameDuration = 0.3) {
         return this.getRMSFrames(frameDuration).map(rmsFrame => rmsFrame.toDbFrame());
     }
 
     /**
      * Gets the Db frames and converts them to Dba frames
      *
-     * @param dbaMin
-     * @param dbaMax
-     * @param frameDuration
+     * @param dbaMin{number}
+     * @param dbaMax{number}
+     * @param frameDuration{number}
      * @returns {DbaFrame[]}
      */
-    getDbaFrames(dbaMin, dbaMax, frameDuration = 0.2) {
+    getDbaFrames(dbaMin, dbaMax, frameDuration = 0.3) {
         const dbFrames = this.getDbFrames(frameDuration);
         const dbValues = dbFrames.map(dbFrame => dbFrame.db);
         const dbMin = Math.min(...dbValues);
@@ -421,13 +497,13 @@ export class WaveFileWrapper {
     /**
      * Gets the Dba frames and filters them by the given threshold
      *
-     * @param threshold
-     * @param dbaMin
-     * @param dbaMax
-     * @param frameDuration
+     * @param threshold{number}
+     * @param dbaMin{number}
+     * @param dbaMax{number}
+     * @param frameDuration{number}
      * @returns {DbaFrame[]}
      */
-    getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration = 0.2) {
+    getFilteredDbaFrames(threshold, dbaMin, dbaMax, frameDuration = 0.3) {
         const dbaFrames = this.getDbaFrames(Number.parseFloat(dbaMin), Number.parseFloat(dbaMax), frameDuration);
         return dbaFrames.filter(dbaFrame => dbaFrame.dba > threshold);
     }
@@ -435,62 +511,112 @@ export class WaveFileWrapper {
     /**
      * Not sure if we need this or if it's correct
      *
-     * @param dbaMin
-     * @param dbaMax
-     * @param frameDuration
-     * @returns {*[][]}
+     * @param dbaMin{number}
+     * @param dbaMax{number}
+     * @param frameDuration{number}
+     * @returns {number[]}
      */
-    getDbaSamples(dbaMin, dbaMax, frameDuration = 0.2) {
+    getDbaSamples(dbaMin, dbaMax, frameDuration = 0.3) {
         const frames = this.getFrames(frameDuration);
         const dbFrames = frames.map(frame => frame.toRMSFrame().toDbFrame());
         const dbValues = dbFrames.map(dbFrame => dbFrame.db);
         const dbMin = Math.min(...dbValues);
         const dbMax = Math.max(...dbValues);
 
-        return [...frames.map(frame => {
+        return frames.map(frame => {
             return frame.samples.map(sample => dbToDba(rmsToDb(Math.abs(sample)), dbMin, dbMax, dbaMin, dbaMax))
-        })];
-
+        }).flat();
     }
 }
 
+/**
+ * Base class for WaveFileWrapper exceptions
+ */
 export class WaveFileWrapperError extends Error {
+
+    /**
+     * Constructor for WaveFileWrapperError
+     *
+     * @param message{string}
+     */
     constructor(message) {
         super(message);
         this.name = "WaveFileWrapperError";
     }
 }
 
+/**
+ * InvalidFileError
+ */
 export class InvalidFileError extends WaveFileWrapperError {
+
+    /**
+     * Constructor for InvalidFileError
+     *
+     * @param message{string}
+     */
     constructor(message) {
         super(message);
         this.name = "InvalidFileError";
     }
 }
 
+/**
+ * InvalidRiffChunkError
+ */
 export class InvalidRiffChunkError extends WaveFileWrapperError {
+
+    /**
+     * Constructor for InvalidFileError
+     *
+     * @param message{string}
+     */
     constructor(message) {
         super(message);
         this.name = "InvalidRiffChunkError";
     }
 }
 
+/**
+ * InvalidFormatChunkError
+ */
 export class InvalidFormatChunkError extends WaveFileWrapperError {
+
+    /**
+     * Constructor for InvalidFileError
+     *
+     * @param message{string}
+     */
     constructor(message) {
         super(message);
         this.name = "InvalidFormatChunkError";
     }
 }
 
+/**
+ * InvalidDataChunkError
+ */
 export class InvalidDataChunkError extends WaveFileWrapperError {
+
+    /**
+     * Constructor for InvalidFileError
+     *
+     * @param message{string}
+     */
     constructor(message) {
         super(message);
         this.name = "InvalidDataChunkError";
     }
 }
 
-export async function buildWrapper(file){
-    const wrapper = new WaveFileWrapper(); 
+/**
+ * Builds a WaveFileWrapper object
+ *
+ * @param file{File|string}
+ * @returns {Promise<WaveFileWrapper>}
+ */
+export async function buildWrapper(file) {
+    const wrapper = new WaveFileWrapper();
     await wrapper.readAndParse(file);
     return wrapper;
 }
