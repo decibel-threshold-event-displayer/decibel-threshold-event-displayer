@@ -1,7 +1,7 @@
 import {fetchLocalJson} from './util.js';
 
 /**
- * This file contains all tests regarding the parsing of a .wav file.
+ * This file contains all tests regarding the processing of a .wav file.
  *
  * All tests throw an exception when they fail.
  *

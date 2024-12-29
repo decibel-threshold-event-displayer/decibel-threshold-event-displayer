@@ -14,15 +14,6 @@ import {
     InvalidRiffChunkError
 } from "../audio/wavefilewrapper.js";
 
-/**
- * To test against any weird js behavior, we generate the reference values with python.
- * This means that there will be minimal differences in floating point numbers.
- * We use this epsilon value to account for those differences
- *
- * @type {number}
- */
-const epsilon = 0.000000000001;
-
 export async function testPassNullInConstructor() {
     await assertThrows(async () => {
         await buildWrapper(null);
@@ -74,5 +65,17 @@ export async function testNoDataChunk() {
 export async function testReadValidAudioFile() {
     await assertNotThrows(async () => {
         await buildWrapper('./resources/valid.wav');
+    });
+}
+
+export async function testReadValid32BitFloatFile() {
+    await assertNotThrows(async () => {
+        await buildWrapper('./resources/32bit_float_format.wav');
+    });
+}
+
+export async function testReadValid64BitFloatFile() {
+    await assertNotThrows(async () => {
+        await buildWrapper('./resources/64bit_float_format.wav');
     });
 }

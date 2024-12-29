@@ -129,9 +129,12 @@ export class WaveFileWrapper {
         while(true) {
             const identifier = chunkView.getInt32(OTHER_CHUNK_OFFSET_IDENTIFIER + offset);
 
+            // we found the data chunk
             if (identifier === DATA_IDENTIFIER)
                 break;
-
+            
+            // skip this chunk. the chunk size does not contain the byte for the identifier and the size,
+            // which is why we need to add 8 
             offset += chunkView.getInt32(OTHER_CHUNK_OFFSET_SIZE + offset, true) + 8;
 
             if (offset > chunkView.byteLength - 8)
