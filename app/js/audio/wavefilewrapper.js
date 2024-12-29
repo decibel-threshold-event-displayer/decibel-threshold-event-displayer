@@ -250,11 +250,6 @@ export class WaveFileWrapper {
         }
     }
 
-    unsignedToSigned(value) {
-        const max = 1 << (this.bitsPerSample - 1); // Maximum positive value for signed
-        return (value & (max - 1)) - (value & max);
-      }
-
     /**
      * String representation of the WaveFileWrapper object
      *

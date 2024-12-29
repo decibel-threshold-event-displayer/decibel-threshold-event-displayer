@@ -62,7 +62,8 @@ export class Home extends Component {
 
             const frameCollection = new FrameCollection(
                 waveFileWrapper.samples,
-                waveFileWrapper.samplesPerSecond
+                waveFileWrapper.samplesPerSecond,
+                waveFileWrapper.nbrOfChannels
             );
 
             const filteredDbaValues = frameCollection.getFilteredDbaValues(

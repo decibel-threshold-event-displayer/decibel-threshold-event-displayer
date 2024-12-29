@@ -1,36 +1,14 @@
 \section{Implementation}
-Lorem ipsum
 
 \subsection{Architecture}
 
-\subsubsection{Data Structures}
-
-\paragraph{WAV File Wrapper}
-For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
-
-\paragraph{Filter Results}
-The filter will return its findings as an object of the FilterResult class. This data class contains all information from the audio file that is need for rendering the report.
-
-\begin{itemize}
-    \item duration: the length of the recording in seconds
-    \item durationOverLimit: the total amount of time in seconds for which the threshold was exceeded
-    \item peak: the peak RMS in dB(A)
-    \item average: the average RMS in dB(A)
-    \item samplesOverLimit: a list of all samples which exceeded the threshold
-\end{itemize}
-
-
-The class Sample represents an RMS sample which exceeded the threshold.
-
-\begin{itemize}
-    \item time: seconds since the beginning of the recording. As the RMS is used for analyzing, the time represents the average time of all samples used for calculating it.
-    \item decibel: the RMS dB(A) of that point in time
-\end{itemize}
+\subsubsection{Data Structures and Overview}
+For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class. The wrapper is used by the home components to access the relevant data needed to create a frame collection. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../assets/interface.png}
-    \caption{Sequence diagram of steps involved when creating a noise report}
+    \includegraphics[width=0.8\textwidth]{../assets/class_diagram.png}
+    \caption{Class diagram}
 \end{figure}
 
 \subsubsection{JavaScript Frontend (SPA)}
@@ -40,7 +18,7 @@ implement a small framework allowing for future expansion without rewriting the 
 its components.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{../assets/spa_diagram.png}
+    \includegraphics[width=0.4\textwidth]{../assets/spa_diagram.png}
     \caption{SPA Architecture}
 \end{figure}
 In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
