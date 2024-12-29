@@ -64,7 +64,7 @@ It starts with a 12 byte header which we use to verify that the given file is ac
 After the header comes a 24 byte chunk which contains information about the data format.
 We are interested in the following fields:
 \begin{itemize}
-    \item AudioFormat (2 bytes): only handle PCM I guess?
+    \item AudioFormat (2 bytes): we only support PCM and IEEE Float format
     \item NbrChannels (2 bytes): is used to parse individual samples
     \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarising
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
