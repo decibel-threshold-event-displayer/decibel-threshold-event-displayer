@@ -48,7 +48,6 @@ const IEEE_FLOAT_FORMAT = "IEEE Float";
 export class WaveFileWrapper {
     samples = [];
     nbrOfChannels = 0;
-    nbrOfSamples = 0;
     samplesPerSecond = 0;
     bytesPerSample = 0;
 
@@ -264,7 +263,6 @@ export class WaveFileWrapper {
     toString() {
         return `Filename: ${this.filename}\n
                 Number of channels: ${this.nbrOfChannels}\n
-                Number of samples ${this.nbrOfSamples}\n
                 Samples per second ${this.samplesPerSecond}\n
                 Bytes per samples ${this.bytesPerSample}\n`;
     }

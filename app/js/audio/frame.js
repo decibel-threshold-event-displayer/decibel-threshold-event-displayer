@@ -102,7 +102,10 @@ export class FrameCollection {
      */
     getMappedDbaValues(dbaMin, dbaMax) {
         const dbValues = this.#frames.map(frame => frame.getDb());
-        const dbMin = Math.min(...dbValues);
+
+        // ignore negative infinite values
+        // they result from frames containing only samples with value 0
+        const dbMin = Math.min(...dbValues.filter(value => value !== -Infinity));
         const dbMax = Math.max(...dbValues);
 
         return dbValues.map(dbValue => dbToDba(dbValue, dbMin, dbMax, dbaMin, dbaMax));

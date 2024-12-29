@@ -44,10 +44,10 @@ export class Home extends Component {
 
     #getPlotData(filteredDbaValues, frameDuration) {
         return filteredDbaValues.map((dba, index) => {
-            const startTime = Math.round((index * frameDuration) * 100);
-            const endTime = Math.round(((index + 1) * frameDuration) * 100);
+            const startTime = index * frameDuration;
+            const endTime = (index + 1) * frameDuration;
             const dbaInt = Math.round(dba);
-            return `(${startTime},${dbaInt}) (${endTime},${dbaInt})`;
+            return `(${startTime.toFixed(2)},${dbaInt}) (${endTime.toFixed(2)},${dbaInt})`;
         }).join(" ")
     }
 
@@ -59,31 +59,46 @@ export class Home extends Component {
             const fileInput = document.getElementById("file");
             const wavFile = fileInput.files[0];
             const waveFileWrapper = await buildWrapper(wavFile);
+
             const frameCollection = new FrameCollection(
                 waveFileWrapper.samples,
                 waveFileWrapper.samplesPerSecond
             );
+
             const filteredDbaValues = frameCollection.getFilteredDbaValues(
                 threshold,
                 parseInt(this.#formData.minDb),
                 parseInt(this.#formData.maxDb)
             );
-            const maxDba = Math.round(Math.max(...filteredDbaValues));
+
+            const maxDba = Math.max(...filteredDbaValues);
 
             this.#renderButton.disabled = true;
             this.#downloadButton.style.display = "none";
             this.#preview.style.display = "none";
+
+            const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
+            const absoluteDurationOverThreshold = filteredDbaValues.filter(dbValue => dbValue != 0).length * frameCollection.getFrameDuration();
+            const relativDurationOverThreshold = absoluteDurationOverThreshold / duration * 100;
+            const average = filteredDbaValues.length ? filteredDbaValues.reduce((sum, value) => sum + value, 0) / filteredDbaValues.length : 0;
+
             const templateContext = {
                 ...this.#formData,
                 data: this.#getPlotData(filteredDbaValues, frameCollection.getFrameDuration()),
                 xmax: filteredDbaValues.length,
                 ymin: threshold,
-                ymax: Math.round(Math.max(maxDba, threshold) * 1.1),
+                ymax: Math.ceil(Math.max(maxDba, threshold) * 1.1),
+                duration: duration.toFixed(1),
+                absoluteDurationOverThreshold: absoluteDurationOverThreshold.toFixed(1),
+                relativDurationOverThreshold: relativDurationOverThreshold.toFixed(2),
+                average: average.toFixed(2),
             };
             console.log(templateContext.data)
+
             const res = await engine.generate(templateContext, (status) =>
                 this.#onStatusUpdate(status)
             );
+
             this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";
             this.#pdfLink = res;
             this.#downloadButton.style.display = "block";
