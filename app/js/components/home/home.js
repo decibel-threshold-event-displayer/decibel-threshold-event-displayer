@@ -4,7 +4,7 @@ import {engine} from "../../engine.js";
 import {toast} from "../../toast.js";
 import {ENGINE_GENERATE_STATUS} from "../../enum.js";
 import {Component} from "../component.js";
-import {buildWrapper} from "../../audio/wavefilewrapper.js";
+import {buildWrapper, WaveFileWrapperError} from "../../audio/wavefilewrapper.js";
 import {FrameCollection} from "../../audio/frame.js";
 
 export class Home extends Component {
@@ -88,9 +88,13 @@ export class Home extends Component {
             this.#pdfLink = res;
             this.#downloadButton.style.display = "block";
             this.#preview.style.display = "block";
-        } catch (e) {
-            toast.show("Something went wrong preparing your file.");
-            console.error(e);
+        } catch (error) {
+            if (error instanceof WaveFileWrapperError){
+                toast.show("An error occured while parsing the audio file: " + error.message);
+            } else {
+                toast.show("Something went wrong preparing your file.");
+            }
+            console.error(error);
         }
 
         this.#renderButton.disabled = false;
