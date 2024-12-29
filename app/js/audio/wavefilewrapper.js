@@ -191,8 +191,8 @@ export class WaveFileWrapper {
         let bitsPerSample = dataView.getInt16(FORMAT_OFFSET_BITS_PER_SAMPLE, true);
 
         // verify bits per sample
-        if (this.audioFormat === PCM_FORMAT && bitsPerSample % 8 !== 0)
-            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be a multiple of 8 for PCM format`);
+        if (this.audioFormat === PCM_FORMAT && bitsPerSample !== 16 && bitsPerSample !== 24 && bitsPerSample !== 32)
+            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be 16, 24 or 32 for PCM format`);
         else if (this.audioFormat === IEEE_FLOAT_FORMAT && bitsPerSample !== 32 && bitsPerSample !== 64)
             throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be 32 or 64 for IEEE Float format`);
 
@@ -225,17 +225,17 @@ export class WaveFileWrapper {
                 let sample = 0;
                 
                 if (this.audioFormat === PCM_FORMAT){
-                    for (let byte = 0; byte < this.bytesPerSample; ++byte) {
-                        const b = dataView.getInt8(offset);
-                        sample |= ((b & 0xFF) << (byte * 8));
-
-                        // Convert to signed 16-bit value (two's complement)
-                        if (sample >= 0x8000) {
-                            sample -= 0x10000;
-                        }
-
-                        ++offset;
+                    if (this.bytesPerSample === 2){
+                        sample = dataView.getInt16(offset, true);
+                        offset += 2;
+                    } else if (this.bytesPerSample === 3){
+                        sample = dataView.getInt16(offset, true) | (dataView.getInt8(offset + 2) << 16);
+                        offset += 3;
+                    } else {
+                        sample = dataView.getInt32(offset, true);
+                        offset += 4;
                     }
+
                 } else { // float format
                     if (this.bytesPerSample === 4){
                         sample = dataView.getFloat32(offset, true);
@@ -250,6 +250,11 @@ export class WaveFileWrapper {
             }
         }
     }
+
+    unsignedToSigned(value) {
+        const max = 1 << (this.bitsPerSample - 1); // Maximum positive value for signed
+        return (value & (max - 1)) - (value & max);
+      }
 
     /**
      * String representation of the WaveFileWrapper object
