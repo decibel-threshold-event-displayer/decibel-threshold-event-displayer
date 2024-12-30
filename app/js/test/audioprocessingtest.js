@@ -1,4 +1,4 @@
-import {fetchLocalJson} from './util.js';
+import {assertEquals, assertGreaterThen, assertNotEquals, fetchLocalJson} from './util.js';
 
 /**
  * This file contains all tests regarding the processing of a .wav file.
@@ -26,11 +26,8 @@ export async function testVerifySampleValues(){
     const waveFileWrapper = await buildWrapper('./resources/valid.wav');
 
     // Assert
-    for (let i = 0; i < expectedSampleValues.length; i++){
-        if (expectedSampleValues[i] !== waveFileWrapper.samples[i][0]){
-            throw Error("Sample value mismatch: index = " + i + ", expected = " + expectedSampleValues[i] + ", actual = " + waveFileWrapper.samples[i][0] + "");
-        }
-    }
+    for (let i = 0; i < expectedSampleValues.length; i++)
+        await assertEquals(waveFileWrapper.samples[i][0], expectedSampleValues[i]);
 }
 
 export async function testVerifyMeanValues(){
@@ -51,9 +48,7 @@ export async function testVerifyMeanValues(){
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
         const mean = frames[i].getSamples().reduce((a, b) => a + b) / frames[i].getSamples().length;
-        if (expectedMeanValues[i] !== mean){
-            throw Error("Mean value mismatch: index = " + i + ", expected = " + expectedMeanValues[i] + ", actual = " + mean + "");
-        }
+        await assertEquals(mean, expectedMeanValues[i]);
     }
 }
 
@@ -75,9 +70,7 @@ export async function testVerifySquareMeanValues(){
     // Assert
     for (let i = 0; i < expectedMeanValues.length; i++){
         const squaredMean = frames[i].getSamples().map(sample => Math.pow(sample, 2)).reduce((a, b) => a + b) / frames[i].getSamples().length;
-        if (expectedMeanValues[i] !== squaredMean){
-            throw Error("Square mean value mismatch: index = " + i + ", expected = " + expectedMeanValues[i] + ", actual = " + squaredMean + "");
-        }
+        await assertEquals(squaredMean, expectedMeanValues[i]);
     }
 }
 
@@ -99,9 +92,7 @@ export async function testGetRMSValues() {
     //Assert
     for (let i = 0; i < expectedRMSValues.length; i++) {
         const diff = Math.abs(expectedRMSValues[i] - rmsValues[i]);
-        if (diff > epsilon){
-            throw Error("RMS value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedRMSValues[i] + ", actual = " +  rmsValues[i] + "");
-        }
+        await assertGreaterThen(diff, epsilon);
     }
 }
 
@@ -123,9 +114,7 @@ export async function testGetDbValues() {
     //Assert
     for (let i = 0; i < expectedDbValues.length; i++) {
         const diff = Math.abs(expectedDbValues[i] - dbValues[i]);
-        if (diff > epsilon){
-            throw Error("Db value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbValues[i] + ", actual = " +  dbValues[i].db + "");
-        }
+        await assertGreaterThen(diff, epsilon);
     }
 }
 
@@ -149,9 +138,7 @@ export async function testGetDbaValues() {
     //Assert
     for (let i = 0; i < expectedDbaValues.length; i++) {
         const diff = Math.abs(expectedDbaValues[i] - dbaValues[i]);
-        if (diff > epsilon){
-            throw Error("Dba value mismatch: index = " + i + ", diff = " + diff + ", expected = " + expectedDbaValues[i] + ", actual = " +  dbaValues[i] + "");
-        }
+        await assertGreaterThen(diff, epsilon);
     }
 }
 
@@ -177,8 +164,6 @@ export async function testGetFilteredDbaValues() {
     //Assert
     for (let i = 0; i < filteredExpectedDbaValues.length; i++) {
         const diff = Math.abs(filteredExpectedDbaValues[i] - filteredDbaFrames[i]);
-        if (diff > epsilon){
-            throw Error("Dba value mismatch: index = " + i + ", diff = " + diff + ", expected = " + filteredExpectedDbaValues[i] + ", actual = " +  filteredDbaFrames[i] + "");
-        }
+        await assertGreaterThen(diff, epsilon);
     }
 }

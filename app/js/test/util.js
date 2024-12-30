@@ -59,8 +59,20 @@ export async function assertEquals(actual, expected) {
 export async function assertNotEquals(actual, expected) {
     // Use JSON.stringify to handle comparison of objects and arrays
     if (JSON.stringify(actual) === JSON.stringify(expected)) {
-        throw new Error(`Expected value to not equal ${JSON.stringify(expected)}`);
+        throw new Error(`Expected value to not be equal to ${JSON.stringify(expected)}, but it was`);
     }
+}
+
+/**
+ * Asserts that a given value is greater then an another.
+ *
+ * @param lower{any}
+ * @param greater{any}
+ * @throws Throws an exception when the actual value is equal to the expected value.
+ */
+export async function assertGreaterThen(lower, greater) {
+    if(lower > greater)
+        throw new Error(`Value ${lower} was greater then ${greater}`);
 }
 
 export async function fetchLocalFile(filePath) {
