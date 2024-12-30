@@ -3,7 +3,7 @@
 \subsection{Architecture}
 
 \subsubsection{Data Structures and Overview}
-For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class. The wrapper is used by the home components to access the relevant data needed to create a frame collection. 
+For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class. The wrapper is used by the home components to access the relevant data needed to create a frame collection. A frame collection represents all frames of the audio and a single frame represent a set of samples covering a time span of 300ms.
 
 \begin{figure}[H]
     \centering
@@ -22,6 +22,8 @@ its components.
     \caption{SPA Architecture}
 \end{figure}
 In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
+
+We also decided to define default values for the threshold that the audio should get checked against, for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}. 
 
 \subsubsection{High-Level architecture}
 !TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
@@ -47,8 +49,7 @@ We are interested in the following fields:
     \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarising
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
 \end{itemize}
-After the format chunk comes an optional list chunk containing some additional metadata in which we are not interested.
-There we skip that chunk and go straight to the data chunk.
+After the format chunk can come several optional meta data chunks, which we don't need. Therefore we skip those chunks and go straight to the data chunk.
 This chunk starts with a 4 byte long DataBlocID, which should always have the value 'data'.
 The next 4 byte represent the number of samples in the data.
 After that comes the actual audio data.
