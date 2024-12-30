@@ -41,6 +41,7 @@ export async function testVerifyMeanValues(){
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
@@ -64,6 +65,7 @@ export async function testVerifySquareMeanValues(){
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
@@ -87,6 +89,7 @@ export async function testGetRMSValues() {
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
@@ -110,6 +113,7 @@ export async function testGetDbValues() {
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
@@ -135,6 +139,7 @@ export async function testGetDbaValues() {
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
@@ -162,6 +167,7 @@ export async function testGetFilteredDbaValues() {
     const frameCollection = new FrameCollection(
         waveFileWrapper.samples,
         waveFileWrapper.samplesPerSecond,
+        waveFileWrapper.nbrOfChannels,
         frameDuration
     );
 
