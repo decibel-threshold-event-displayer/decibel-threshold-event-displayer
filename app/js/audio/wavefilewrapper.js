@@ -2,7 +2,7 @@
 
 const CHUNK_OFFSET_RIFF = 0;
 const CHUNK_OFFSET_FORMAT = 12;
-const CHUNK_OFFSET_LIST = 36;
+const CHUNK_OFFSET_OTHER = 36;
 
 const CHUNK_LENGTH_RIFF = 12;
 const CHUNK_LENGTH_FORMAT = 24;
@@ -16,8 +16,8 @@ const FORMAT_OFFSET_NBR_OF_CHANNELS = 10;
 const FORMAT_OFFSET_SAMPLES_PER_SECOND = 12;
 const FORMAT_OFFSET_BITS_PER_SAMPLE = 22;
 
-const LIST_OFFSET_IDENTIFIER = 0;
-const LIST_OFFSET_SIZE = 4;
+const OTHER_CHUNK_OFFSET_IDENTIFIER = 0;
+const OTHER_CHUNK_OFFSET_SIZE = 4;
 
 const DATA_OFFSET_IDENTIFIER = 0;
 const DATA_OFFSET_SIZE = 4;
@@ -29,6 +29,9 @@ const LIST_IDENTIFIER = 0x4C495354; // 'LIST'
 const DATA_IDENTIFIER = 0x64617461; // 'data'
 
 const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
+
+const PCM_FORMAT = "PCM";
+const IEEE_FLOAT_FORMAT = "IEEE Float";
 
 
 /**
@@ -45,7 +48,6 @@ const WAVE_FILE_FORMAT = 0x57415645; // 'WAVE'
 export class WaveFileWrapper {
     samples = [];
     nbrOfChannels = 0;
-    nbrOfSamples = 0;
     samplesPerSecond = 0;
     bytesPerSample = 0;
 
@@ -119,28 +121,27 @@ export class WaveFileWrapper {
         const formatView = new DataView(arrayBuffer, CHUNK_OFFSET_FORMAT, CHUNK_LENGTH_FORMAT)
         this.parseAndVerifyFormatChunk(formatView);
 
-        // skip list and find the start point of the data
-        const listView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST);
-        let dataOffset = this.getDataOffset(listView)
+        // skip all chunks until we find the data chunk
+        let offset = 0;
+        const chunkView = new DataView(arrayBuffer, CHUNK_OFFSET_OTHER);
 
-        const dataView = new DataView(arrayBuffer, CHUNK_OFFSET_LIST + dataOffset);
+        while(true) {
+            const identifier = chunkView.getInt32(OTHER_CHUNK_OFFSET_IDENTIFIER + offset);
+
+            // we found the data chunk
+            if (identifier === DATA_IDENTIFIER)
+                break;
+            
+            // skip this chunk. the chunk size does not contain the byte for the identifier and the size,
+            // which is why we need to add 8 
+            offset += chunkView.getInt32(OTHER_CHUNK_OFFSET_SIZE + offset, true) + 8;
+
+            if (offset > chunkView.byteLength - 8)
+                throw new InvalidDataChunkError("File contains no data chunk"); 
+        }
+
+        const dataView = new DataView(arrayBuffer, CHUNK_OFFSET_OTHER + offset);
         this.parseAndVerifyDataChunk(dataView);
-    }
-
-    /**
-     * Takes a dataView object representing a *.wav file and returns the data offset
-     *
-     * @param dataView{DataView}
-     * @returns {number}
-     */
-    getDataOffset(dataView) {
-        // https://www.recordingblogs.com/wiki/list-chunk-of-a-wave-file
-        const identifier = dataView.getInt32(LIST_OFFSET_IDENTIFIER);
-
-        if (identifier === LIST_IDENTIFIER)
-            return dataView.getInt32(LIST_OFFSET_SIZE, true) + 8;
-        else
-            return 0;
     }
 
     /**
@@ -176,16 +177,23 @@ export class WaveFileWrapper {
 
         const audioFormat = dataView.getInt16(FORMAT_OFFSET_AUDIO_FORMAT, true);
 
-        // must be PCM for the moment
-        if (audioFormat !== 1)
-            throw new InvalidFormatChunkError("Only PCM Format is supported");
+        // we only support PCM and IEEE Float
+        if(audioFormat === 1)
+            this.audioFormat = PCM_FORMAT;
+        else if(audioFormat === 3)
+            this.audioFormat = IEEE_FLOAT_FORMAT;
+        else
+            throw new InvalidFormatChunkError("Only PCM and IEEE Float formats are supported");
 
         this.nbrOfChannels = dataView.getInt16(FORMAT_OFFSET_NBR_OF_CHANNELS, true);
         this.samplesPerSecond = dataView.getInt32(FORMAT_OFFSET_SAMPLES_PER_SECOND, true);
         let bitsPerSample = dataView.getInt16(FORMAT_OFFSET_BITS_PER_SAMPLE, true);
 
-        if (bitsPerSample % 8 !== 0)
-            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be a multiple of 8`);
+        // verify bits per sample
+        if (this.audioFormat === PCM_FORMAT && bitsPerSample !== 16 && bitsPerSample !== 24 && bitsPerSample !== 32)
+            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be 16, 24 or 32 for PCM format`);
+        else if (this.audioFormat === IEEE_FLOAT_FORMAT && bitsPerSample !== 32 && bitsPerSample !== 64)
+            throw new InvalidFormatChunkError(`Bits per sample are ${bitsPerSample}, but have to be 32 or 64 for IEEE Float format`);
 
         this.bytesPerSample = bitsPerSample / 8;
     }
@@ -196,7 +204,7 @@ export class WaveFileWrapper {
      * @param dataView{DataView}
      */
     parseAndVerifyDataChunk(dataView) {
-        // check identifier
+        // check identifier (again, just to be sure)
         const identifier = dataView.getInt32(DATA_OFFSET_IDENTIFIER);
 
         if (identifier !== DATA_IDENTIFIER)
@@ -204,25 +212,37 @@ export class WaveFileWrapper {
 
         const dataSize = dataView.getInt32(DATA_OFFSET_SIZE, true);
 
+        // calculate the number of samples
         const nbrOfSamples = dataSize / (this.bytesPerSample * this.nbrOfChannels);
         let offset = DATA_OFFSET_SAMPLES;
 
         for (let i = 0; i < nbrOfSamples; ++i) {
+            // every sample is a itself an array containing the values for each channel
             this.samples[i] = [];
 
             for (let channel = 0; channel < this.nbrOfChannels; ++channel) {
                 let sample = 0;
-
-                for (let byte = 0; byte < this.bytesPerSample; ++byte) {
-                    const b = dataView.getInt8(offset);
-                    sample |= ((b & 0xFF) << (byte * 8));
-
-                    // Convert to signed 16-bit value (two's complement)
-                    if (sample >= 0x8000) {
-                        sample -= 0x10000;
+                
+                if (this.audioFormat === PCM_FORMAT){
+                    if (this.bytesPerSample === 2){
+                        sample = dataView.getInt16(offset, true);
+                        offset += 2;
+                    } else if (this.bytesPerSample === 3){
+                        sample = dataView.getInt16(offset, true) | (dataView.getInt8(offset + 2) << 16);
+                        offset += 3;
+                    } else {
+                        sample = dataView.getInt32(offset, true);
+                        offset += 4;
                     }
 
-                    ++offset;
+                } else { // float format
+                    if (this.bytesPerSample === 4){
+                        sample = dataView.getFloat32(offset, true);
+                        offset += 4;
+                    } else {
+                        sample = dataView.getFloat64(offset, true);
+                        offset += 8;
+                    }
                 }
 
                 this.samples[i][channel] = sample;
@@ -238,7 +258,6 @@ export class WaveFileWrapper {
     toString() {
         return `Filename: ${this.filename}\n
                 Number of channels: ${this.nbrOfChannels}\n
-                Number of samples ${this.nbrOfSamples}\n
                 Samples per second ${this.samplesPerSecond}\n
                 Bytes per samples ${this.bytesPerSample}\n`;
     }

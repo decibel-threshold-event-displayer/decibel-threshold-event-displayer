@@ -1,4 +1,5 @@
 import * as waveFileWrapperTest from './wavefilewrappertest.js';
+import * as audioProcessingTest from './audioprocessingtest.js';
 import * as utilTest from './utiltest.js';
 
 import {buildWrapper} from "../audio/wavefilewrapper.js";
@@ -154,6 +155,7 @@ async function createWavObject() {
 function runTests() {
     runTestModule(utilTest, "Util");
     runTestModule(waveFileWrapperTest, "Wave File Wrapper");
+    runTestModule(audioProcessingTest, "Audio Processing");
 }
 
 /**

@@ -128,11 +128,13 @@
   "js/swiftlatex/dependencies/pdftex/26/translator-basic-dictionary-English.dict",
   "js/swiftlatex/dependencies/pdftex/26/siunitx-abbreviations.cfg",
   "js/swiftlatex/dependencies/pdftex/26/supp-pdf.mkii",
+  "js/swiftlatex/dependencies/pdftex/26/url.sty",
   "js/swiftlatex/dependencies/pdftex/3/cmss10",
   "js/swiftlatex/dependencies/pdftex/3/cmss8",
   "js/swiftlatex/dependencies/pdftex/3/cmtt10",
   "js/swiftlatex/dependencies/pdftex/3/cmtt8",
   "js/swiftlatex/dependencies/pdftex/11/pdftex.map",
   "js/swiftlatex/dependencies/pdftex/32/cmr10.pfb",
+  "js/swiftlatex/dependencies/pdftex/32/cmtt10.pfb",
   "js/swiftlatex/dependencies/pdftex/32/cmsy10.pfb"
 ]

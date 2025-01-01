@@ -67,7 +67,7 @@ export class FrameCollection {
      * @param samplesPerSecond{number}
      * @param frameDuration{number} in seconds, e.g.: 0.3 = 300ms
      */
-    constructor(samples, samplesPerSecond, frameDuration = 0.3) {
+    constructor(samples, samplesPerSecond, nbrOfChannels, frameDuration = 0.3) {
         // Validate arguments
         if (!Number.isFinite(frameDuration) || frameDuration <= 0) {
             throw new Error("Invalid argument, frameDuration must be an float greater than 0!");
@@ -81,7 +81,7 @@ export class FrameCollection {
         this.#sampleCount = samples.length;
         this.#samplesPerSecond = samplesPerSecond;
         this.#frameDuration = frameDuration;
-        this.#frames = this.#samplesToFrames(samples);
+        this.#frames = this.#samplesToFrames(samples, nbrOfChannels);
     }
 
     /**
@@ -102,7 +102,10 @@ export class FrameCollection {
      */
     getMappedDbaValues(dbaMin, dbaMax) {
         const dbValues = this.#frames.map(frame => frame.getDb());
-        const dbMin = Math.min(...dbValues);
+
+        // ignore negative infinite values
+        // they result from frames containing only samples with value 0
+        const dbMin = Math.min(...dbValues.filter(value => value !== -Infinity));
         const dbMax = Math.max(...dbValues);
 
         return dbValues.map(dbValue => dbToDba(dbValue, dbMin, dbMax, dbaMin, dbaMax));
@@ -143,13 +146,12 @@ export class FrameCollection {
      *
      * @returns {Frame[]}
      */
-    #samplesToFrames(samples) {
+    #samplesToFrames(samples, nbrOfChannels) {
         // Check that we have at least some samples
         if (!samples || samples.length === 0) {
             throw new Error("No samples available to calculate RMS");
         }
 
-        const channelsCount = this.#getChannelsCount(samples[0]);
         const frameSize = Math.floor(this.#frameDuration * this.#samplesPerSecond);
         const frames = [];
 
@@ -166,7 +168,7 @@ export class FrameCollection {
             for (let i = startSample; i < endSample; i++) {
                 // We merge all channels and just take the mean
                 const sum = samples[i].reduce((a, b) => a + b);
-                const mean = sum / channelsCount;
+                const mean = sum / nbrOfChannels;
                 frameSamples.push(mean);
             }
 
@@ -174,19 +176,5 @@ export class FrameCollection {
         }
 
         return frames;
-    }
-
-    /**
-     * Takes a sample and returns the amount of channels
-     *
-     * @param sample{number[]|number}
-     * @returns {number}
-     */
-    #getChannelsCount(sample) {
-        if (Array.isArray(sample)) {
-            return sample.length;
-        }
-
-        return 1
     }
 }

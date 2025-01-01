@@ -4,7 +4,7 @@ import {engine} from "../../engine.js";
 import {toast} from "../../toast.js";
 import {ENGINE_GENERATE_STATUS} from "../../enum.js";
 import {Component} from "../component.js";
-import {buildWrapper} from "../../audio/wavefilewrapper.js";
+import {buildWrapper, WaveFileWrapperError} from "../../audio/wavefilewrapper.js";
 import {FrameCollection} from "../../audio/frame.js";
 
 export class Home extends Component {
@@ -44,10 +44,10 @@ export class Home extends Component {
 
     #getPlotData(filteredDbaValues, frameDuration) {
         return filteredDbaValues.map((dba, index) => {
-            const startTime = Math.round((index * frameDuration) * 100);
-            const endTime = Math.round(((index + 1) * frameDuration) * 100);
+            const startTime = index * frameDuration;
+            const endTime = (index + 1) * frameDuration;
             const dbaInt = Math.round(dba);
-            return `(${startTime},${dbaInt}) (${endTime},${dbaInt})`;
+            return `(${startTime.toFixed(2)},${dbaInt}) (${endTime.toFixed(2)},${dbaInt})`;
         }).join(" ")
     }
 
@@ -59,41 +59,79 @@ export class Home extends Component {
             const fileInput = document.getElementById("file");
             const wavFile = fileInput.files[0];
             const waveFileWrapper = await buildWrapper(wavFile);
+
             const frameCollection = new FrameCollection(
                 waveFileWrapper.samples,
-                waveFileWrapper.samplesPerSecond
+                waveFileWrapper.samplesPerSecond,
+                waveFileWrapper.nbrOfChannels
             );
+
             const filteredDbaValues = frameCollection.getFilteredDbaValues(
                 threshold,
                 parseInt(this.#formData.minDb),
                 parseInt(this.#formData.maxDb)
             );
-            const maxDba = Math.round(Math.max(...filteredDbaValues));
+
+            const maxDba = Math.max(...filteredDbaValues);
 
             this.#renderButton.disabled = true;
             this.#downloadButton.style.display = "none";
             this.#preview.style.display = "none";
+
+            const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
+            const absoluteDurationOverThreshold = filteredDbaValues.filter(dbValue => dbValue != 0).length * frameCollection.getFrameDuration();
+            const relativDurationOverThreshold = absoluteDurationOverThreshold / duration * 100;
+
+            const dbaValues = frameCollection.getMappedDbaValues(parseInt(this.#formData.minDb), parseInt(this.#formData.maxDb));
+
+            var average = 0;
+
+            if (dbaValues.length !== 0)
+                // to calculate the average, we set -Infinity values to 0 
+                average = dbaValues.map(dbaValue => dbaValue === -Infinity ? 0 : dbaValue)
+                                   .reduce((sum, value) => sum + value, 0) / dbaValues.length;
+
             const templateContext = {
                 ...this.#formData,
                 data: this.#getPlotData(filteredDbaValues, frameCollection.getFrameDuration()),
                 xmax: filteredDbaValues.length,
                 ymin: threshold,
-                ymax: Math.round(Math.max(maxDba, threshold) * 1.1),
+                ymax: Math.ceil(Math.max(maxDba, threshold) * 1.1),
+                duration: this.#formatTime(duration),
+                absoluteDurationOverThreshold: this.#formatTime(absoluteDurationOverThreshold),
+                relativDurationOverThreshold: relativDurationOverThreshold.toFixed(2),
+                average: average.toFixed(2),
             };
             console.log(templateContext.data)
+
             const res = await engine.generate(templateContext, (status) =>
                 this.#onStatusUpdate(status)
             );
+
             this.#embed.src = res + "#toolbar=0&navpanes=0&scrollbar=0";
             this.#pdfLink = res;
             this.#downloadButton.style.display = "block";
             this.#preview.style.display = "block";
-        } catch (e) {
-            toast.show("Something went wrong preparing your file.");
-            console.error(e);
+        } catch (error) {
+            if (error instanceof WaveFileWrapperError){
+                toast.show("An error occured while parsing the audio file: " + error.message);
+            } else {
+                toast.show("Something went wrong preparing your file.");
+            }
+            console.error(error);
         }
 
         this.#renderButton.disabled = false;
+    }
+
+    #formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = (seconds % 60).toFixed(1);
+
+        if(minutes === 0)
+            return `${secs}s`;
+        else
+            return `${minutes}m ${secs}s`;
     }
 
     #validateForm() {
