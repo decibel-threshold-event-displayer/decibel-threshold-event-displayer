@@ -181,6 +181,8 @@ Lukas:
 
 **Protocol**: Lukas
 
+---
+
 Dominic:
 - Implemented the assert function for the javascript test suite
 - Next steps:
@@ -205,6 +207,8 @@ Lukas:
 **Participants**: Darius, Dominic, Lukas
 
 **Protocol**: Lukas
+
+---
 
 Dominic:
 - Extended, improved and streamlined the JavaScript testing framework
@@ -240,6 +244,8 @@ Lukas:
 
 **Protocol**: Lukas
 
+---
+
 Dominic:
 - Helped Lukas to debug data filter logic in an extensive debugging session
 - Started writing the documentation for javascript test framework
@@ -268,6 +274,8 @@ Lukas:
 
 **Protocol**: Lukas
 
+---
+
 Dominic:
 - Finalized improve testing documentation and polish
 - Reviewed MR Filter data from Lukas and gave feedback
@@ -290,3 +298,42 @@ Lukas:
   - Merged the frontend branch from Darius and connect the frontend to the *.wav plot generation
 - Next steps
   - Filter data: apply feedback from Dominic: split WaveFileWrapper class
+
+
+# 23.12.2024
+Due to the holidays the team decided to skip this daily meeting.
+
+
+# 01.01.2025
+
+**Participants**: Darius, Dominic, Lukas
+
+**Protocol**: Lukas
+
+Dominic:
+- Added additional *.wav file support for float format and fixed integers 24 and 32 bit formats
+- Created and updated UML class diagrams
+- Researched common default thresholds for noise pollution (e.g. BAFU)
+- Defined legal requirements
+- Minor Bug fixes and improvements
+- Next steps
+  - Finalize documentation
+  - Final presentation
+
+Darius:
+- Improved the web application (GUI)
+  - Bug fixes
+  - Visual improvements
+  - Functional improvements (tooltips and modals)
+- Next steps
+  - Finalize documentation
+  - Final presentation
+  - Polish User Interface
+
+Lukas:
+- Implemented feedback from Dominic for filter data task
+- Next steps
+  - Document filter data 
+  - Create LaTeX template
+  - Finalize documentation
+  - Final presentation

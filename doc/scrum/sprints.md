@@ -214,7 +214,7 @@
 - Create LaTeX template and fill in placeholders
 - Render LaTeX to PDF
 
-## Review - 18.12.2924
+## Review - 18.12.2024
 **Demo:**
 - Lukas: Demonstrated the filter data together with the render LaTeX implementation
   - This included the whole work of Darius and Dominic
@@ -271,3 +271,37 @@ coordinates
 - Finalize LaTeX to PDF
 - Finalize SPA
 - Define legal requirements
+
+## Review - 01.01.2024
+**Demo:**
+- 
+
+**Done:**
+- 
+
+**Not done:**
+- 
+
+**Goals:**
+- [ ] Finalize and document "Filter audio data correctly"
+- [ ] Finalize LaTeX template and fill in placeholders
+- [ ] Finalize LaTeX to PDF
+- [ ] Finalize SPA
+- [ ] Define legal requirements
+
+
+## Retro - 01.01.2024
+
+**What went well:**
+- 
+
+**Problems:**
+- 
+
+**Improvements:**
+- 
+
+# Sprint 7
+
+## Goals
+- 
