@@ -5,16 +5,9 @@ import { toast } from "../../toast.js";
 import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
 import {
-<<<<<<< HEAD
   FileDurationTooLongError,
   WaveFileWrapperError,
 } from "../../audio/wavefilewrapper.js";
-=======
-  buildWrapper,
-  WaveFileWrapperError,
-} from "../../audio/wavefilewrapper.js";
-import { FrameCollection } from "../../audio/frame.js";
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
 
 export class Home extends Component {
   #renderButton;
@@ -23,19 +16,11 @@ export class Home extends Component {
   #preview;
   #embed;
   #formData = {
-<<<<<<< HEAD
     threshold: null,
     minDb: null,
     maxDb: null,
     location: "",
     time: "",
-=======
-    threshold: 90,
-    minDb: null,
-    maxDb: null,
-    location: "",
-    time: this.#formatDateToDatetimeLocal(new Date()),
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
     device: "",
     distance: null,
     file: null,
@@ -57,12 +42,9 @@ export class Home extends Component {
     this.#downloadButton.onclick = () => this.#onDownload();
     this.#downloadButton.style.display = "none";
     this._bind(this.#formData);
-<<<<<<< HEAD
     this._selectAll('[data-bs-toggle="tooltip"]').forEach(
       (tooltip) => new bootstrap.Tooltip(tooltip)
     );
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
   }
 
   async #onRender() {
@@ -88,11 +70,8 @@ export class Home extends Component {
         toast.show(
           "An error occured while parsing the audio file: " + error.message
         );
-<<<<<<< HEAD
       } else if (error instanceof FileDurationTooLongError) {
         toast.show("Recordings must be shorter than 15 minutes.");
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
       } else {
         toast.show("Something went wrong preparing your file.");
       }
@@ -104,15 +83,11 @@ export class Home extends Component {
 
   #validateForm() {
     const form = this._select("form");
-<<<<<<< HEAD
     const threshold = this._select("#threshold");
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
     const minDb = this._select("#minDb");
     const maxDb = this._select("#maxDb");
     const fileUpload = this._select("#file");
 
-<<<<<<< HEAD
     if (parseInt(minDb.value) >= parseInt(maxDb.value))
       maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
@@ -127,11 +102,6 @@ export class Home extends Component {
       threshold.setCustomValidity("invalid");
     else threshold.setCustomValidity("");
 
-=======
-    if (minDb.value >= maxDb.value) maxDb.setCustomValidity("invalid");
-    else maxDb.setCustomValidity("");
-
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
     if (!this.#formData.file?.endsWith(".wav"))
       fileUpload.setCustomValidity("invalid");
     else fileUpload.setCustomValidity("");
@@ -169,19 +139,4 @@ export class Home extends Component {
         return "Generate PDF";
     }
   }
-<<<<<<< HEAD
-=======
-
-  #formatDateToDatetimeLocal(date) {
-    const pad = (num) => String(num).padStart(2, "0");
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
-  }
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
 }

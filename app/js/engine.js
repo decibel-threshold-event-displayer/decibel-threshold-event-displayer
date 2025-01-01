@@ -1,14 +1,10 @@
 import { Component } from "./components/component.js";
 import { ENGINE_GENERATE_STATUS, ENGINE_STATUS } from "./enum.js";
 import { store } from "./store.js";
-<<<<<<< HEAD
 import {
   buildWrapper,
   FileDurationTooLongError,
 } from "./audio/wavefilewrapper.js";
-=======
-import { buildWrapper } from "./audio/wavefilewrapper.js";
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
 import { FrameCollection } from "./audio/frame.js";
 
 class Engine {
@@ -68,7 +64,6 @@ class Engine {
       .join(" ");
   }
 
-<<<<<<< HEAD
   #formatRecordingDate(date) {
     const pad = (num) => String(num).padStart(2, "0");
 
@@ -81,8 +76,6 @@ class Engine {
     return `${year}-${month}-${day}${hours}:${minutes}`;
   }
 
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
   #formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = (seconds % 60).toFixed(1);
@@ -95,12 +88,9 @@ class Engine {
     const thresholdFloat = parseFloat(threshold);
     const waveFileWrapper = await buildWrapper(wavFile);
 
-<<<<<<< HEAD
     if (waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond > 900)
       throw new FileDurationTooLongError();
 
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
     const frameCollection = new FrameCollection(
       waveFileWrapper.samples,
       waveFileWrapper.samplesPerSecond,
@@ -173,10 +163,7 @@ class Engine {
         {
           ...data,
           ...analysis,
-<<<<<<< HEAD
           time: data.time ? new Date(data.time).toLocaleString() : undefined,
-=======
->>>>>>> 5931329 (feat: refactoring and improve error handling/user feedback)
         },
         template
       );
