@@ -61,6 +61,18 @@ class Engine {
       .join(" ");
   }
 
+  #formatRecordingDate(date) {
+    const pad = (num) => String(num).padStart(2, "0");
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+
+    return `${year}-${month}-${day}${hours}:${minutes}`;
+  }
+
   #formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = (seconds % 60).toFixed(1);
@@ -145,6 +157,7 @@ class Engine {
         {
           ...data,
           ...analysis,
+          time: data.time ? new Date(data.time).toLocaleString() : undefined,
         },
         template
       );
