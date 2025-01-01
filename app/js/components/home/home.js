@@ -82,7 +82,8 @@ export class Home extends Component {
     const maxDb = this._select("#maxDb");
     const fileUpload = this._select("#file");
 
-    if (minDb.value >= maxDb.value) maxDb.setCustomValidity("invalid");
+    if (parseInt(minDb.value) >= parseInt(maxDb.value))
+      maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
 
     if (!this.#formData.file?.endsWith(".wav"))
