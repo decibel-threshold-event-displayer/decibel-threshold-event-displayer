@@ -21,7 +21,9 @@
       <div class="input-group-append">
         <span class="input-group-text">dB</span>
       </div>
-      <div class="invalid-feedback">Threshold is required.</div>
+      <div class="invalid-feedback">
+        Threshold is required and has to be smaller than max dB.
+      </div>
     </div>
   </div>
   <div>
@@ -131,7 +133,7 @@
   <button id="render" class="btn btn-primary btn-block" type="button">
     Generate PDF
   </button>
-  <button id="download" class="btn btn-secondary btn-block">
+  <button id="download" class="btn btn-secondary btn-block" type="button">
     Download File
   </button>
 </form>

@@ -78,6 +78,7 @@ export class Home extends Component {
 
   #validateForm() {
     const form = this._select("form");
+    const threshold = this._select("#threshold");
     const minDb = this._select("#minDb");
     const maxDb = this._select("#maxDb");
     const fileUpload = this._select("#file");
@@ -85,6 +86,10 @@ export class Home extends Component {
     if (parseInt(minDb.value) >= parseInt(maxDb.value))
       maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
+
+    if (parseInt(threshold.value) >= parseInt(maxDb.value))
+      threshold.setCustomValidity("invalid");
+    else threshold.setCustomValidity("");
 
     if (!this.#formData.file?.endsWith(".wav"))
       fileUpload.setCustomValidity("invalid");
