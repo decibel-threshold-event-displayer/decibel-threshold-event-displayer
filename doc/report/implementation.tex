@@ -97,22 +97,23 @@ As we are developing an application for analyzing a wave file, nearly every test
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../assets/overview_test_framework.png}
+    \includegraphics[width=\textwidth]{../assets/overview_test_framework.png}
     \caption{Overview test framework}
 \end{figure}
 
 \subsubsection{Assert functions}
-For implementing tests there are 4 assert functions contained in the util module which can be used:
+For implementing tests there are 5 assert functions contained in the util module which can be used:
 
 \begin{itemize}
     \item assertThrows: verifies that a certain exception is thrown
     \item assertNotThrows: verifies that no exception is thrown
     \item assertEquals: verifies that something is equal to a given value
     \item assertNotEquals: verifies that something is not equal to a given value
+    \item assertGreaterThen: verifies that a number is greater the the other
 \end{itemize}
 
 If the assertion of a function fails, it throws an exception with some information on why the test failed.
-The assertEquals and assertNotEquals function work with any kind of object. They first stringify both objects to a json format and then compare the json. It is certainly not the most efficient method, but it works for all cases. The assertThrows and assertNotThrows both take in a function which will be called in the assert function it self and verified that it throws or not throws an exception. With those functions we were able to implement all our tests. 
+The assertEquals and assertNotEquals function work with any kind of object. They first stringify both objects to a json format and then compare the json. It is certainly not the most efficient method, but it works for all cases. The assertThrows and assertNotThrows both take in a function which will be called in the assert function it self and verified that it throws or not throws an exception. The assertGreaterThen can also take in two arguments from any type, as javascript allows such comparions. With those functions we were able to implement all our tests. 
 To make sure that the assert functions work, we implemented also tests for them. Those test obviously don't use the assert functions and rather have some hard coded tests created for them. Those tests can be found in the utiltest module.
 
 \subsubsection{Creating tests}
