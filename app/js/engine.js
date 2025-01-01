@@ -157,9 +157,6 @@ class Engine {
         data.maxDb
       );
 
-      console.log(data);
-      console.log(analysis);
-
       onStatusUpdate(ENGINE_GENERATE_STATUS.READYING_FILE);
       let template = await Component.fetchTemplate("latex/template.tex");
       template = Component.interpolate(
