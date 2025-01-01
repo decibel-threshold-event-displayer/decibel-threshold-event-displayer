@@ -1,6 +1,29 @@
-\documentclass{beamer}
+\documentclass[authorontitle=true]{bfhbeamer}
+\usepackage{amsmath}
+
+\setbeamertemplate{page number in head/foot}[framenumber]
+\title{Decibel Threshold Event Displayer}
+\subtitle{Final Presentation}
+\author{Dominic Gernert, Lukas von Allmen, Darius Degel}
+
+% macro which adds fancy ToC to all sections
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
 
 \begin{document}
-    First document. This is a simple example, with no
-    extra parameters or packages included.
+    \maketitle
+    \input{./title_page}
+    \section{Problem Description}
+    \input{./problem_description}
+    \section{Implementation}
+    \input{./implementation}
+    \section{Demo}
+    \input{./demo}
+    \section{Conclusion}
+    \input{./conclusion}
 \end{document}
