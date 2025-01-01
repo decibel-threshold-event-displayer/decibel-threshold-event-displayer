@@ -1,6 +1,8 @@
 import { Component } from "./components/component.js";
 import { ENGINE_GENERATE_STATUS, ENGINE_STATUS } from "./enum.js";
 import { store } from "./store.js";
+import { buildWrapper } from "./audio/wavefilewrapper.js";
+import { FrameCollection } from "./audio/frame.js";
 
 class Engine {
   #engine;
@@ -46,14 +48,106 @@ class Engine {
     return this.#readyPromise;
   }
 
-  async generate(data = {}, onStatusUpdate = (status) => {}) {
+  #getPlotData(filteredDbaValues, frameDuration) {
+    return filteredDbaValues
+      .map((dba, index) => {
+        const startTime = index * frameDuration;
+        const endTime = (index + 1) * frameDuration;
+        const dbaInt = Math.round(dba);
+        return `(${startTime.toFixed(2)},${dbaInt}) (${endTime.toFixed(
+          2
+        )},${dbaInt})`;
+      })
+      .join(" ");
+  }
+
+  #formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = (seconds % 60).toFixed(1);
+
+    if (minutes === 0) return `${secs}s`;
+    else return `${minutes}m ${secs}s`;
+  }
+
+  async #analyzeFile(wavFile, threshold, minDb, maxDb) {
+    const thresholdFloat = parseFloat(threshold);
+    const waveFileWrapper = await buildWrapper(wavFile);
+
+    const frameCollection = new FrameCollection(
+      waveFileWrapper.samples,
+      waveFileWrapper.samplesPerSecond,
+      waveFileWrapper.nbrOfChannels
+    );
+
+    const filteredDbaValues = frameCollection.getFilteredDbaValues(
+      thresholdFloat,
+      parseInt(minDb),
+      parseInt(maxDb)
+    );
+
+    const maxDba = Math.max(...filteredDbaValues);
+
+    const duration =
+      waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
+    const absoluteDurationOverThreshold =
+      filteredDbaValues.filter((dbValue) => dbValue != 0).length *
+      frameCollection.getFrameDuration();
+    const relativDurationOverThreshold =
+      (absoluteDurationOverThreshold / duration) * 100;
+
+    const dbaValues = frameCollection.getMappedDbaValues(
+      parseInt(minDb),
+      parseInt(maxDb)
+    );
+
+    var average = 0;
+
+    if (dbaValues.length !== 0)
+      // to calculate the average, we set -Infinity values to 0
+      average =
+        dbaValues
+          .map((dbaValue) => (dbaValue === -Infinity ? 0 : dbaValue))
+          .reduce((sum, value) => sum + value, 0) / dbaValues.length;
+
+    return {
+      data: this.#getPlotData(
+        filteredDbaValues,
+        frameCollection.getFrameDuration()
+      ),
+      xmax: filteredDbaValues.length,
+      ymin: thresholdFloat,
+      ymax: Math.ceil(Math.max(maxDba, thresholdFloat) * 1.1),
+      duration: this.#formatTime(duration),
+      absoluteDurationOverThreshold: this.#formatTime(
+        absoluteDurationOverThreshold
+      ),
+      relativDurationOverThreshold: relativDurationOverThreshold.toFixed(2),
+      average: average.toFixed(2),
+    };
+  }
+
+  async generate(wavFile, data = {}, onStatusUpdate = (status) => {}) {
     try {
       onStatusUpdate(ENGINE_GENERATE_STATUS.INITIALIZATION);
       const engine = await this.#getEngine();
 
+      onStatusUpdate(ENGINE_GENERATE_STATUS.ANALYZING_FILE);
+      const analysis = await this.#analyzeFile(
+        wavFile,
+        data.threshold,
+        data.minDb,
+        data.maxDb
+      );
+
       onStatusUpdate(ENGINE_GENERATE_STATUS.READYING_FILE);
       let template = await Component.fetchTemplate("latex/template.tex");
-      template = Component.interpolate(data, template);
+      template = Component.interpolate(
+        {
+          ...data,
+          ...analysis,
+        },
+        template
+      );
       engine.writeMemFSFile("main.tex", template);
       engine.setEngineMainFile("main.tex");
       onStatusUpdate(ENGINE_GENERATE_STATUS.GENERATING);
