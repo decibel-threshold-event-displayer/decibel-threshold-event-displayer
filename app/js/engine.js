@@ -132,7 +132,7 @@ class Engine {
         filteredDbaValues,
         frameCollection.getFrameDuration()
       ),
-      xmax: filteredDbaValues.length,
+      xmax: duration.toFixed(2),
       ymin: thresholdFloat,
       ymax: Math.ceil(Math.max(maxDba, thresholdFloat) * 1.1),
       duration: this.#formatTime(duration),
