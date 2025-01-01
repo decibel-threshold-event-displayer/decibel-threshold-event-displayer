@@ -274,34 +274,48 @@ coordinates
 
 ## Review - 01.01.2024
 **Demo:**
-- 
+- Dominic: Demonstrated the current state of the application and his improvements
+- Darius: Demonstrated the tooltip implementation
 
 **Done:**
-- 
+- [Support IEEE float audio format](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/93)
+- [Create class diagrams](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/31)
+- [Define default thresholds](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/15)
+- [Define legal requirements](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/82)
 
 **Not done:**
-- 
+- [Create a sequence diagram for input handling and processing](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/18)
+- [Create sequence diagram whole application](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/30)
+- [Filter data](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/11)
+- [Render LaTeX](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/22)
+- [Finalize SPA](https://gitlab.ti.bfh.ch/decibel-threshold-event-displayer/decibel-threshold-event-displayer/-/issues/116)
 
 **Goals:**
 - [ ] Finalize and document "Filter audio data correctly"
 - [ ] Finalize LaTeX template and fill in placeholders
 - [ ] Finalize LaTeX to PDF
 - [ ] Finalize SPA
-- [ ] Define legal requirements
+- [x] Define legal requirements
 
 
 ## Retro - 01.01.2024
 
 **What went well:**
-- 
+- There was still quite some progress, despite the holiday season
+- We are almost finished with the application
 
 **Problems:**
-- 
+- The LaTeX dependency management can be a bit painful in SwiftLaTeX, because of our performance improvements
+- Not all team members where motivated during the holiday season
 
 **Improvements:**
-- 
+- No improvements, because this was the last iteration / sprint in this project
 
-# Sprint 7
+# Finalization
+We decided to finalize the leftover tasks without an additional iteration / sprint
 
-## Goals
-- 
+**Goals:**
+- Finalize and document "Filter audio data correctly"
+- Finalize LaTeX template and fill in placeholders
+- Finalize LaTeX to PDF
+- Finalize SPA
