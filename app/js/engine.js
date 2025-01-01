@@ -1,7 +1,10 @@
 import { Component } from "./components/component.js";
 import { ENGINE_GENERATE_STATUS, ENGINE_STATUS } from "./enum.js";
 import { store } from "./store.js";
-import { buildWrapper } from "./audio/wavefilewrapper.js";
+import {
+  buildWrapper,
+  FileDurationTooLongError,
+} from "./audio/wavefilewrapper.js";
 import { FrameCollection } from "./audio/frame.js";
 
 class Engine {
@@ -84,6 +87,9 @@ class Engine {
   async #analyzeFile(wavFile, threshold, minDb, maxDb) {
     const thresholdFloat = parseFloat(threshold);
     const waveFileWrapper = await buildWrapper(wavFile);
+
+    if (waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond > 900)
+      throw new FileDurationTooLongError();
 
     const frameCollection = new FrameCollection(
       waveFileWrapper.samples,

@@ -4,7 +4,10 @@ import { engine } from "../../engine.js";
 import { toast } from "../../toast.js";
 import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
-import { WaveFileWrapperError } from "../../audio/wavefilewrapper.js";
+import {
+  FileDurationTooLongError,
+  WaveFileWrapperError,
+} from "../../audio/wavefilewrapper.js";
 
 export class Home extends Component {
   #renderButton;
@@ -67,6 +70,8 @@ export class Home extends Component {
         toast.show(
           "An error occured while parsing the audio file: " + error.message
         );
+      } else if (error instanceof FileDurationTooLongError) {
+        toast.show("Recordings must be shorter than 15 minutes.");
       } else {
         toast.show("Something went wrong preparing your file.");
       }
