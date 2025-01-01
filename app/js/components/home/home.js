@@ -16,7 +16,7 @@ export class Home extends Component {
   #preview;
   #embed;
   #formData = {
-    threshold: 90,
+    threshold: null,
     minDb: null,
     maxDb: null,
     location: "",
@@ -92,7 +92,13 @@ export class Home extends Component {
       maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
 
-    if (parseInt(threshold.value) >= parseInt(maxDb.value))
+    console.log(parseInt(threshold.value));
+
+    if (
+      isNaN(parseInt(threshold.value)) ||
+      parseInt(threshold.value) >= parseInt(maxDb.value) ||
+      parseInt(threshold.value) <= 0
+    )
       threshold.setCustomValidity("invalid");
     else threshold.setCustomValidity("");
 

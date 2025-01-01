@@ -10,19 +10,29 @@
     ></label>
     <div class="input-group">
       <input
-        id="threshold"
-        data-model="threshold"
         class="form-control"
-        type="number"
-        min="0"
+        data-model="threshold"
+        list="datalistOptions"
+        id="threshold"
+        placeholder="Type to search thresholds defined by BAFU..."
         required
       />
-      <datalist> </datalist>
+      <datalist id="datalistOptions">
+        <option value="55">Relaxation area day (55dB)</option>
+        <option value="45">Relaxation area night (45dB)</option>
+        <option value="60">Living area day (60dB)</option>
+        <option value="50">Living area night (50dB)</option>
+        <option value="65">Living/Commercial area day (65dB)</option>
+        <option value="55">Living/Commercial area night (55dB)</option>
+        <option value="70">Industry area day (70dB)</option>
+        <option value="60">Industry area night (60dB)</option>
+      </datalist>
+
       <div class="input-group-append">
         <span class="input-group-text">dB</span>
       </div>
       <div class="invalid-feedback">
-        Threshold is required and has to be smaller than max dB.
+        Threshold has to be between zero and max dB.
       </div>
     </div>
   </div>
