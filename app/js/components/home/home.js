@@ -4,11 +4,7 @@ import { engine } from "../../engine.js";
 import { toast } from "../../toast.js";
 import { ENGINE_GENERATE_STATUS } from "../../enum.js";
 import { Component } from "../component.js";
-import {
-  buildWrapper,
-  WaveFileWrapperError,
-} from "../../audio/wavefilewrapper.js";
-import { FrameCollection } from "../../audio/frame.js";
+import { WaveFileWrapperError } from "../../audio/wavefilewrapper.js";
 
 export class Home extends Component {
   #renderButton;
@@ -43,6 +39,9 @@ export class Home extends Component {
     this.#downloadButton.onclick = () => this.#onDownload();
     this.#downloadButton.style.display = "none";
     this._bind(this.#formData);
+    this._selectAll('[data-bs-toggle="tooltip"]').forEach(
+      (tooltip) => new bootstrap.Tooltip(tooltip)
+    );
   }
 
   async #onRender() {

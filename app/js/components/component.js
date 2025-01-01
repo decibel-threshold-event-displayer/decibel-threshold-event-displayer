@@ -62,4 +62,8 @@ export class Component {
   _select(selector) {
     return this.#view.querySelector(selector);
   }
+
+  _selectAll(selector) {
+    return this.#view.querySelectorAll(selector);
+  }
 }
