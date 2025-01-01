@@ -55,11 +55,15 @@ export class Component {
   static interpolate(model, template) {
     return template.replace(
       /{{(\w+)}}/g,
-      (placeholder, property) => model[property] || "n.a."
+      (placeholder, property) => model[property] || "-"
     );
   }
 
   _select(selector) {
     return this.#view.querySelector(selector);
+  }
+
+  _selectAll(selector) {
+    return this.#view.querySelectorAll(selector);
   }
 }
