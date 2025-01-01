@@ -132,7 +132,7 @@ class Engine {
         filteredDbaValues,
         frameCollection.getFrameDuration()
       ),
-      xmax: filteredDbaValues.length,
+      xmax: duration.toFixed(2),
       ymin: thresholdFloat,
       ymax: Math.ceil(Math.max(maxDba, thresholdFloat) * 1.1),
       duration: this.#formatTime(duration),
@@ -156,6 +156,9 @@ class Engine {
         data.minDb,
         data.maxDb
       );
+
+      console.log(data);
+      console.log(analysis);
 
       onStatusUpdate(ENGINE_GENERATE_STATUS.READYING_FILE);
       let template = await Component.fetchTemplate("latex/template.tex");
