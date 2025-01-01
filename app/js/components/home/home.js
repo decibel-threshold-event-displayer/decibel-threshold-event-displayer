@@ -81,7 +81,15 @@ export class Home extends Component {
             const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
             const absoluteDurationOverThreshold = filteredDbaValues.filter(dbValue => dbValue != 0).length * frameCollection.getFrameDuration();
             const relativDurationOverThreshold = absoluteDurationOverThreshold / duration * 100;
-            const average = filteredDbaValues.length ? filteredDbaValues.reduce((sum, value) => sum + value, 0) / filteredDbaValues.length : 0;
+
+            const dbaValues = frameCollection.getMappedDbaValues(parseInt(this.#formData.minDb), parseInt(this.#formData.maxDb));
+
+            var average = 0;
+
+            if (dbaValues.length !== 0)
+                // to calculate the average, we set -Infinity values to 0 
+                average = dbaValues.map(dbaValue => dbaValue === -Infinity ? 0 : dbaValue)
+                                   .reduce((sum, value) => sum + value, 0) / dbaValues.length;
 
             const templateContext = {
                 ...this.#formData,
@@ -89,8 +97,8 @@ export class Home extends Component {
                 xmax: filteredDbaValues.length,
                 ymin: threshold,
                 ymax: Math.ceil(Math.max(maxDba, threshold) * 1.1),
-                duration: duration.toFixed(1),
-                absoluteDurationOverThreshold: absoluteDurationOverThreshold.toFixed(1),
+                duration: this.#formatTime(duration),
+                absoluteDurationOverThreshold: this.#formatTime(absoluteDurationOverThreshold),
                 relativDurationOverThreshold: relativDurationOverThreshold.toFixed(2),
                 average: average.toFixed(2),
             };
@@ -114,6 +122,16 @@ export class Home extends Component {
         }
 
         this.#renderButton.disabled = false;
+    }
+
+    #formatTime(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const secs = (seconds % 60).toFixed(1);
+
+        if(minutes === 0)
+            return `${secs}s`;
+        else
+            return `${minutes}m ${secs}s`;
     }
 
     #validateForm() {
