@@ -3,6 +3,7 @@
 \usepackage{siunitx}
 \usepackage{tikz} % To generate the plot from csv
 \usepackage{pgfplots}
+\usepackage{url}
 
 \pgfplotsset{compat=newest} % Allows to place the legend below plot
 \usepgfplotslibrary{units} % Allows to enter the units nicely
@@ -13,6 +14,8 @@
 }
 
 \begin{document}
+
+\thispagestyle{empty}
 
 \begin{table}[h]
     \centering
@@ -25,8 +28,8 @@
         Minimal dB(A):     & {{minDb}}dB(A)     \\
         Maximal dB(A):     & {{maxDb}}db(A)     \\
                                         \\
-        Duration: & {{duration}}s\\
-        Duration over threshold: & {{absoluteDurationOverThreshold}}s ({{relativDurationOverThreshold}}\%) \\
+        Duration: & {{duration}}\\
+        Duration over threshold: & {{absoluteDurationOverThreshold}} ({{relativDurationOverThreshold}}\%) \\
         Average: & {{average}}db(A) \\
     \end{tabular}
     \label{tab:table}
@@ -58,5 +61,9 @@
     \end{center}
     \label{fig:figure}
 \end{figure}
+
+Disclaimer: The accuracy of measurements can vary depending on the distance to the noise source as well as the max/min dB values provided.
+
+For more information, visit our about page: \url{https://decibel-threshold-event-displayer.github.io/#/about}
 
 \end{document}
