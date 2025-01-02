@@ -3,7 +3,26 @@
 % Product target achieved? Sprint targets? Delimitation? Deliverables created? Product backlog / sprint backlogs?
 
 \subsection{Product goals}\label{subsec:product-goals-review}
+The following list summarizes the~\ref{subsec:product-goals} Product goals:
 
+\begin{enumerate}
+    \item Analyze Audio File
+    \item Summarize findings in a PDF
+    \item Easy to use
+\end{enumerate}
+
+From our point off view, the first two Product goals are clearly achieved, as we built a working application
+which can parse and analyze Audio Files and then summarizes the findings in a PDF document.
+The third goal `Easy to use` is not as easy to measure, but we argue that this is achieved by considering the following
+list of best practices:
+
+\begin{enumerate}
+    \item Cross platform: Achieved by building a public web application
+    \item No login or other personal data required
+    \item Clarity, consistency, responsiveness and familiar patterns: Achieved by using~\href{https://getbootstrap.com/2.0.2/}{Bootstrap, from Twitter}
+    \item Help and documentation: Achieved with integrating tooltips where needed and show human-readable error messages
+    \item Performance and fast load times: Achieved by realizing the application as a minimal SPA and preloading all necessary LaTeX resources in the background as the user is already filling out the form
+\end{enumerate}
 
 \subsection{Sprint goals}\label{subsec:sprint-goals-review}
 
