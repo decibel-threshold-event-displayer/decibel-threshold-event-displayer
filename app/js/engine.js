@@ -105,11 +105,22 @@ class Engine {
 
     const maxDba = Math.max(...filteredDbaValues);
 
-    const duration =
-      waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
-    const absoluteDurationOverThreshold =
-      filteredDbaValues.filter((dbValue) => dbValue != 0).length *
-      frameCollection.getFrameDuration();
+    const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
+    var absoluteDurationOverThreshold = filteredDbaValues.filter((dbValue) => dbValue != 0).length * frameCollection.getFrameDuration();
+
+    // check if the last frame exceeded the threshold
+    // if so, we must adjust the absoluteDurtationoverThreshold, because the last frame
+    // does not contain the same number of samples as the other frames and has therefore
+    // a different duration then the others
+    if (filteredDbaValues[filteredDbaValues.length - 1] !== 0) {
+      const frames = frameCollection.getFrames();
+      const lastFrame = frames[frames.length - 1];
+
+      const nbrOfSamplesInFullFrame = Math.floor(frameCollection.getFrameDuration() * waveFileWrapper.samplesPerSecond);
+      const diff = frameCollection.getFrameDuration() - ((lastFrame.getSamples().length / nbrOfSamplesInFullFrame) * frameCollection.getFrameDuration());
+      absoluteDurationOverThreshold -= diff;
+    }
+
     const relativDurationOverThreshold =
       (absoluteDurationOverThreshold / duration) * 100;
 
