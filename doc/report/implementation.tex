@@ -1,14 +1,16 @@
-\section{Implementation}
+\section{Implementation}\label{sec:implementation}
 
-\subsection{Architecture}
+\subsection{Architecture}\label{subsec:architecture}
 
 \subsubsection{Data Structures and Overview}
-For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class. The wrapper is used by the home components to access the relevant data needed to create a frame collection. A frame collection represents all frames of the audio and a single frame represent a set of samples covering a time span of 300ms.
+For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
+The wrapper is used by the home components to access the relevant data needed to create an instance of the FrameCollection class.
+A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a time span of 300ms.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/class_diagram.png}
-    \caption{Class diagram}
+    \caption{Class diagram}\label{fig:class-diagram}
 \end{figure}
 
 \subsubsection{JavaScript Frontend (SPA)}
@@ -19,7 +21,7 @@ its components.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{../assets/spa_diagram.png}
-    \caption{SPA Architecture}
+    \caption{SPA Architecture}\label{fig:spa-architecture}
 \end{figure}
 In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
 
@@ -34,11 +36,12 @@ The following diagram shows which steps are involved when creating a noise repor
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/sequence_diagram_from_wave_file_to_pdf.png}
-    \caption{Sequence diagram of steps involved when creating a noise report}
+    \caption{Sequence diagram of steps involved when creating a noise report}\label{fig:sequence-diagram-noise-report}
 \end{figure}
 
 \subsubsection{Parsing the Wave File}
-The WaveFileWrapper class will be responsible for reading and parsing the wave file. Reading a file in a web context always works asynchronous, which is why there is a helper function "readAndParse" which has to be called with async await.
+The WaveFileWrapper class will be responsible for reading and parsing the wave file.
+Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async await.
 The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
 It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
 After the header comes a 24 byte chunk which contains information about the data format.
@@ -46,11 +49,11 @@ We are interested in the following fields:
 \begin{itemize}
     \item AudioFormat (2 bytes): we only support PCM and IEEE Float format
     \item NbrChannels (2 bytes): is used to parse individual samples
-    \item Frequence (4 bytes): number of samples per second, this is needed for filtering and summarising
+    \item Frequency (4 bytes): number of samples per second, this is needed for filtering and summarising
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
 \end{itemize}
-After the format chunk can come several optional meta data chunks, which we don't need. Therefore we skip those chunks and go straight to the data chunk.
-This chunk starts with a 4 byte long DataBlocID, which should always have the value 'data'.
+After the format chunk can come several optional metadata chunks, which we don't need. Therefore we skip those chunks and go straight to the data chunk.
+This chunk starts with a 4 byte long DataBlocID, which should always have the value `data`.
 The next 4 byte represent the number of samples in the data.
 After that comes the actual audio data.
 To parse a single sample, we need to parse a frame.
@@ -61,15 +64,29 @@ If an audio file consists of several channels, we use the average of the channel
 When we want to analyze where a certain decibel threshold has been exceeded, we must have accurate values.
 People only perceive something as loud if it is loud over a longer period of time.
 Short peaks are perceived less.
-Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples, but rather the average of a number of samples over a certain period of time. We will, as usual when working with audio, use the root mean squere (RMS), as we are interested in the absolute amplitude values.
+Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples,
+but rather the average of a number of samples over a certain period of time.
+Such group of samples over a certain period of time is implemented as the Frame class.
+We will, as usual when working with audio, use the root-mean-square (RMS),
+as we are interested in the absolute amplitude values.
+We implemented the calculation of the root-mean-square as the method `getRMS()` on the Frame class.
 The calculated average then depends heavily on how long the time period is.
 In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}.
 This is also the default value, which can be adjusted by the user via the settings.
 The decibel value is calculated with the following formula\cite{decibel_wikipedia}:
 \[20 * \log_{10} (sample)\]
+We implemented again a method `getDb()` on the Frame class, which computes this value.
 
+\paragraph{Mapping RMS to absolute dB(A) values}
 As mentioned in the introduction, the audio file only contains relative values.
-We therefore need to map the RMS values to the number range of the reference values, where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
+We therefore need to map the RMS values to the number range of the reference values,
+where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
+This calculation does not work in the context of a single frame and therefor is added as the method `getMappedDbaValues(dbaMin, dbaMax)` on the FrameCollection class.
+
+\paragraph{Filter dB(A) values}
+One of the requirements is to plot the dB(A) values which are higher than a certain threshold.
+For this reason we implemented the method `getFilteredDbaValues(threshold, dbaMin, dbaMax)` which returns the final output,
+which we can plot to a PDF file.
 
 \subsubsection{Performance improvements}
 Generating the PDF file from a LaTeX document in the browser takes quite some time, as it loads all dependencies
@@ -88,17 +105,21 @@ all dependencies into the cache of the browser.
 
 Currently, this process involves some manual steps and could be automated in a later step.
 
-\subsection{Testing}
-Because we don't use any Frontend Framework and instead build our own SPA, we don't have a testing framework to use. We therefore decides to build 
-our own rudimentary testing framework. It consists out of 4 assert functions, a test runner and a html page for displaying the results.
+\subsection{Testing}\label{subsec:testing}
+Because we don't use any Frontend Framework and instead build our own SPA, we don't have a testing framework to use.
+We therefore decides to build
+our own rudimentary testing framework.
+It consists out of 4 assert functions, a test runner and a html page for displaying the results.
 There is no automatic mechanism running the tests after every commit, the tests have to be run manually. 
 
-As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use. Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous. We decided to use the async/wait approach instead of using promises because promises are more difficult to debug, which is not suitable for a test framework.
+As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use.
+Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous.
+We decided to use the async/wait approach instead of using promises because promises are more difficult to debug, which is not suitable for a test framework.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../assets/overview_test_framework.png}
-    \caption{Overview test framework}
+    \caption{Overview test framework}\label{fig:overview-test-framework}
 \end{figure}
 
 \subsubsection{Assert functions}
@@ -109,44 +130,66 @@ For implementing tests there are 5 assert functions contained in the util module
     \item assertNotThrows: verifies that no exception is thrown
     \item assertEquals: verifies that something is equal to a given value
     \item assertNotEquals: verifies that something is not equal to a given value
-    \item assertGreaterThen: verifies that a number is greater the the other
+    \item assertGreaterThen: verifies that a number is greater the other
 \end{itemize}
 
 If the assertion of a function fails, it throws an exception with some information on why the test failed.
-The assertEquals and assertNotEquals function work with any kind of object. They first stringify both objects to a json format and then compare the json. It is certainly not the most efficient method, but it works for all cases. The assertThrows and assertNotThrows both take in a function which will be called in the assert function it self and verified that it throws or not throws an exception. The assertGreaterThen can also take in two arguments from any type, as javascript allows such comparions. With those functions we were able to implement all our tests. 
-To make sure that the assert functions work, we implemented also tests for them. Those test obviously don't use the assert functions and rather have some hard coded tests created for them. Those tests can be found in the utiltest module.
+The assertEquals and assertNotEquals function work with any kind of object.
+They first stringify both objects to a json format and then compare the json.
+It is certainly not the most efficient method, but it works for all cases.
+The assertThrows and assertNotThrows both take in a function which will be called in the assert function itself and verified that it throws or not throws an exception.
+The assertGreaterThen can also take in two arguments from any type, as javascript allows such comparisons.
+With those functions we were able to implement all our tests.
+To make sure that the assert functions work, we implemented also tests for them.
+Those test obviously don't use the assert functions and rather have some hard coded tests created for them.
+Those tests can be found in the utiltest module.
 
 \subsubsection{Creating tests}
-To create tests, one has to create a javascript file containing its tests. All functions that are beeing exported by the given javascript file are considered to be tests and will be executed by the test runner. If a function throws an expection, it is assumed that the test failed. If no exception is thrown, the test passes. 
-We tried to keep the manual work for adding tests minimal, but some manual work is still necessary. To add a new test module, the module has to be imported into the test runner file. After that, a new call to the function runTestGroup can be added, which will then add the test. Thats it.
+To create tests, one has to create a javascript file containing its tests.
+All functions that are being exported by the given javascript file are considered to be tests and will be executed by the test runner.
+If a function throws an exception, it is assumed that the test failed.
+If no exception is thrown, the test passes.
+We tried to keep the manual work for adding tests minimal, but some manual work is still necessary.
+To add a new test module, the module has to be imported into the test runner file.
+After that, a new call to the function runTestGroup can be added, which will then add the test.
+That's it.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/import_test_module.png}
-    \caption{Importing a module with tests}
+    \caption{Importing a module with tests}\label{fig:importing-module-with-tests}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/add_call_to_runTestGroup.png}
-    \caption{Adding a method call to run a test module}
+    \caption{Adding a method call to run a test module}\label{fig:adding-a-method-call-to-run-a-test-module}
 \end{figure}
 
 \subsubsection{Test runner}
-The test runner is responsible for running the tests. It runs every test module in sequence and summarizes its results. For each module a table in the result page is created which contains the test names, result and in the case of a failed test a message why it failed. The tests are run when the dedicated button in the frontend is pressed. The test runner always runs every test of every test module. There is currently no function to run individual modules or tests.
-The test runner also has a function to just test the WaveFileWrapper. It creates such a WaveFileWrapper object from the file specified on the result page and displayes the values of its properies.
+The test runner is responsible for running the tests.
+It runs every test module in sequence and summarises its results.
+For each module a table in the result page is created which contains the test names, result and in the case of a failed test a message why it failed.
+The tests are run when the dedicated button in the frontend is pressed.
+The test runner always runs every test of every test module.
+There is currently no function to run individual modules or tests.
+The test runner also has a function to just test the WaveFileWrapper.
+It creates such a WaveFileWrapper object from the file specified on the result page and displays the values of its properies.
 
 \subsubsection{HTML page}
-The fronted page of the test framework is used to start the tests and view the results. It is additionaly used to create a WaveFileWrapper object and view the properties of it. The test page is accessible under /js/test/test.html. To run the test page localy, see chapter 10.2.1. 
+The fronted page of the test framework is used to start the tests and view the results.
+It is additionally used to create a WaveFileWrapper object and view the properties of it.
+The test page is accessible under /js/test/test.html.
+To run the test page locally, see chapter 10.2.1.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/wavefilecreator.png}
-    \caption{Create a WaveFileWrapper object and view its properties}
+    \caption{Create a WaveFileWrapper object and view its properties}\label{fig:create-a-wavefilewrapper-object}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/test_results.png}
-    \caption{Test results}
+    \caption{Test results}\label{fig:test-results}
 \end{figure}
