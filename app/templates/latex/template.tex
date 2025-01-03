@@ -4,6 +4,7 @@
 \usepackage{tikz} % To generate the plot from csv
 \usepackage{pgfplots}
 \usepackage{url}
+\usepackage{hyperref}
 
 \pgfplotsset{compat=newest} % Allows to place the legend below plot
 \usepgfplotslibrary{units} % Allows to enter the units nicely
@@ -17,20 +18,24 @@
 
 \thispagestyle{empty}
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{l l}
-        Location:  & {{location}}  \\
-        Date and time:      & {{time}}      \\
-        Device:    & {{device}}    \\
-        Distance to noise source:  & {{distance}}  \\
-        Applied threshold: & {{threshold}} \\
-        Minimal dB(A):     & {{minDb}}dB(A)     \\
-        Maximal dB(A):     & {{maxDb}}db(A)     \\
-                                        \\
-        Duration: & {{duration}}\\
-        Duration over threshold: & {{absoluteDurationOverThreshold}} ({{relativDurationOverThreshold}}\%) \\
-        Average: & {{average}}db(A) \\
+\section*{dB threshold event displayer - result}
+
+\subsection*{Recording information}
+
+\begin{table}[h!]
+    \begin{tabular}{p{4cm} p{4cm}}
+        Location:                   & {{location}}      \\
+        Date and time:              & {{time}}          \\
+        Device:                     & {{device}}        \\
+        Distance to noise source:   & {{distance}}      \\
+        Applied threshold:          & {{threshold}}     \\
+        Minimal dB(A):              & {{minDb}}dB(A)    \\
+        Maximal dB(A):              & {{maxDb}}db(A)    \\
+                                                        \\
+        Duration:                   & {{duration}}      \\
+        Duration over threshold:    & {{absoluteDurationOverThreshold}} ({{relativDurationOverThreshold}}\%) \\
+        Peak:                       & {{peak}}db(A)  \\
+        Average:                    & {{average}}db(A)  \\
     \end{tabular}
     \label{tab:table}
 \end{table}
@@ -52,6 +57,7 @@
                 \addplot[const plot,fill=blue,draw=blue]
                     coordinates{
                         {{data}}
+                        % Format:
                         % (0,0.1) (0.1,0.15) (0.2,0.5) (0.3,0.62)
                         % (0.4,0.56) (0.5,0.58) (0.6,0.65) (0.7,0.6)
                         % (0.8,0.58) (0.9,0.55) (1,0.52)
@@ -59,13 +65,17 @@
                 \closedcycle;
             \end{axis}
         \end{tikzpicture}
-        \caption{Filtered audio values}
     \end{center}
-    \label{fig:figure}
+    \label{fig:filtered-audio-values}
 \end{figure}
 
-Disclaimer: The accuracy of measurements can vary depending on the distance to the noise source as well as the max/min dB values provided.
+\paragraph{Disclaimer:}\mbox{}\newline
+The accuracy of measurements can vary depending on the distance to the noise source as well as the max/min dB values provided.
 
-For more information, visit our about page: \\ \url{https://decibel-threshold-event-displayer.github.io/#/about}
+\paragraph{More information:}\mbox{}\newline
+For more information, visit our about page: \\
+\url{https://decibel-threshold-event-displayer.github.io/#/about}
+
+\paragraph{Generation date:} {{generationTime}}
 
 \end{document}
