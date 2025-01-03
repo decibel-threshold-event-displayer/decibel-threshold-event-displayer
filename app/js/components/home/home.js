@@ -25,6 +25,11 @@ export class Home extends Component {
     distance: null,
     file: null,
   };
+  #dateFormat = new Intl.DateTimeFormat("de-CH", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 
   constructor() {
     super("Decibel Threshold Event Displayer", "", "center");
@@ -68,7 +73,7 @@ export class Home extends Component {
     } catch (error) {
       if (error instanceof WaveFileWrapperError) {
         toast.show(
-          "An error occured while parsing the audio file: " + error.message
+          "An error occurred while parsing the audio file: " + error.message
         );
       } else if (error instanceof FileDurationTooLongError) {
         toast.show("Recordings must be shorter than 15 minutes.");
@@ -92,8 +97,6 @@ export class Home extends Component {
       maxDb.setCustomValidity("invalid");
     else maxDb.setCustomValidity("");
 
-    console.log(parseInt(threshold.value));
-
     if (
       isNaN(parseInt(threshold.value)) ||
       parseInt(threshold.value) >= parseInt(maxDb.value) ||
@@ -115,8 +118,10 @@ export class Home extends Component {
   }
 
   #onDownload() {
-    var link = document.createElement("a");
-    link.download = "report.pdf";
+    const link = document.createElement("a");
+    const now = new Date();
+    const timestamp = this.#dateFormat.format(now).replaceAll(".", "_");
+    link.download = `db_threshold_event_displayer_result_${timestamp}.pdf`;
     link.href = this.#pdfLink;
     link.click();
   }

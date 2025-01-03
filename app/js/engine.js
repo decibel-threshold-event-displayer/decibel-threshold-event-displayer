@@ -10,6 +10,14 @@ import { FrameCollection } from "./audio/frame.js";
 class Engine {
   #engine;
   #readyPromise;
+  #dateTimeFormat = new Intl.DateTimeFormat("de-CH", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
 
   constructor() {
     this.#init();
@@ -64,18 +72,6 @@ class Engine {
       .join(" ");
   }
 
-  #formatRecordingDate(date) {
-    const pad = (num) => String(num).padStart(2, "0");
-
-    const year = date.getFullYear();
-    const month = pad(date.getMonth() + 1);
-    const day = pad(date.getDate());
-    const hours = pad(date.getHours());
-    const minutes = pad(date.getMinutes());
-
-    return `${year}-${month}-${day}${hours}:${minutes}`;
-  }
-
   #formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const secs = (seconds % 60).toFixed(1);
@@ -106,7 +102,7 @@ class Engine {
     const maxDba = Math.max(...filteredDbaValues);
 
     const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
-    var absoluteDurationOverThreshold = filteredDbaValues.filter((dbValue) => dbValue != 0).length * frameCollection.getFrameDuration();
+    let absoluteDurationOverThreshold = filteredDbaValues.filter((dbValue) => dbValue !== 0).length * frameCollection.getFrameDuration();
 
     // check if the last frame exceeded the threshold
     // if so, we must adjust the absoluteDurtationoverThreshold, because the last frame
@@ -129,7 +125,8 @@ class Engine {
       parseInt(maxDb)
     );
 
-    var average = 0;
+    const peak = Math.max(...dbaValues);
+    let average = 0;
 
     if (dbaValues.length !== 0)
       // to calculate the average, we set -Infinity values to 0
@@ -151,6 +148,7 @@ class Engine {
         absoluteDurationOverThreshold
       ),
       relativDurationOverThreshold: relativDurationOverThreshold.toFixed(2),
+      peak: peak.toFixed(2),
       average: average.toFixed(2),
     };
   }
@@ -169,12 +167,15 @@ class Engine {
       );
 
       onStatusUpdate(ENGINE_GENERATE_STATUS.READYING_FILE);
+      const now = new Date();
+      const time = new Date(data.time);
       let template = await Component.fetchTemplate("latex/template.tex");
       template = Component.interpolate(
         {
           ...data,
           ...analysis,
-          time: data.time ? new Date(data.time).toLocaleString() : undefined,
+          time: data.time ? this.#dateTimeFormat.format(time) : undefined,
+          generationTime: this.#dateTimeFormat.format(now),
         },
         template
       );

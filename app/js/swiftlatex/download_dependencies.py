@@ -1,9 +1,11 @@
+import sys
+
 import requests
 import json
 import pathlib
 from urllib.parse import urlparse
 
-def download_dependencies():
+def download_dependencies(force=False):
     target_path = pathlib.Path('dependencies')
 
     with open('dependencies.json') as dependencies_file:
@@ -17,6 +19,10 @@ def download_dependencies():
         response = requests.get(url, allow_redirects=True)
         response.raise_for_status()
 
+        if not force and target_filepath.exists():
+            print("Skip:", target_filepath, "File already exists")
+            continue
+
         print(response.status_code, target_filepath)
 
         if response.status_code != 200 or response.content == b'File not found':
@@ -29,4 +35,5 @@ def download_dependencies():
 
 
 if __name__ == '__main__':
-    download_dependencies()
+    force = "force" in sys.argv
+    download_dependencies(force)
