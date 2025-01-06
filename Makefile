@@ -18,10 +18,12 @@ dev:
 
 ./doc/intermediate_presentation/intermediate_presentation.pdf: ./doc/intermediate_presentation/intermediate_presentation.tex
 	cd ./doc/intermediate_presentation \
+	&& pdflatex --shell-escape intermediate_presentation.tex \
 	&& pdflatex --shell-escape intermediate_presentation.tex
 
 ./doc/presentation/presentation.pdf: ./doc/presentation/presentation.tex
 	cd ./doc/presentation \
+	&& pdflatex --shell-escape presentation.tex \
 	&& pdflatex --shell-escape presentation.tex
 
 .PHONY: docs
