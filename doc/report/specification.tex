@@ -1,15 +1,18 @@
-\section{Specification}
-The following chapter describes the system specification. The specification is derived from the requirements in the project description
-as well as the discussions with the stakeholder. Assumptions and constraints are described in the following sections and were validated by
+\section{Specification}\label{sec:specification}
+The following chapter describes the system specification.
+The specification is derived from the requirements in the project description
+as well as the discussions with the stakeholder.
+Assumptions and constraints are described in the following sections and were validated by
 the defined product owner and the stakeholder.
 
-\subsection{System Delimitation}
+\subsection{System Delimitation}\label{subsec:system-delimination}
 The system delimitation is split into the static system environment (\ref{subsubsec:system_environment})
 and the dynamic process environment (\ref{subsubsec:process_environment}).
 
 \subsubsection{System Environment (statics)}\label{subsubsec:system_environment}
 The static system environment is split into the three contexts \textit{System}, \textit{System context}, and \textit{Out of scope}.\ \textit{System} includes the application
-as well as any software dependencies. The \textit{System context} includes people or objects which have an influence on the application.\ \textit{Out of scope} describes particularly
+as well as any software dependencies.
+The \textit{System context} includes people or objects which have an influence on the application.\ \textit{Out of scope} describes particularly
 what could have an influence on the application but has been deliberately excluded by the project team (see\ref{subsubsec:pre_conditions_and_boundaries}). \\ \\
 \textit{System}:
 \begin{itemize}
@@ -33,7 +36,7 @@ what could have an influence on the application but has been deliberately exclud
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../assets/system_environment.png}
-    \caption{System Environment}
+    \caption{System Environment}\label{fig:system-environment}
 \end{figure}
 
 \subsubsection{Process Environment (dynamics)}\label{subsubsec:process_environment}
@@ -57,10 +60,10 @@ As in the previous chapter (\ref{subsubsec:system_environment}), the process env
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{../assets/process_environment.png}
-    \caption{Process Environment}
+    \caption{Process Environment}\label{fig:process-environment}
 \end{figure}
 
-\subsection{Requirements}
+\subsection{Requirements}\label{subsec:requirements}
 In the following section the requirements are detailed. Also, the project boundaries and pre-conditions are described.
 
 \subsubsection{Functional requirements}\label{subsubsec:functional_requirements}
@@ -100,8 +103,8 @@ The project team identified the following functional requirements:
 \subsubsection{Pre-Conditions and Boundaries}\label{subsubsec:pre_conditions_and_boundaries}
 Research done by the project team has revealed that reading absolute decibel values from WAV files is more difficult than anticipated.
 The reason for this is that normal consumer microphones are not calibrated for scientifically accurate measurements\cite{stackoverflow_spl}. Furthermore, it is trivial for a user
-to increase the volume of a WAV file using free, easy-to-use software like Audacity\cite{audacity}\cite{audacity_amplify}. Therefore, the project team has decided
-on a tentative working hypothesis together with the Stakeholder. \\ \\
+to increase the volume of a WAV file using free, easy-to-use software like Audacity\cite{audacity,audacity_amplify}.
+Therefore, the project team has decided on a tentative working hypothesis together with the Stakeholder. \\ \\
 Pre-Conditions:
 \begin{itemize}
     \item The user must use a properly calibrated microphone or use a phone app which has built-in calibrations like Decibel X\cite{decibelx_ios}\cite{decibelx_android}.
@@ -114,22 +117,32 @@ Boundaries:
     \item The application supports only the analysis of pre-calibrated, unedited WAV files.
     \item The application supports only single-channel WAV files.
     \item The application does not allow generating a legal complaint or directly integrating its output in a legal complaint.
-    \item The user is presumed to be using properly calibrated equipment. There is no validation done in the application to ensure proper calibration.
-    \item The user is presumed to be honest and to not have edited the WAV file. There is no validation done in the application to ensure the file has not been edited.
+    \item The user is presumed to be using properly calibrated equipment.
+          There is no validation done in the application to ensure proper calibration.
+    \item The user is presumed to be honest and to not have edited the WAV file.
+          There is no validation done in the application to ensure the file has not been edited.
 \end{itemize}
 
 \subsubsection{Legal requirements}
-Because we are analyzing audio, privacy is an important point to consider. For analyzing the audio, we will only look at the amplitude of individual samples and take the rms over 300ms. No further analytics will be made. The get the rms, we combine a number of individual samples into a single one, which will then be ploted in the resulting document. Because of the rms we take, it is impossible to reconstruct the original audio from the plot. Additionaly, we dont use any library to analyze the audio so we have full control over whats happening.
+Because we are analyzing audio, privacy is an important point to consider.
+For analyzing the audio, we will only look at the amplitude of individual samples and take the rms over 300ms.
+No further analytics will be made.
+The get the rms, we combine a number of individual samples into a single one, which will then be ploted in the resulting document.
+Because of the rms we take, it is impossible to reconstruct the original audio from the plot.
+Additionally, we don't use any library to analyse the audio so we have full control over what's happening.
 
-Furthermore, the application will run solely on the client and the server is only providing the html, css and javascript documents, hence no data is sent back to the server. We also don't safe any information from the user like ip address or the web client he uses. But we will deploy our website with Github pages, which means that we don't have any control about the information Github saves about the user. 
+Furthermore, the application will run solely on the client and the server are only providing the html,
+css and javascript documents, hence no data is sent back to the server.
+We also don't safe any information from the user like ip address or the web client he uses.
+But we will deploy our website with GitHub pages, which means that we don't have any control about the information GitHub saves about the user.
 
-\subsection{Usability}
+\subsection{Usability}\label{subsec:usability}
 In order to best understand the targeted user base, the project team identified personas (\ref{subsubsec:personas}) and came up with a storyboard (\ref{subsubsec:storyboard}).
 Using this specification, the project team created prototypes for the user interface as well as the PDF report generated by the application (\ref{subsubsec:ux_prototyping}).
 
 \subsubsection{Personas}\label{subsubsec:personas}
-Noise is a problem almost every demographic can be affected by. Nonetheless, the project team has attempted to capture the most common attributes of people
-likely to use the application. \\
+Noise is a problem almost every demographic can be affected by.
+Nonetheless, the project team has attempted to capture the most common attributes of people likely to use the application. \\
 \begin{table}[H]
     \centering
     \begin{tabularx}{\textwidth}{l X}

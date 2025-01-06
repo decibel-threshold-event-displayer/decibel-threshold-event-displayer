@@ -94,7 +94,7 @@
 - [x] Intermediate presentation is prepared and presented
 - [x] Requirements are specified
 - [x] UX-Prototype is defined
-- [x] System delimination is specified
+- [x] System delimitation is specified
 - [x] Decibel values can be calculated
 - [x] Licence is defined
 - [x] Git repository and documentation skeleton are created
