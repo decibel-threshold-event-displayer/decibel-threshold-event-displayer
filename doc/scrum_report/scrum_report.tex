@@ -13,6 +13,7 @@
 \usepackage{color}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage[T1]{fontenc}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -42,6 +43,7 @@
     tabsize=2
 }
 \lstset{style=default}
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1}~\nameref*{#1}}}
 
 \title{
     Decibel Threshold Event Displayer \\
@@ -61,11 +63,16 @@
 \listoffigures
 %\listoflistings
 \input{../report/introduction}
+\input{../report/specification}
 \input{./scrum_roles}
 \input{./sprint_goals}
 \input{./requirements}
 \input{./scrum_adaptations}
-\section{Bibliography}
+\input{./project_setup_review}
+\input{./review}
+\input{./retrospective}
+\input{./lessons_learned}
+\section{Bibliography}\label{sec:bibliography}
 \bibliography{references}
 \input{../report/appendix}
 \end{document}

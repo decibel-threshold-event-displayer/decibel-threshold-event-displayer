@@ -15,7 +15,3 @@
 *.lof
 *.bbl
 *.blg
-
-# Outputs
-doc/report/report.pdf
-doc/presentation/presentation.pdf
