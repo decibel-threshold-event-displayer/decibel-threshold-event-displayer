@@ -176,6 +176,7 @@ class Engine {
           ...analysis,
           time: data.time ? this.#dateTimeFormat.format(time) : undefined,
           generationTime: this.#dateTimeFormat.format(now),
+          distance: data.distance ? distance + "m" : undefined
         },
         template
       );
