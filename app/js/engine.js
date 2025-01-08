@@ -101,8 +101,11 @@ class Engine {
 
     const maxDba = Math.max(...filteredDbaValues);
 
-    const duration = waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
-    let absoluteDurationOverThreshold = filteredDbaValues.filter((dbValue) => dbValue !== 0).length * frameCollection.getFrameDuration();
+    const duration =
+      waveFileWrapper.samples.length / waveFileWrapper.samplesPerSecond;
+    let absoluteDurationOverThreshold =
+      filteredDbaValues.filter((dbValue) => dbValue !== 0).length *
+      frameCollection.getFrameDuration();
 
     // check if the last frame exceeded the threshold
     // if so, we must adjust the absoluteDurtationoverThreshold, because the last frame
@@ -112,8 +115,13 @@ class Engine {
       const frames = frameCollection.getFrames();
       const lastFrame = frames[frames.length - 1];
 
-      const nbrOfSamplesInFullFrame = Math.floor(frameCollection.getFrameDuration() * waveFileWrapper.samplesPerSecond);
-      const diff = frameCollection.getFrameDuration() - ((lastFrame.getSamples().length / nbrOfSamplesInFullFrame) * frameCollection.getFrameDuration());
+      const nbrOfSamplesInFullFrame = Math.floor(
+        frameCollection.getFrameDuration() * waveFileWrapper.samplesPerSecond
+      );
+      const diff =
+        frameCollection.getFrameDuration() -
+        (lastFrame.getSamples().length / nbrOfSamplesInFullFrame) *
+          frameCollection.getFrameDuration();
       absoluteDurationOverThreshold -= diff;
     }
 
@@ -176,7 +184,7 @@ class Engine {
           ...analysis,
           time: data.time ? this.#dateTimeFormat.format(time) : undefined,
           generationTime: this.#dateTimeFormat.format(now),
-          distance: data.distance ? distance + "m" : undefined
+          distance: data.distance ? `${data.distance}m` : undefined,
         },
         template
       );
