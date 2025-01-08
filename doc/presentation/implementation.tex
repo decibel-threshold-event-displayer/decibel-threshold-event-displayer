@@ -31,7 +31,7 @@
 
 % ---------------------------------------------------------------------------
 % Processes
-\begin{frame}
+\begin{frame}[fragile]
     \frametitle{Processes}
     \begin{columns}
         \column{0.5\textwidth}
@@ -45,7 +45,28 @@
                 \item Render PDF with dB(A) and user data
             \end{enumerate}
         \column{0.5\textwidth}
-            \includegraphics[width=0.6\textwidth]{../assets/sequence_diagram_from_wave_file_to_pdf.png}
+        \small
+        \begin{lstlisting}[basicstyle=\tiny,language=JavaScript]
+
+  function rms(values){
+    const squared = values.map(
+        sample => Math.pow(sample, 2)
+    );
+    const sum = squared.reduce((a, b) => a + b);
+    const mean = sum / values.length;
+    return Math.sqrt(mean);
+  }
+
+  function rmsToDb(rms) {
+    return 20 * Math.log10(rms);
+  }
+
+  function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax) {
+    return (db - dbMin) * (dbaMax - dbaMin) /
+           (dbMax - dbMin) + dbaMin;
+  }
+ 
+        \end{lstlisting}
     \end{columns}
 \end{frame}
 % ---------------------------------------------------------------------------
