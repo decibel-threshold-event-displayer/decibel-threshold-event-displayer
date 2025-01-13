@@ -111,7 +111,7 @@ The user experience (frontend) was implemented according to the specification \r
 The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the dropzone to upload files,
 all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a dropzone.
 The project team decided against implementing another library due to the additional upkeep required. Instead, they decided for using the file input provided by Bootstrap.
-See the frontend implementation in the respective figures \ref{fig:implementation-frontend} \ref{fig:implementation-tooltip} \ref{fig:implementation-threshold}.
+See the frontend implementation in the respective figures \ref{fig:implementation-frontend} \ref{fig:implementation-tooltip}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_form.png}
@@ -122,6 +122,8 @@ See the frontend implementation in the respective figures \ref{fig:implementatio
     \includegraphics[width=0.5\textwidth]{../assets/implementation_tooltip.png}
     \caption{Tooltip}\label{fig:implementation-tooltip}
 \end{figure}
+In order to support the user when determining thresholds, the applied threshold form field is implemented as a datalist tag. This allows the user to input custom values, while
+providing suggestions for pre-determined values \ref{fig:implementation-threshold}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{../assets/implementation_threshold.png}
