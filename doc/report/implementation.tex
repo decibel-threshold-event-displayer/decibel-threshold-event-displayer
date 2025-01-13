@@ -108,13 +108,24 @@ Currently, this process involves some manual steps and could be automated in a l
 \subsection{User Experience (UX)}\label{subsec:ux}
 \subsubsection{Main Page}\label{subsubsec:main-page}
 The user experience (frontend) was implemented according to the specification \ref{subsubsec:ux_prototyping} where possible.
-The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT \ref{fig:implementation-frontend}. Except for the dropzone to upload files,
+The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the dropzone to upload files,
 all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a dropzone.
 The project team decided against implementing another library due to the additional upkeep required. Instead, they decided for using the file input provided by Bootstrap.
+See the frontend implementation in the respective figures \ref{fig:implementation-frontend} \ref{fig:implementation-tooltip} \ref{fig:implementation-threshold}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_form.png}
     \caption{Frontend Implementation}\label{fig:implementation-frontend}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/implementation_tooltip.png}
+    \caption{Tooltip}\label{fig:implementation-tooltip}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/implementation_threshold.png}
+    \caption{Default Thresholds}\label{fig:implementation-threshold}
 \end{figure}
 Another departure from the specification was the addition of a separate about page \ref{subsubsec:about_page}. Since it was easy to implement,
 the project team has also decided to add a preview for the rendered document alongside the download button. This also improves feedback because it allows the user to
