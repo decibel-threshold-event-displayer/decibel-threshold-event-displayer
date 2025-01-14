@@ -6,6 +6,7 @@
 For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
 The wrapper is used by the home components to access the relevant data needed to create an instance of the FrameCollection class.
 A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a time span of 300ms.
+A full overview of the data structures and how they are related to each other is can be seen in~\ref{fig:class-diagram}
 
 \begin{figure}[H]
     \centering
@@ -15,23 +16,27 @@ A FrameCollection object contains all Frame objects of the audio file and a sing
 
 \subsubsection{JavaScript Frontend (SPA)}
 The frontend hosted on \href{https://decibel-threshold-event-displayer.github.io/}{Github Pages} is implemented as a single page application (SPA) following the architecture provided by the BFH in the module BTI1301 Web Programming.
-In this architecture, the web server provides the index.html file as and uses JavaScript to manage the web contents (DOM updates) without changing the HTML file itself. Currently, the application only has one route; however, the project team chose to
-implement a small framework allowing for future expansion without rewriting the entire application. Since the application uses SwiftLaTeX, which is run locally using WebAssembly, the SPA provides an interface for the PDF engine to
-its components.
+In this architecture, the web server provides the index.html file as and uses JavaScript to manage the web contents (DOM updates) without changing the HTML file itself.
+The project team chose to implement a small framework allowing for future expansion without rewriting the entire application.
+Since the application uses SwiftLaTeX, which is run locally using WebAssembly, the SPA provides an interface for the PDF engine to its components.
+The Single Page Applications Architecture is visualized in~\ref{fig:spa-architecture}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{../assets/spa_diagram.png}
     \caption{SPA Architecture}\label{fig:spa-architecture}
 \end{figure}
+
 In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
 
-We also decided to define default values for the threshold that the audio should get checked against, for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}.
+We also decided to define default values for the threshold that the audio should get checked against,
+for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}.
 
 \subsubsection{High-Level architecture}
 !TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
 
 \subsection{Processes}
-The following diagram shows which steps are involved when creating a noise report from a wave file.
+The following diagram~\ref{fig:sequence-diagram-noise-report} shows which steps are involved when creating a noise report from a wave file.
 
 \begin{figure}[H]
     \centering
@@ -69,28 +74,88 @@ but rather the average of a number of samples over a certain period of time.
 Such group of samples over a certain period of time is implemented as the Frame class.
 We will, as usual when working with audio, use the root-mean-square (RMS),
 as we are interested in the absolute amplitude values.
-We implemented the calculation of the root-mean-square as the method `getRMS()` on the Frame class.
+We implemented the calculation of the root-mean-square as the method `getRMS()` on the Frame class,
+which in turn calls the rms function shown in~\ref{lst:javascript-function-rms}.
+
+\begin{lstlisting}[caption={JavaScript RMS function},label={lst:javascript-function-rms},language=JavaScript]
+/**
+ * values: a list of samples, if the samples has multiple channels they need to be averaged beforehand
+ */
+function rms(values){
+    const squared = values.map(sample => Math.pow(sample, 2));
+    const sum = squared.reduce((a, b) => a + b);
+    const mean = sum / values.length;
+    return Math.sqrt(mean);
+}
+\end{lstlisting}
+
 The calculated average then depends heavily on how long the time period is.
-In practice, 300ms is usually used\cite{timespan_for_audio_rms_calculate}.
+In practice, 300ms is usually used~\cite{timespan_for_audio_rms_calculate}.
 This is also the default value, which can be adjusted by the user via the settings.
-The decibel value is calculated with the following formula\cite{decibel_wikipedia}:
-\[20 * \log_{10} (sample)\]
+The decibel value is calculated with the formula shown in ~\ref{lst:javascript-function-rms-to-db}, which we derived from ~\cite{decibel_wikipedia}.
+
+\begin{lstlisting}[caption={JavaScript RMS to DB function},label={lst:javascript-function-rms-to-db},language=JavaScript]
+/**
+ * rms: a rms value
+ */
+function rmsToDb(rms) {
+    return 20 * Math.log10(rms);
+}
+\end{lstlisting}
+
 We implemented again a method `getDb()` on the Frame class, which computes this value.
 
 \paragraph{Mapping RMS to absolute dB(A) values}
 As mentioned in the introduction, the audio file only contains relative values.
 We therefore need to map the RMS values to the number range of the reference values,
 where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
-This calculation does not work in the context of a single frame and therefor is added as the method `getMappedDbaValues(dbaMin, dbaMax)` on the FrameCollection class.
+This calculation does not work in the context of a single frame and therefor is added as the method `getMappedDbaValues(dbaMin, dbaMax)` on the FrameCollection class,
+as shown in~\ref{lst:javascript-function-db-to-dba}.
+
+\begin{lstlisting}[caption={JavaScript DB to DBA function},label={lst:javascript-function-db-to-dba},language=JavaScript]
+/**
+ * db: a frames db value from the previous calculation
+ * dbMin: the minimum db value over all frames
+ * dbMax: the maximum db value over all frames
+ * dbaMin: the minimum dB(A) value, provided by the user
+ * dbaMax: the maximum dB(A) value, provided by the user
+ */
+function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax) {
+    return (db - dbMin) * (dbaMax - dbaMin) / (dbMax - dbMin) + dbaMin;
+}
+\end{lstlisting}
 
 \paragraph{Filter dB(A) values}
 One of the requirements is to plot the dB(A) values which are higher than a certain threshold.
 For this reason we implemented the method `getFilteredDbaValues(threshold, dbaMin, dbaMax)` which returns the final output,
 which we can plot to a PDF file.
 
-\subsubsection{Performance improvements}
-Generating the PDF file from a LaTeX document in the browser takes quite some time, as it loads all dependencies
-on the fly.
+\subsubsection{LaTeX Renderer / PDF engine}\label{subsubsec:latex-renderer-pdf-engine}
+As we already stated the application leverages SwiftLaTex for rendering a LaTeX template to a PDF Document, via WebAssembly.
+The implementation details can be found on the following two resources:
+
+\begin{itemize}
+    \item \href{https://www.swiftlatex.com/}{SwiftLaTeX Webiste}
+    \item \href{https://github.com/SwiftLaTeX/SwiftLaTeX/}{SwiftLaTeX GitHub Repository}
+\end{itemize}
+
+We integrated SwiftLaTeX into our application by downloading the~\href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{latest release (20/02/2022)}
+and unpack it to the directory `app/js/swiftlatex/lib/` and move the file `swiftlatexpdftex.js` to the parent directory `app/js/swiftlatex/`.
+This way we don't have to add a dependency management tool such as npm and can we could customize the code as needed.
+The application does the following steps at runtime:
+\begin{enumerate}
+    \item Load the LaTeX template: `app/js/swiftlatex/template.tex`
+    \item Replace the placeholders in the template with the actual values (interpolate)
+        \begin{itemize}
+            \item user provided form data
+            \item processed audio data for the plot
+        \end{itemize}
+    \item Handover the output to SwiftLaTeX
+    \item Return the resulting PDF
+\end{enumerate}
+
+\textbf{Performance improvements}
+Generating the PDF file from a LaTeX document in the browser takes quite some time, as it loads all dependencies on the fly.
 To speed up this process, we serve all required LaTeX files ourselves and prefetch them in parallel.
 This means we have to download all LaTeX files from a public source, we are using the same source as SwiftLaTeX:
 \href{https://texlive2.swiftlatex.com/}{texlive2.swiftlatex.com}
@@ -156,18 +221,18 @@ a separate about page. There is also a link to the GitHub repository, as well as
 
 \subsection{Testing}\label{subsec:testing}
 Because we don't use any Frontend Framework and instead build our own SPA, we don't have a testing framework to use.
-We therefore decides to build
-our own rudimentary testing framework.
+We therefore decides to build our own rudimentary testing framework.
 It consists out of 4 assert functions, a test runner and a html page for displaying the results.
 There is no automatic mechanism running the tests after every commit, the tests have to be run manually.
 
 As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use.
 Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous.
 We decided to use the async/wait approach instead of using promises because promises are more difficult to debug, which is not suitable for a test framework.
+The following diagram~\ref{fig:overview-test-framework} shows the internal structure of the test framework.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/overview_test_framework.png}
+    \includegraphics[width=0.8\textwidth]{../assets/overview_test_framework.png}
     \caption{Overview test framework}\label{fig:overview-test-framework}
 \end{figure}
 
@@ -194,26 +259,31 @@ Those test obviously don't use the assert functions and rather have some hard co
 Those tests can be found in the utiltest module.
 
 \subsubsection{Creating tests}
-To create tests, one has to create a javascript file containing its tests.
+To create tests, one has to create a javascript file containing its tests under `app/js/test/`.
 All functions that are being exported by the given javascript file are considered to be tests and will be executed by the test runner.
 If a function throws an exception, it is assumed that the test failed.
 If no exception is thrown, the test passes.
 We tried to keep the manual work for adding tests minimal, but some manual work is still necessary.
-To add a new test module, the module has to be imported into the test runner file.
-After that, a new call to the function runTestGroup can be added, which will then add the test.
-That's it.
+To add a new test module, the module has to be imported into the test runner file as shown in~\ref{lst:javascript-test-framework-importing-module-with-tests}.
+After that, a new call to the function runTestGroup can be added as it's shown in~\ref{lst:javascript-test-framework-adding-a-method-call-to-run-a-test-module}, which will then add the test.
+Take a look at the existing tests as a reference.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../assets/import_test_module.png}
-    \caption{Importing a module with tests}\label{fig:importing-module-with-tests}
-\end{figure}
+\begin{lstlisting}[caption={Importing a module with tests},label={lst:javascript-test-framework-importing-module-with-tests},language=JavaScript]
+import * as waveFileWrapperTest from './wavefilewrappertest.js';
+import * as audioProcessingTest from './audioprocessingtest.js';
+import * as utilTest from './utiltest.js';
+\end{lstlisting}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{../assets/add_call_to_runTestGroup.png}
-    \caption{Adding a method call to run a test module}\label{fig:adding-a-method-call-to-run-a-test-module}
-\end{figure}
+\begin{lstlisting}[caption={Adding a method call to run a test module},label={lst:javascript-test-framework-adding-a-method-call-to-run-a-test-module},language=JavaScript]
+/**
+ * Runs all test modules in sequence.
+ */
+function runTests() {
+    runTestModule(utilTest, "Util");
+    runTestModule(waveFileWrapperTest, "Wave File Wrapper");
+    runTestModule(audioProcessingTest, "Audio Processing");
+}
+\end{lstlisting}
 
 \subsubsection{Test runner}
 The test runner is responsible for running the tests.
@@ -223,20 +293,22 @@ The tests are run when the dedicated button in the frontend is pressed.
 The test runner always runs every test of every test module.
 There is currently no function to run individual modules or tests.
 The test runner also has a function to just test the WaveFileWrapper.
-It creates such a WaveFileWrapper object from the file specified on the result page and displays the values of its properies.
+It creates such a WaveFileWrapper object from the file specified on the result page and displays the values of its properties.
 
 \subsubsection{HTML page}
 The fronted page of the test framework is used to start the tests and view the results.
 It is additionally used to create a WaveFileWrapper object and view the properties of it.
-The test page is accessible under /js/test/test.html.
-To run the test page locally, see chapter 10.2.1.
+The test page is accessible under \href{https://decibel-threshold-event-displayer.github.io/js/test/test.html}{/js/test/test.html}.
+To run the test page on the dev server on localhost, see chapter 10.2.1.
 
+The screenshot~\ref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded *.wav file.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/wavefilecreator.png}
     \caption{Create a WaveFileWrapper object and view its properties}\label{fig:create-a-wavefilewrapper-object}
 \end{figure}
 
+On screenshot~\ref{fig:test-results} we can see the test results after running the test runner.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/test_results.png}

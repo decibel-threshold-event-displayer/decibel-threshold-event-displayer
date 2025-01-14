@@ -31,11 +31,28 @@
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
 
 \graphicspath{ {../assets/} }
 
 \bibliographystyle{unsrt}
 
+\lstdefinelanguage{JavaScript}{
+    keywords={break, case, catch, continue, debugger, default, delete, do, else, false, finally, for, function, if, in, instanceof, new, null, return, switch, this, throw, true, try, typeof, var, void, while, with},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]',
+    morestring=[b]",
+    ndkeywords={class, export, boolean, throw, implements, import, this},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywordstyle=\color{darkgray}\bfseries,
+    identifierstyle=\color{black},
+    commentstyle=\color{purple}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    sensitive=true
+}
 \lstdefinestyle{default}{
     backgroundcolor=\color{backcolour},
     commentstyle=\color{codegreen},
@@ -54,13 +71,35 @@
     showtabs=false,
     tabsize=2
 }
-\lstset{style=default}
+\lstset{
+    language=JavaScript,
+    backgroundcolor=\color{lightgray},
+    extendedchars=true,
+    basicstyle=\footnotesize\ttfamily,
+    showstringspaces=false,
+    showspaces=false,
+    tabsize=2,
+    breaklines=true,
+    showtabs=false,
+    captionpos=b
+}
 
-\title{Decibel Threshold Event Displayer}
-\author{vonal3, gernd1, deged2}
+
+\title{
+    Decibel Threshold Event Displayer\\
+    ~\\
+    \small
+    \textbf{Analyze Audio Files and detect Noise Pollution}
+}
+\author{
+    Dominic Gernert (gernd1) \\
+    Darius Degel (deged2) \\
+    Lukas von Allmen (vonal3)
+}
 \date{\today}
 
 \begin{document}
+    \input{./title}
     \input{./abstract}
     \input{./table_of_contents}
     \input{./list_of_tables}
