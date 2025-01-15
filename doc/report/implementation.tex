@@ -6,7 +6,7 @@
 For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
 The wrapper is used by the home components to access the relevant data needed to create an instance of the FrameCollection class.
 A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a time span of 300ms.
-A full overview of the data structures and how they are related to each other is can be seen in~\ref{fig:class-diagram}
+A full overview of the data structures and how they are related to each other can be seen in~\ref{fig:class-diagram}
 
 \begin{figure}[H]
     \centering
@@ -35,12 +35,14 @@ for which we have orientated ourselves on the immission limits from the \href{ht
 \subsubsection{High-Level architecture}
 !TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
 
+\clearpage
+
 \subsection{Processes}
-The following diagram~\ref{fig:sequence-diagram-noise-report} shows which steps are involved when creating a noise report from a wave file.
+The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a wave file.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{../assets/sequence_diagram_from_wave_file_to_pdf.png}
+    \includegraphics[width=0.9\textwidth]{../assets/sequence_diagram_from_wave_file_to_pdf.png}
     \caption{Sequence diagram of steps involved when creating a noise report}\label{fig:sequence-diagram-noise-report}
 \end{figure}
 
@@ -71,9 +73,10 @@ People only perceive something as loud if it is loud over a longer period of tim
 Short peaks are perceived less.
 Therefore, when determining the effective loudness of audio, we do not use the loudness of individual samples,
 but rather the average of a number of samples over a certain period of time.
-Such group of samples over a certain period of time is implemented as the Frame class.
-We will, as usual when working with audio, use the root-mean-square (RMS),
-as we are interested in the absolute amplitude values.
+Such group of samples over a certain period of time is implemented as the Frame class. The FrameCollection class represents
+a list of frames for a whole audio file.
+We will, as usual when working with audio, use the root-mean-square (RMS), as we are interested in the absolute amplitude values.
+
 We implemented the calculation of the root-mean-square as the method `getRMS()` on the Frame class,
 which in turn calls the rms function shown in~\ref{lst:javascript-function-rms}.
 
@@ -91,7 +94,6 @@ function rms(values){
 
 The calculated average then depends heavily on how long the time period is.
 In practice, 300ms is usually used~\cite{timespan_for_audio_rms_calculate}.
-This is also the default value, which can be adjusted by the user via the settings.
 The decibel value is calculated with the formula shown in ~\ref{lst:javascript-function-rms-to-db}, which we derived from ~\cite{decibel_wikipedia}.
 
 \begin{lstlisting}[caption={JavaScript RMS to DB function},label={lst:javascript-function-rms-to-db},language=JavaScript]
@@ -109,8 +111,7 @@ We implemented again a method `getDb()` on the Frame class, which computes this 
 As mentioned in the introduction, the audio file only contains relative values.
 We therefore need to map the RMS values to the number range of the reference values,
 where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
-This calculation does not work in the context of a single frame and therefor is added as the method `getMappedDbaValues(dbaMin, dbaMax)` on the FrameCollection class,
-as shown in~\ref{lst:javascript-function-db-to-dba}.
+This calculation does not work in the context of a single frame and is therefor part of the FrameCollection class. ~\ref{lst:javascript-function-db-to-dba} shows the calculation of mapping between dB and dB(A) values. 
 
 \begin{lstlisting}[caption={JavaScript DB to DBA function},label={lst:javascript-function-db-to-dba},language=JavaScript]
 /**
@@ -146,10 +147,6 @@ The application does the following steps at runtime:
 \begin{enumerate}
     \item Load the LaTeX template: `app/js/swiftlatex/template.tex`
     \item Replace the placeholders in the template with the actual values (interpolate)
-          \begin{itemize}
-              \item user provided form data
-              \item processed audio data for the plot
-          \end{itemize}
     \item Handover the output to SwiftLaTeX
     \item Return the resulting PDF
 \end{enumerate}

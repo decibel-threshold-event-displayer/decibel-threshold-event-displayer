@@ -41,22 +41,3 @@ export function rmsToDb(rms) {
 export function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax) {
     return (db - dbMin) * (dbaMax - dbaMin) / (dbMax - dbMin) + dbaMin;
 }
-
-/**
- * Takes a long integer and converts it to a byte array
- *
- * @param long{number}
- * @returns {number[]}
- */
-export function longToByteArray(/*long*/long) {
-    // we want to represent the input as a 8-bytes array
-    const byteArray = [0, 0, 0, 0, 0, 0, 0, 0];
-
-    for (let index = 0; index < byteArray.length; index++) {
-        let byte = long & 0xff;
-        byteArray [index] = byte;
-        long = (long - byte) / 256;
-    }
-
-    return byteArray;
-}

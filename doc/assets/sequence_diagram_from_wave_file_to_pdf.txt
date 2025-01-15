@@ -1,20 +1,33 @@
-SPA->*WaveFileWrapper: <<create>>
-WaveFileWrapper->WaveFileWrapper: parseMetaData()
-WaveFileWrapper->WaveFileWrapper: parseAudioData()
-WaveFileWrapper->SPA:return
-SPA->*Filter:<<create>>
-Filter->SPA:return
-SPA->Filter:filterAudio(waveFileHandler)
-Filter->Filter:calculateRms()
-Filter->Filter:mapRmsToReferenceValues()
-Filter->Filter:applyThreshold()
-Filter->SPA:return FilterResult                                     
-destroy Filter
-destroy WaveFileWrapper
-SPA->*DocumentRenderer:<<create>>
-DocumentRenderer->SPA:return
-SPA->DocumentRenderer:renderDocument()
-DocumentRenderer->DocumentRenderer:generateLatex()
-DocumentRenderer->DocumentRenderer:renderLatex()
-
-DocumentRenderer->SPA:return binaries?
+home->engine:generate
+engine->PdfTeXEngine:<<create singleton instance>> 
+PdfTeXEngine->engine:
+engine->builder:buildWrapper
+builder->*wavefilewrapper:<<create>>
+wavefilewrapper->builder:
+builder->wavefilewrapper:readAndParse
+wavefilewrapper->wavefilewrapper:readFile
+wavefilewrapper->wavefilewrapper:parseFile
+wavefilewrapper->builder:
+builder->engine:
+engine->*FrameCollection:<<create>>
+FrameCollection->*Frame:<<create>>
+Frame->FrameCollection:
+FrameCollection->engine:
+engine->FrameCollection:getFilteredDbaValues
+FrameCollection->Frame:getDb
+Frame->Frame:getRms
+Frame->FrameCollection:
+FrameCollection->FrameCollection:mapToDbaValues
+FrameCollection->FrameCollection:filterDbaValues
+FrameCollection->engine:
+engine->engine:getPlotData
+destroy wavefilewrapper
+destroy Frame
+destroy FrameCollection
+engine->Component:fetchTemplate
+Component->engine:
+engine->Component:interpolate
+Component->engine:
+engine->PdfTeXEngine:compileLaTeX
+PdfTeXEngine->engine:
+engine->home:

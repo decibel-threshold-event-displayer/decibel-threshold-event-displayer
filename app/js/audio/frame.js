@@ -120,6 +120,8 @@ export class FrameCollection {
      * @returns {number[]}
      */
     getFilteredDbaValues(threshold, dbaMin, dbaMax) {
+        // we set the dbaValue to 0 if the threshold was not exceed and only return the
+        // db(A) values for frames that exceed the threshold
         return this.getMappedDbaValues(dbaMin, dbaMax).map(dbaValue => dbaValue >= threshold ? dbaValue : 0);
     }
 
