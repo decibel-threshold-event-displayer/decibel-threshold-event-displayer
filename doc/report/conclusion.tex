@@ -1,9 +1,11 @@
 \section{Conclusion}
-
-Lorem ipsum
+We learned a lot about how audio works and to process it. We learned especially a lot about how the wave file format or rather the riff format family works, because we implemented our own parser for that. 
 
 \subsection{Review}
-Lorem ipsum
+We initialy struggled with the task of filtering the audio with a given threshold. This was due to the fact that the audio samples in wave files represent relative loudness and not absolute. And to filter the audio we need absolute values. After researching we found out that we can map the values from the samples to absolute ones when we have some reference values. 
+We also had issues with the parsing of individual samples because of the way that javascript handles numberic values. In the end we were able to fix this by using the appropriate functions to read bytes. 
+Besides does minor difficulites, we did not encounter any issues which could endanger the achievement of our targets. 
+The project management with Scrum gave a noticable overhead for the whole project and we spent a good amount of time every week to hold the scrum meetings. We think that this was a bit to much for a project of this size. But never the less it helped us to manage and prioritize our tasks and to focus on independent features to implement. 
 
 \subsection{Bottom Line}
 Lorem ipsum
