@@ -25,7 +25,7 @@ its components.
 \end{figure}
 In order to ensure a consistent and agreeable look, the project team has decided to use \href{https://getbootstrap.com/}{Bootstrap}, which is \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{licensed under MIT}.
 
-We also decided to define default values for the threshold that the audio should get checked against, for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}. 
+We also decided to define default values for the threshold that the audio should get checked against, for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}.
 
 \subsubsection{High-Level architecture}
 !TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
@@ -105,12 +105,61 @@ all dependencies into the cache of the browser.
 
 Currently, this process involves some manual steps and could be automated in a later step.
 
+\subsection{User Experience (UX)}\label{subsec:ux}
+\subsubsection{Main Page}\label{subsubsec:main-page}
+The user experience (frontend) was implemented according to the specification \ref{subsubsec:ux_prototyping} where possible.
+The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the dropzone to upload files,
+all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a dropzone.
+The project team decided against implementing another library due to the additional upkeep required. Instead, they decided for using the file input provided by Bootstrap.
+See the frontend implementation in the respective figures \ref{fig:implementation-frontend} \ref{fig:implementation-tooltip}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../assets/implementation_form.png}
+    \caption{Frontend Implementation}\label{fig:implementation-frontend}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/implementation_tooltip.png}
+    \caption{Tooltip}\label{fig:implementation-tooltip}
+\end{figure}
+In order to support the user when determining thresholds, the applied threshold form field is implemented as a datalist tag. This allows the user to input custom values, while
+providing suggestions for pre-determined values \ref{fig:implementation-threshold}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/implementation_threshold.png}
+    \caption{Default Thresholds}\label{fig:implementation-threshold}
+\end{figure}
+Another departure from the specification was the addition of a separate about page \ref{subsubsec:about-page}. Since it was easy to implement,
+the project team has also decided to add a preview for the rendered document alongside the download button. This also improves feedback because it allows the user to
+check what the file looks like before saving, letting them check for typos and other issues \ref{fig:implementation-preview}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../assets/implementation_preview.png}
+    \caption{Report Preview}\label{fig:implementation-preview}
+\end{figure}
+To provide additional feedback and ensure consistent results, the project team has also implemented
+validations for the important input fields \ref{fig:implementation-validation}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../assets/implementation_validation.png}
+    \caption{Form Validation}\label{fig:implementation-validation}
+\end{figure}
+
+\subsubsection{About Page}\label{subsubsec:about-page}
+To provide users with additional information about the application's implementation, privacy concerns, calculation details, as well as an impressum, the project team implemented
+a separate about page. There is also a link to the GitHub repository, as well as a disclaimer about the accuracy of the results. See \ref{fig:implementation-about-page} for an excerpt of the implementation.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{../assets/implementation_about_page.png}
+    \caption{About Page excerpt}\label{fig:implementation-about-page}
+\end{figure}
+
 \subsection{Testing}\label{subsec:testing}
 Because we don't use any Frontend Framework and instead build our own SPA, we don't have a testing framework to use.
 We therefore decides to build
 our own rudimentary testing framework.
 It consists out of 4 assert functions, a test runner and a html page for displaying the results.
-There is no automatic mechanism running the tests after every commit, the tests have to be run manually. 
+There is no automatic mechanism running the tests after every commit, the tests have to be run manually.
 
 As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use.
 Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous.

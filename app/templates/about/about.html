@@ -1,67 +1,89 @@
 <div class="container mt-4">
-    <div class="row">
-        <div class="col-md-8 offset-md-2">
-            <h2>About Decibel Threshold Event Displayer</h2>
-            <p class="lead">
-                This tool helps you analyze audio files and detect events based on decibel thresholds.
-            </p>
-            
-            <h3 class="mt-4">How it works</h3>
-            <p>
-                Upload a WAV file, set your threshold parameters, and get detailed analysis of sound events 
-                that exceed your specified decibel levels.
-            </p>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <h2>About Decibel Threshold Event Displayer</h2>
+      <p class="lead">
+        This tool helps you analyze audio files and detect events based on
+        decibel thresholds.
+      </p>
 
-            <h3 class="mt-4">Features</h3>
-            <ul>
-                <li>WAV file analysis</li>
-                <li>Customizable decibel thresholds</li>
-                <li>PDF report generation</li>
-                <li>Visual representation of sound events</li>
-            </ul>
+      <h3 class="mt-4">How it works</h3>
+      <p>
+        Upload a WAV file, set your threshold parameters, and get detailed
+        analysis of sound events that exceed your specified decibel levels.
+      </p>
 
-            <h3 class="mt-4">Disclaimer</h3>
-            <p>
-                The accuracy of measurements can vary depending on the distance to the noise source as well as 
-                the max/min dB values you provide.
-            </p>
+      <h3 class="mt-4">Features</h3>
+      <ul>
+        <li>WAV file analysis</li>
+        <li>Customizable decibel thresholds</li>
+        <li>PDF report generation</li>
+        <li>Visual representation of sound events</li>
+      </ul>
 
-            <h3 class="mt-4">Privacy</h3>
-            <p>
-                This application runs solely on the client and no data is sent back to the server or saved. 
-                When processing the audio, only the amplitude of the samples is getting looked at and no 
-                further analytics are made.
-            </p>
+      <h3 class="mt-4">Disclaimer</h3>
+      <p>
+        The accuracy of measurements can vary depending on the distance to the
+        noise source as well as the max/min dB values you provide.
+      </p>
 
-            <h3 class="mt-4">Repository</h3>
-            <p>
-                <a href="https://github.com/decibel-threshold-event-displayer/decibel-threshold-event-displayer.github.io" 
-                   target="_blank">The code is publicly available on GitHub</a>
-            </p>
+      <h3 class="mt-4">Privacy</h3>
+      <p>
+        This application runs solely on the client and no data is sent back to
+        the server or saved. When processing the audio, only the amplitude of
+        the samples is getting looked at and no further analytics are made.
+      </p>
 
-            <h3 class="mt-4">Impressum</h3>
-            <p>
-                Darius Degel: <a href="mailto:darius.degel@students.bfh.ch">darius.degel@students.bfh.ch</a><br>
-                Dominic Gernert: <a href="mailto:dominic.gernert@students.bfh.ch">dominic.gernert@students.bfh.ch</a><br>
-                Lukas von Allmen: <a href="mailto:lukas.vonallmen@students.bfh.ch">lukas.vonallmend@students.bfh.ch</a><br>
-            </p>
-            <hr />
-            <h3 class="mt-4">Calculation details</h3>
-            <ol>
-                <li>Parsing the *.wav file</li>
-                <li>Grouping all samples into frames with a duration of 300ms</li>
-                <li>Calculating the root-mean-square (RMS) value of each frame: <pre><code class="small text-muted">
+      <h3 class="mt-4">Repository</h3>
+      <p>
+        <a
+          href="https://github.com/decibel-threshold-event-displayer/decibel-threshold-event-displayer.github.io"
+          target="_blank"
+          >The code is publicly available on GitHub</a
+        >
+      </p>
+
+      <h3 class="mt-4">Impressum</h3>
+      <p>
+        Darius Degel:
+        <a href="mailto:darius.degel@students.bfh.ch"
+          >darius.degel@students.bfh.ch</a
+        ><br />
+        Dominic Gernert:
+        <a href="mailto:dominic.gernert@students.bfh.ch"
+          >dominic.gernert@students.bfh.ch</a
+        ><br />
+        Lukas von Allmen:
+        <a href="mailto:lukas.vonallmen@students.bfh.ch"
+          >lukas.vonallmen@students.bfh.ch</a
+        ><br />
+      </p>
+      <hr />
+      <h3 class="mt-4">Calculation details</h3>
+      <ol>
+        <li>Parsing the *.wav file</li>
+        <li>Grouping all samples into frames with a duration of 300ms</li>
+        <li>
+          Calculating the root-mean-square (RMS) value of each frame:
+          <pre><code class="small text-muted">
 function rms(values){
     const squared = values.map(sample => Math.pow(sample, 2));
     const sum = squared.reduce((a, b) => a + b);
     const mean = sum / values.length;
     return Math.sqrt(mean);
-}</code></pre></li>
-                <li>Converting the root-mean-square (RMS) values of each frame to dB values: <pre><code class="small text-muted">
+}</code></pre>
+        </li>
+        <li>
+          Converting the root-mean-square (RMS) values of each frame to dB
+          values:
+          <pre><code class="small text-muted">
 function rmsToDb(rms) {
     return 20 * Math.log10(rms);
-}</code></pre></li>
-                <li>Mapping the relative dB values to absolute dB(A) values: <pre><code class="small text-muted">
+}</code></pre>
+        </li>
+        <li>
+          Mapping the relative dB values to absolute dB(A) values:
+          <pre><code class="small text-muted">
 /**
 db: a frames db value from the previous calculation
 dbMin: the minimum db value over all frames
@@ -71,9 +93,13 @@ dbaMax: the maximum dB(A) value, provided by the user
 */
 function dbToDba(db, dbMin, dbMax, dbaMin, dbaMax) {
     return (db - dbMin) * (dbaMax - dbaMin) / (dbMax - dbMin) + dbaMin;
-}</code></pre></li>
-                <li>Filter the resulting list of dB(A) values by the threshold provided by the user</li>
-            </ol>
-        </div>
+}</code></pre>
+        </li>
+        <li>
+          Filter the resulting list of dB(A) values by the threshold provided by
+          the user
+        </li>
+      </ol>
     </div>
-</div> 
+  </div>
+</div>
