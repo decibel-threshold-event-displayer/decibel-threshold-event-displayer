@@ -13,7 +13,7 @@ and the dynamic process environment (\ref{subsubsec:process_environment}).
 The static system environment is split into the three contexts \textit{System}, \textit{System context}, and \textit{Out of scope}.\ \textit{System} includes the application
 as well as any software dependencies.
 The \textit{System context} includes people or objects which have an influence on the application.\ \textit{Out of scope} describes particularly
-what could have an influence on the application but has been deliberately excluded by the project team (see\ref{subsubsec:pre_conditions_and_boundaries}). \\ \\
+what could have an influence on the application but has been deliberately excluded by the project team (see\ref{subsubsec:pre_conditions_and_boundaries}). \\~\\
 \textit{System}:
 \begin{itemize}
     \item Frontend (User interaction)
@@ -35,12 +35,12 @@ what could have an influence on the application but has been deliberately exclud
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/system_environment.png}
+    \includegraphics[width=1\textwidth]{../assets/system_environment.png}
     \caption{System Environment}\label{fig:system-environment}
 \end{figure}
 
 \subsubsection{Process Environment (dynamics)}\label{subsubsec:process_environment}
-As in the previous chapter (\ref{subsubsec:system_environment}), the process environment is also split into \textit{System}, \textit{System context}, and \textit{Out of scope}. \\ \\
+As in the previous chapter (\ref{subsubsec:system_environment}), the process environment is also split into \textit{System}, \textit{System context}, and \textit{Out of scope}. \\~\\
 \textit{System}:
 \begin{itemize}
     \item Selecting (uploading) a WAV file
@@ -59,7 +59,7 @@ As in the previous chapter (\ref{subsubsec:system_environment}), the process env
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/process_environment.png}
+    \includegraphics[width=1\textwidth]{../assets/process_environment.png}
     \caption{Process Environment}\label{fig:process-environment}
 \end{figure}
 
@@ -104,7 +104,7 @@ The project team identified the following functional requirements:
 Research done by the project team has revealed that reading absolute decibel values from WAV files is more difficult than anticipated.
 The reason for this is that normal consumer microphones are not calibrated for scientifically accurate measurements\cite{stackoverflow_spl}. Furthermore, it is trivial for a user
 to increase the volume of a WAV file using free, easy-to-use software like Audacity\cite{audacity,audacity_amplify}.
-Therefore, the project team has decided on a tentative working hypothesis together with the Stakeholder. \\ \\
+Therefore, the project team has decided on a tentative working hypothesis together with the Stakeholder. \\~\\
 Pre-Conditions:
 \begin{itemize}
     \item The user must use a properly calibrated microphone or use a phone app which has built-in calibrations like Decibel X\cite{decibelx_ios}\cite{decibelx_android}.
@@ -123,7 +123,7 @@ Boundaries:
           There is no validation done in the application to ensure the file has not been edited.
 \end{itemize}
 
-\subsubsection{Legal requirements}
+\subsubsection{Privacy and Legal requirements}
 Because we are analyzing audio, privacy is an important point to consider.
 For analyzing the audio, we will only look at the amplitude of individual samples and take the rms over 300ms.
 No further analytics will be made.
@@ -135,6 +135,12 @@ Furthermore, the application will run solely on the client and the server are on
 css and javascript documents, hence no data is sent back to the server.
 We also don't safe any information from the user like ip address or the web client he uses.
 But we will deploy our website with GitHub pages, which means that we don't have any control about the information GitHub saves about the user.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../assets/privacy_illustrated.png}
+    \caption{Privacy Illustrated}\label{fig:privacy_illustrated}
+\end{figure}
 
 \subsection{Usability}\label{subsec:usability}
 In order to best understand the targeted user base, the project team identified personas (\ref{subsubsec:personas}) and came up with a storyboard (\ref{subsubsec:storyboard}).
@@ -210,7 +216,7 @@ The project team has created the following process model~\ref{fig:process_model}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/process_model.png}
+    \includegraphics[width=1\textwidth]{../assets/process_model.png}
     \caption{Process Model}\label{fig:process_model}
 \end{figure}
 
@@ -223,18 +229,18 @@ Based on our the previous specification, especially the functional requirements~
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/ux_prototype.png}
+    \includegraphics[width=1\textwidth]{../assets/ux_prototype.png}
     \caption{UX Prototype – PDF Report}\label{fig:ux_prototype_pdf_report}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/ux_prototype_website.png}
+    \includegraphics[width=1\textwidth]{../assets/ux_prototype_website.png}
     \caption{UX Prototype – Website}\label{fig:ux_prototype_website}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../assets/ux_prototype_website_tooltips.png}
+    \includegraphics[width=1\textwidth]{../assets/ux_prototype_website_tooltips.png}
     \caption{UX Prototype – Website with open tooltips}\label{fig:ux_prototype_website_tooltips}
 \end{figure}
