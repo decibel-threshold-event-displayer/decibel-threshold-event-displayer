@@ -146,10 +146,10 @@ The application does the following steps at runtime:
 \begin{enumerate}
     \item Load the LaTeX template: `app/js/swiftlatex/template.tex`
     \item Replace the placeholders in the template with the actual values (interpolate)
-        \begin{itemize}
-            \item user provided form data
-            \item processed audio data for the plot
-        \end{itemize}
+          \begin{itemize}
+              \item user provided form data
+              \item processed audio data for the plot
+          \end{itemize}
     \item Handover the output to SwiftLaTeX
     \item Return the resulting PDF
 \end{enumerate}
@@ -221,7 +221,7 @@ a separate about page. There is also a link to the GitHub repository, as well as
 
 \subsection{Testing}\label{subsec:testing}
 Because we don't use any Frontend Framework and instead build our own SPA, we don't have a testing framework to use.
-We therefore decides to build our own rudimentary testing framework.
+We therefore decided to build our own rudimentary testing framework.
 It consists out of 4 assert functions, a test runner and a html page for displaying the results.
 There is no automatic mechanism running the tests after every commit, the tests have to be run manually.
 
@@ -252,15 +252,15 @@ The assertEquals and assertNotEquals function work with any kind of object.
 They first stringify both objects to a json format and then compare the json.
 It is certainly not the most efficient method, but it works for all cases.
 The assertThrows and assertNotThrows both take in a function which will be called in the assert function itself and verified that it throws or not throws an exception.
-The assertGreaterThen can also take in two arguments from any type, as javascript allows such comparisons.
+The assertGreaterThen can also take in two arguments from any type, as JavaScript allows such comparisons.
 With those functions we were able to implement all our tests.
 To make sure that the assert functions work, we implemented also tests for them.
 Those test obviously don't use the assert functions and rather have some hard coded tests created for them.
 Those tests can be found in the utiltest module.
 
 \subsubsection{Creating tests}
-To create tests, one has to create a javascript file containing its tests under `app/js/test/`.
-All functions that are being exported by the given javascript file are considered to be tests and will be executed by the test runner.
+To create tests, one has to create a JavaScript file containing its tests under `app/js/test/`.
+All functions that are being exported by the given JavaScript file are considered to be tests and will be executed by the test runner.
 If a function throws an exception, it is assumed that the test failed.
 If no exception is thrown, the test passes.
 We tried to keep the manual work for adding tests minimal, but some manual work is still necessary.
@@ -299,7 +299,7 @@ It creates such a WaveFileWrapper object from the file specified on the result p
 The fronted page of the test framework is used to start the tests and view the results.
 It is additionally used to create a WaveFileWrapper object and view the properties of it.
 The test page is accessible under \href{https://decibel-threshold-event-displayer.github.io/js/test/test.html}{/js/test/test.html}.
-To run the test page on the dev server on localhost, see chapter 10.2.1.
+To run the test page on the dev server on localhost, see chapter~\ref{subsubsec:deployment-setup}.
 
 The screenshot~\ref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded *.wav file.
 \begin{figure}[H]
