@@ -1,6 +1,13 @@
 \section{Implementation}\label{sec:implementation}
 
 \subsection{Architecture}\label{subsec:architecture}
+We use github pages to deploy our website. The initial request deliviers all HTLM, CSS and JavaScript documents needed for the page to function. All further calls to the server will be request for latex dependencies for rendering the pdf. As seen in Figure ~\ref{fig:high-level-architecture}, the application contains out of 3 core components: the single page application (SPA), the audio processing component and the swiftlatex library for rendering the pdf.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../assets/high_level_architecture.png}
+    \caption{Class diagram}\label{fig:high-level-architecture}
+\end{figure}
 
 \subsubsection{Data Structures and Overview}
 For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
@@ -31,9 +38,6 @@ In order to ensure a consistent and agreeable look, the project team has decided
 
 We also decided to define default values for the threshold that the audio should get checked against,
 for which we have orientated ourselves on the immission limits from the \href{https://www.bafu.admin.ch/bafu/de/home/themen/laerm/fachinformationen/laermbelastung/grenzwerte-fuer-laerm/belastungsgrenzwerte-fuer-laerm.html}{BAFU}.
-
-\subsubsection{High-Level architecture}
-!TODO: we should put this either at the beginning or end of this chapter to show what the entire architecture looks like high-level!
 
 \clearpage
 
