@@ -10,7 +10,7 @@ We use github pages to deploy our website. The initial request deliviers all HTL
 \end{figure}
 
 \subsubsection{Data Structures and Overview}
-For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
+For conveniently accessing the data contained in the WAV file, we created the WaveFileWrapper class.
 The wrapper is used by the home components to access the relevant data needed to create an instance of the FrameCollection class.
 A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a time span of 300ms.
 A full overview of the data structures and how they are related to each other can be seen in~\ref{fig:class-diagram}
@@ -42,7 +42,7 @@ for which we have orientated ourselves on the immission limits from the \href{ht
 \clearpage
 
 \subsection{Processes}
-The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a wave file.
+The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a WAV file.
 
 \begin{figure}[H]
     \centering
@@ -50,11 +50,11 @@ The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad over
     \caption{Sequence diagram of the steps involved when creating a noise report}\label{fig:sequence-diagram-noise-report}
 \end{figure}
 
-\subsubsection{Parsing the Wave File}
-The WaveFileWrapper class will be responsible for reading and parsing the wave file.
-Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async await.
+\subsubsection{Parsing the WAV File}
+The WaveFileWrapper class will be responsible for reading and parsing the WAV file.
+Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async/await.
 The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
-It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
+It starts with a 12 byte header which we use to verify that the given file is actually a WAV file.
 After the header comes a 24 byte chunk which contains information about the data format.
 We are interested in the following fields:
 \begin{itemize}
@@ -69,6 +69,8 @@ The next 4 byte represent the number of samples in the data.
 After that comes the actual audio data.
 To parse a single sample, we need to parse a frame.
 A frame contains the data of all channels and has therefore a size of \[\frac{NbrChannels * BitsPerSample}{8}\] bytes.
+Because we support 16, 24 and 32 bit integer format, as well as the IEEE float format, we have to be careful how we read the individual bytes. 
+For reading the samples we use the dedicated bytes read functions like getInt16() or getFloat(32) provided by the javascript dataview object.
 
 \subsubsection{Calculating Decibel Values}
 If an audio file consists of several channels, we use the average of the channels as the value of the sample.
@@ -226,7 +228,7 @@ We therefore decided to build our own rudimentary testing framework.
 It consists out of 4 assert functions, a test runner and a html page for displaying the results.
 There is no automatic mechanism running the tests after every commit, the tests have to be run manually.
 
-As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use.
+As we are developing an application for analyzing a WAV file, nearly every tests first step is to create a WaveFileWrapper object for further use.
 Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous.
 We decided to use the async/wait approach instead of using promises because promises are more difficult to debug, which is not suitable for a test framework.
 The following diagram~\ref{fig:overview-test-framework} shows the internal structure of the test framework.
@@ -302,7 +304,7 @@ It is additionally used to create a WaveFileWrapper object and view the properti
 The test page is accessible under \href{https://decibel-threshold-event-displayer.github.io/js/test/test.html}{/js/test/test.html}.
 To run the test page on the dev server on localhost, see chapter~\ref{subsubsec:deployment-setup}.
 
-The screenshot~\ref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded *.wav file.
+The screenshot~\ref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded *.WAV file.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/wavefilecreator.png}
