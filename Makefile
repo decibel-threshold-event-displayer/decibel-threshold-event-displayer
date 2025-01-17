@@ -1,6 +1,6 @@
 .PHONY: dev
 dev:
-	python3 -m http.server -d app
+	python -m http.server -d app || python3 -m http.server -d app
 
 ./doc/report/report.pdf: ./doc/report/report.tex
 	cd ./doc/report \
