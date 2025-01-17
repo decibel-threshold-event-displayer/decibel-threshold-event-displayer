@@ -92,12 +92,12 @@ Another advantage of this technology is that the distribution of the necessary L
 This greatly reduces distribution complexity.\newline
 An obvious disadvantage of this approach is that the user needs to install TeXLive (and the pgfplots package) on their system, which might be difficult for non-technical users.
 
-\paragraph{Licensing}\mbox{}\newline
+\paragraph{Licensing}
 This prototype is dependent on both TeXLive and pgfplots.
 TeXLive uses a libre license that allows for the free redistribution with or without modifications~\cite{texlive_license} in accordance with the Free Software Foundation's free software definition~\cite{fsf_free_software}.
 The pgfplots package uses the GPLv3 license~\cite{pgfplots}.
 
-\paragraph{Evaluation}\mbox{}\newline
+\paragraph{Evaluation}
 \begin{table}[H]
     \centering
     \begin{tabular}{l c c}
@@ -127,10 +127,10 @@ However, this comes with the disadvantage that the complexity of the distributio
 This approach also limits the advantages of using a platform-independent programming language because for every platform there has to be a release
 which packages the appropriate binary.
 
-\paragraph{Licensing}\mbox{}\newline
+\paragraph{Licensing}
 The licensing is equivalent to the licenses of the prototype in~\fullref{subsubsec:kotlin_minimal}.
 
-\paragraph{Evaluation}\mbox{}\newline
+\paragraph{Evaluation}
 \begin{table}[H]
     \centering
     \begin{tabular}{l c c}
@@ -169,7 +169,7 @@ According to their website, the JavaScript/WebAssembly library has the following
 \end{itemize}
 If the statements on the SwiftLaTeX website hold true, it would neatly full-fill our requirements for building a client side only web application.
 
-\paragraph{Verifying basic functionality}\mbox{}\newline
+\paragraph{Verifying basic functionality}
 To make a first feasibility test we can insert our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} into the \href{https://www.SwiftLaTeX.com/\#demo}{SwiftLaTeX Demo tool}.
 Even though it took more than one and a half minute to process, we were very surprised that this just worked, see figure~\autoref{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}:
 \begin{figure}[H]
@@ -178,13 +178,13 @@ Even though it took more than one and a half minute to process, we were very sur
     \caption{Screenshot of the SwiftLaTeX Demo tool rendering the reference LaTeX pgfplots template}\label{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}
 \end{figure}
 
-\paragraph{Investigating dependencies are loaded}\mbox{}\newline
+\paragraph{Investigating dependencies are loaded}
 After investigating what actually happens on the page with the browser's developer tools network tab, we saw that SwiftLaTeX will load all dependencies asynchronously via https://texlive2.SwiftLaTeX.com/.
 This process and how self-host those files, is documented in the README.md of the SwiftLaTeX GitHub library~\cite{SwiftLaTeX_github_repository}.
 As we will be able to specify which LaTeX dependencies our application will use, it would be interesting to download and serve only the files we actually need.
 We also saw that the dependencies are loaded sequentially, which we would like to optimize to reduce the PDF generation time.
 
-\paragraph{Local development setup}\mbox{}\newline
+\paragraph{Local development setup}
 To make the same example working on a local machine, we can download the latest release from the GitHub repository: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{Releases 20/02/2022}.
 The release contains the website visible at \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com} including the compiled WebAssembly files.
 As expected, opening the index.html file from the unzipped release folder in a browser will look like the website \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com}.
@@ -203,16 +203,16 @@ python -m http.server
 \end{lstlisting}
 Validating the basic functionality with our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} on http://localhost:8000/ works now as expected.
 
-\paragraph{Distribution option 1: Python web server}\mbox{}\newline
+\paragraph{Distribution option 1: Python web server}
 This would be the easiest solution, as it is analog to the local development setup described in the previous paragraph.
 But installing Python, downloading the git repository or downloading a release and running the Python web server in the correct directory, requires at least a lot of technical affinity.
 
-\paragraph{Distribution option 2: PyInstaller}\mbox{}\newline
+\paragraph{Distribution option 2: PyInstaller}
 To enhance the end users experience we could build an executable from a Python file with PyInstaller which supports builds for Windows, macOS and Linux.
 Even though this solution worked in a quick proof of concept on a Linux system, the user would need to find the public GitLab repository and download a release, which contains the latest executables.
 Further the user might have security concerns, as downloading an executable from an unknown or untrusted source is really dangerous.
 
-\paragraph{Distribution option 3: GitHub Pages}\mbox{}\newline
+\paragraph{Distribution option 3: GitHub Pages}
 After thinking about it, we figured out that we could deploy the tool as a static HTML page to GitHub pages, this would resolve the need of downloading any source code or executable program.
 In our opinion this would result in the best user experience, as the user only needs a web browser to access and use the tool.
 As this solution was worth exploring, we deployed the prototype with GitHub pages: https://vonal3.github.io/
@@ -225,7 +225,7 @@ As this solution was worth exploring, we deployed the prototype with GitHub page
     \item pgfplots:\ \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License, version 3 or newer}
 \end{itemize}
 
-\paragraph{Evaluation}\mbox{}\newline
+\paragraph{Evaluation}
 \begin{table}[H]
     \centering
     \begin{tabular}{l c c}
