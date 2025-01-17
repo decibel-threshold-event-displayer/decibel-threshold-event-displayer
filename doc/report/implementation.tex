@@ -52,7 +52,7 @@ The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad over
 
 \subsubsection{Parsing the Wave File}
 The WaveFileWrapper class will be responsible for reading and parsing the wave file.
-Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async await.
+Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async/await.
 The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
 It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
 After the header comes a 24 byte chunk which contains information about the data format.
@@ -69,6 +69,8 @@ The next 4 byte represent the number of samples in the data.
 After that comes the actual audio data.
 To parse a single sample, we need to parse a frame.
 A frame contains the data of all channels and has therefore a size of \[\frac{NbrChannels * BitsPerSample}{8}\] bytes.
+Because we support 16, 24 and 32 bit integer format, as well as the IEEE float format, we have to be careful how we read the individual bytes. 
+For reading the samples we use the dedicated bytes read functions like getInt16() or getFloat(32) provided by the javascript dataview object.
 
 \subsubsection{Calculating Decibel Values}
 If an audio file consists of several channels, we use the average of the channels as the value of the sample.
