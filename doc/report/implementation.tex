@@ -10,7 +10,7 @@ We use github pages to deploy our website. The initial request deliviers all HTL
 \end{figure}
 
 \subsubsection{Data Structures and Overview}
-For conveniently accessing the data contained in the wave file, we created the WaveFileWrapper class.
+For conveniently accessing the data contained in the wav file, we created the WaveFileWrapper class.
 The wrapper is used by the home components to access the relevant data needed to create an instance of the FrameCollection class.
 A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a time span of 300ms.
 A full overview of the data structures and how they are related to each other can be seen in~\ref{fig:class-diagram}
@@ -42,7 +42,7 @@ for which we have orientated ourselves on the immission limits from the \href{ht
 \clearpage
 
 \subsection{Processes}
-The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a wave file.
+The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a wav file.
 
 \begin{figure}[H]
     \centering
@@ -50,11 +50,11 @@ The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad over
     \caption{Sequence diagram of the steps involved when creating a noise report}\label{fig:sequence-diagram-noise-report}
 \end{figure}
 
-\subsubsection{Parsing the Wave File}
-The WaveFileWrapper class will be responsible for reading and parsing the wave file.
+\subsubsection{Parsing the Wav File}
+The WaveFileWrapper class will be responsible for reading and parsing the wav file.
 Reading a file in a web context always works asynchronous, which is why there is a helper function `readAndParse` which has to be called with async/await.
 The format itself is straight forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
-It starts with a 12 byte header which we use to verify that the given file is actually a wave file.
+It starts with a 12 byte header which we use to verify that the given file is actually a wav file.
 After the header comes a 24 byte chunk which contains information about the data format.
 We are interested in the following fields:
 \begin{itemize}
@@ -228,7 +228,7 @@ We therefore decided to build our own rudimentary testing framework.
 It consists out of 4 assert functions, a test runner and a html page for displaying the results.
 There is no automatic mechanism running the tests after every commit, the tests have to be run manually.
 
-As we are developing an application for analyzing a wave file, nearly every tests first step is to create a WaveFileWrapper object for further use.
+As we are developing an application for analyzing a wav file, nearly every tests first step is to create a WaveFileWrapper object for further use.
 Because the reading and parsing of the file works asynchronous, the test suit has also to be asynchronous.
 We decided to use the async/wait approach instead of using promises because promises are more difficult to debug, which is not suitable for a test framework.
 The following diagram~\ref{fig:overview-test-framework} shows the internal structure of the test framework.

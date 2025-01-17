@@ -19,10 +19,10 @@ As our application will have a wide range of end users, two of our main design g
 and to make it platform independent, so it can be used with any PC operating system and ideally mobile device.
 
 \subsection{Problems with Audio Files}\label{subsec:problems-with-audio-files}
-A wave file (.wav) contains samples of the recorded audio, where each sample represents the amplitude at a given moment.
+A wav file (.wav) contains samples of the recorded audio, where each sample represents the amplitude at a given moment.
 Those amplitude values are relative to each other and not absolute.
 It is therefore impossible to determine the actual dB(A) (loudness relative to the human ear) someone would perceive without any further information~\cite{adobe_community_how_to_know_the_real_world_db_level_of_a_file,stackoverflow_how_can_i_calculate_audio_db_level,stackexchange_exteracting_sound_pressure_from_wav_file}.
 Because of this, we require the user to also give information about the minimal and maximal dB(A) measured in the given audio file.
 To do this, we recommend using a smartphone app like \href{https://apps.apple.com/ch/app/dezibel-x-dba-l\%C3\%A4rm-messger\%C3\%A4t/id448155923}{DecibelX for IOS},
 which allows the user to record the audio and also conveniently inspect the minimal and maximal dB measured in that recording.
-With those two values, we can then map the relative values from the wave file to its db(A) values.
+With those two values, we can then map the relative values from the wav file to its db(A) values.
