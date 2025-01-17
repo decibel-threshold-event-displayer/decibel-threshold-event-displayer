@@ -1,5 +1,6 @@
 .idea
 .rep
+.DS_Store
 
 # LaTeX
 *.aux
