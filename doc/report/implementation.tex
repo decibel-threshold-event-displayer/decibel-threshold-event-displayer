@@ -4,7 +4,7 @@
 We use \href{https://decibel-threshold-event-displayer.github.io/}{Github Pages} to deploy the application.
 The initial request delivers all HTML, CSS and JavaScript files needed for the page to function.
 All further calls to the server will be requests for latex dependencies for rendering the PDF.
-As seen in Figure~\ref{fig:high-level-architecture}, the application consists of three core components:
+As seen in \autoref{fig:high-level-architecture}, the application consists of three core components:
 \begin{itemize}
     \item A single page application (SPA)
     \item The audio processing component
@@ -22,7 +22,7 @@ As seen in Figure~\ref{fig:high-level-architecture}, the application consists of
 For conveniently accessing the data contained in the WAV file, we created the WaveFileWrapper class.
 The wrapper is used to access the relevant data needed to create an instance of the FrameCollection class.
 A FrameCollection object contains all Frame objects of the audio file and a single instance of the Frame class represent a set of samples covering a timespan of 300ms.
-A full overview of the data structures and how they are related to each other can be seen in~\ref{fig:class-diagram}.
+A full overview of the data structures and how they are related to each other can be seen in~\autoref{fig:class-diagram}.
 
 \begin{figure}[H]
     \centering
@@ -35,7 +35,7 @@ The frontend hosted on \href{https://decibel-threshold-event-displayer.github.io
 In this architecture, the web server provides the index.html file as and uses JavaScript to manage the web contents (DOM updates) without changing the HTML file itself.
 The project team chose to implement a small framework allowing for future expansion without rewriting the entire application.
 Since the application uses SwiftLaTeX, which is run locally using WebAssembly, the SPA provides an interface for the PDF engine to its components.
-The Single Page Applications Architecture is visualized in~\ref{fig:spa-architecture}.
+The Single Page Applications Architecture is visualized in~\autoref{fig:spa-architecture}.
 
 \begin{figure}[H]
     \centering
@@ -46,7 +46,7 @@ The Single Page Applications Architecture is visualized in~\ref{fig:spa-architec
 \clearpage
 
 \subsection{Processes}
-The following diagram~\ref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a WAV file.
+\autoref{fig:sequence-diagram-noise-report} gives a broad overview over the core steps involved when creating a noise report from a WAV file.
 
 \begin{figure}[H]
     \centering
@@ -88,7 +88,7 @@ a list of frames for a whole audio file.
 We will, as usual when working with audio, use the root-mean-square (RMS), as we are interested in the absolute amplitude values.
 
 We implemented the calculation of the root-mean-square as the method `getRMS()` on the Frame class,
-which in turn calls the rms function shown in~\ref{lst:javascript-function-rms}.
+which in turn calls the rms function shown in~\autoref{lst:javascript-function-rms}.
 
 \begin{lstlisting}[caption={JavaScript RMS function},label={lst:javascript-function-rms},language=JavaScript]
 /**
@@ -104,7 +104,7 @@ function rms(values){
 
 The calculated average then depends heavily on how long the time period is.
 In practice, 300ms is usually used~\cite{timespan_for_audio_rms_calculate}.
-The decibel value is calculated with the formula shown in ~\ref{lst:javascript-function-rms-to-db}, which we derived from ~\cite{decibel_wikipedia}.
+The decibel value is calculated with the formula shown in~\autoref{lst:javascript-function-rms-to-db}, which we derived from~\cite{decibel_wikipedia}.
 
 \begin{lstlisting}[caption={JavaScript RMS to DB function},label={lst:javascript-function-rms-to-db},language=JavaScript]
 /**
@@ -121,7 +121,7 @@ We implemented a method `getDb()` on the Frame class, which computes this value.
 As mentioned in the introduction, the WAV file format only contains relative values.
 We therefore need to map the RMS values to the number range of the reference values,
 where the smallest sample is mapped to the minimal dB(A) and the largest sample is mapped to the maximal dB(A) measured.
-This calculation does not work in the context of a single frame and is therefore part of the FrameCollection class. ~\ref{lst:javascript-function-db-to-dba} shows the calculation of mapping between dB and dB(A) values. 
+This calculation does not work in the context of a single frame and is therefore part of the FrameCollection class.~\autoref{lst:javascript-function-db-to-dba} shows the calculation of mapping between dB and dB(A) values. 
 
 \begin{lstlisting}[caption={JavaScript DB to DBA function},label={lst:javascript-function-db-to-dba},language=JavaScript]
 /**
@@ -178,11 +178,11 @@ Currently, this process involves some manual steps and could be automated later.
 
 \subsection{User Experience (UX)}\label{subsec:ux}
 \subsubsection{Main Page}\label{subsubsec:main-page}
-The user experience (frontend) was implemented according to the specification~\ref{subsubsec:ux_prototyping} where possible.
+The user experience (frontend) was implemented according to the specification in~\fullref{subsubsec:ux_prototyping} where possible.
 The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the dropzone to upload files,
 all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a dropzone.
 The project team decided against implementing another library due to the additional upkeep required. Instead, they decided for using the file input provided by Bootstrap.
-See the frontend implementation in the respective figures~\ref{fig:implementation-frontend}~\ref{fig:implementation-tooltip}.
+See the frontend implementation in the respective figures~\autoref{fig:implementation-frontend} and~\autoref{fig:implementation-tooltip}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_form.png}
@@ -194,22 +194,22 @@ See the frontend implementation in the respective figures~\ref{fig:implementatio
     \caption{Tooltip}\label{fig:implementation-tooltip}
 \end{figure}
 In order to support the user when determining thresholds, the applied threshold form field is implemented as a datalist tag. This allows the user to input custom values, while
-providing suggestions for pre-determined values~\ref{fig:implementation-threshold}.
+providing suggestions for pre-determined values (see~\autoref{fig:implementation-threshold}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{../assets/implementation_threshold.png}
     \caption{Default Thresholds}\label{fig:implementation-threshold}
 \end{figure}
-Another departure from the specification was the addition of a separate about page~\ref{subsubsec:about-page}. Since it was easy to implement,
+Another departure from the specification was the addition of a separate about page (see~\fullref{subsubsec:about-page}). Since it was easy to implement,
 the project team has decided to add a preview for the rendered document alongside the download button. This improves feedback because it allows the user to
-check what the file looks like before saving, helping them spot typos and other issues~\ref{fig:implementation-preview} early.
+check what the file looks like before saving, helping them spot typos and other issues early (see~\autoref{fig:implementation-preview}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_preview.png}
     \caption{Report Preview}\label{fig:implementation-preview}
 \end{figure}
 To provide additional feedback and ensure consistent results, the project team has also implemented
-validations for the important input fields~\ref{fig:implementation-validation}.
+validations for the important input fields (see~\autoref{fig:implementation-validation}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_validation.png}
@@ -218,7 +218,7 @@ validations for the important input fields~\ref{fig:implementation-validation}.
 
 \subsubsection{About Page}\label{subsubsec:about-page}
 To provide users with additional information about the application's implementation, privacy concerns, calculation details, as well as an impressum, the project team implemented
-a separate about page. There is a link to the GitHub repository, as well as a disclaimer about the accuracy of the results. See \ref{fig:implementation-about-page} for an excerpt of the implementation.
+a separate about page. There is a link to the GitHub repository, as well as a disclaimer about the accuracy of the results. See \autoref{fig:implementation-about-page} for an excerpt of the implementation.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.75\textwidth]{../assets/implementation_about_page.png}
@@ -234,7 +234,7 @@ There is no automatic mechanism to run the tests after every commit, they have t
 As we are developing an application for analyzing a WAV file, nearly every test's first step is to create a WaveFileWrapper object for further use.
 Because the reading and parsing of the file works asynchronously, the test suite also has to be asynchronous.
 We decided to use the async/wait approach instead of using Promise because they are more difficult to debug, which is not suitable for a test framework.
-The following diagram~\ref{fig:overview-test-framework} shows the internal structure of the test framework.
+\autoref{fig:overview-test-framework} shows the internal structure of the test framework.
 
 \begin{figure}[H]
     \centering
@@ -270,8 +270,8 @@ All functions that are being exported by the given JavaScript file are considere
 If a function throws an exception, it is assumed that the test failed.
 If no exception is thrown, the test passes.
 We tried to keep the manual work for adding tests minimal, but some manual work is still necessary.
-To add a new test module, the module has to be imported into the test runner file as shown in~\ref{lst:javascript-test-framework-importing-module-with-tests}.
-After that, a new call to the function runTestGroup can be added as it's shown in~\ref{lst:javascript-test-framework-adding-a-method-call-to-run-a-test-module}, which will then add the test.
+To add a new test module, the module has to be imported into the test runner file as shown in~\autoref{lst:javascript-test-framework-importing-module-with-tests}.
+After that, a new call to the function runTestGroup can be added as it's shown in~\autoref{lst:javascript-test-framework-adding-a-method-call-to-run-a-test-module}, which will then add the test.
 Take a look at the existing tests as a reference.
 
 \begin{lstlisting}[caption={Importing a module with tests},label={lst:javascript-test-framework-importing-module-with-tests},language=JavaScript]
@@ -305,16 +305,16 @@ It creates such a WaveFileWrapper object from the file specified on the result p
 The fronted page of the test framework is used to start the tests and view the results.
 It is additionally used to create a WaveFileWrapper object and view the properties of it.
 The test page is accessible under \href{https://decibel-threshold-event-displayer.github.io/js/test/test.html}{/js/test/test.html}.
-To run the test page on the dev server on localhost, see chapter~\ref{subsubsec:deployment-setup}.
+To run the test page on the dev server on localhost, see chapter~\fullref{subsubsec:deployment-setup}.
 
-The screenshot~\ref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded WAV file.
+The screenshot~\autoref{fig:create-a-wavefilewrapper-object} shows how the test framework validated an uploaded WAV file.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/wavefilecreator.png}
     \caption{Create a WaveFileWrapper object and view its properties}\label{fig:create-a-wavefilewrapper-object}
 \end{figure}
 
-On screenshot~\ref{fig:test-results} we can see the test results after running the test runner.
+On screenshot~\autoref{fig:test-results} we can see the test results after running the test runner.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{../assets/test_results.png}

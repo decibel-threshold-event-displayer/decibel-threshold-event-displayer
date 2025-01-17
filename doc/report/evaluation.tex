@@ -119,7 +119,7 @@ The pgfplots package uses the GPLv3 license~\cite{pgfplots}.
 \end{table}
 
 \subsubsection{Kotlin bundled – Kotlin bundled with pdflatex}\label{sec:kotlin_bundled}
-Similarly to the prototype in Kotlin minimal~\ref{subsubsec:kotlin_minimal}, this prototype uses Kotlin and invokes the pdflatex binary.
+Similarly to the prototype in~\fullref{subsubsec:kotlin_minimal}, this prototype uses Kotlin and invokes the pdflatex binary.
 The major difference is that the pdflatex binary is provided alongside
 the software.
 The advantage of this approach is that the user does not have to install TexLive or any dependencies, greatly improving usability.
@@ -128,7 +128,7 @@ This approach also limits the advantages of using a platform-independent program
 which packages the appropriate binary.
 
 \paragraph{Licensing}\mbox{}\newline
-The licensing is equivalent to the licenses of the prototype in Kotlin minimal~\ref{subsubsec:kotlin_minimal}.
+The licensing is equivalent to the licenses of the prototype in~\fullref{subsubsec:kotlin_minimal}.
 
 \paragraph{Evaluation}\mbox{}\newline
 \begin{table}[H]
@@ -170,8 +170,8 @@ According to their website, the JavaScript/WebWebassembly library has the follow
 If the statements on the SwiftLaTeX website hold true, it would neatly full-fill our requirements for building a client side only web application.
 
 \paragraph{Verifying basic functionality}\mbox{}\newline
-To make a first feasibility test we can insert our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} into the \href{https://www.SwiftLaTeX.com/\#demo}{SwiftLaTeX Demo tool}.
-Even though it took more than one and a half minute to process, we were very surprised that this just worked, see figure~\ref{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}:
+To make a first feasibility test we can insert our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} into the \href{https://www.SwiftLaTeX.com/\#demo}{SwiftLaTeX Demo tool}.
+Even though it took more than one and a half minute to process, we were very surprised that this just worked, see figure~\autoref{fig:SwiftLaTeX_demo_rendering_latex_pgfplots_template}:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{SwiftLaTeX_demo_pgfplots}
@@ -188,7 +188,7 @@ We also saw that the dependencies are loaded sequentially, which we would like t
 To make the same example working on a local machine, we can download the latest release from the GitHub repository: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{Releases 20/02/2022}.
 The release contains the website visible at \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com} including the compiled WebAssembly files.
 As expected, opening the index.html file from the unzipped release folder in a browser will look like the website \href{https://www.SwiftLaTeX.com/}{SwiftLaTeX.com}.
-Validating the basic functionality with our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} did not work, as we get the following error message in the JavaScript console:
+Validating the basic functionality with our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} did not work, as we get the following error message in the JavaScript console:
 \begin{lstlisting}[caption={SwiftLaTeX local development setup: JavaScript error message},label={lst:SwiftLaTeX_local_setup_js_error}]
 PdfTeXEngine.js:89 Uncaught (in promise) SecurityError: Failed to construct 'Worker': Script at 'file:///home/lukas/Downloads/20-02-2022/SwiftLaTeXpdftex.js' cannot be accessed from origin 'null'.
 ...
@@ -201,7 +201,7 @@ We just have to run the following command in the directory of the unpacked Swift
 \begin{lstlisting}[caption={Start a webserver on http://localhost:8000/ with Python},language=bash,label={lst:lstlisting}]
 python -m http.server
 \end{lstlisting}
-Validating the basic functionality with our reference LaTeX pgfplots template~\ref{lst:reference_latex_pgfplots_template} on http://localhost:8000/ works now as expected.
+Validating the basic functionality with our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} on http://localhost:8000/ works now as expected.
 
 \paragraph{Distribution option 1: Python webserver}\mbox{}\newline
 This would be the easiest solution, as it is analog to the local development setup described in the previous paragraph.
