@@ -157,8 +157,8 @@ During the projects initial discussions, which had brainstorm like character, we
     \item Providing the functionality as a web application would be probably the easiest and most accessible way for an end user to use the tool.
     \item Introducing the additional constraint of running the application only on the client side, would also avoid any infrastructure service and maintenance cost.
 \end{itemize}
-After a quick search we found the following open source JavaScript/WebWebassembly project: \href{https://www.swiftlatex.com/}{SwiftLaTeX: WYSIWYG LaTeX Editor for Browsers}
-According to their website, the JavaScript/WebWebassembly library has the following characteristics~\cite{swiftlatex_website}:
+After a quick search we found the following open source JavaScript/WebAssembly project: \href{https://www.swiftlatex.com/}{SwiftLaTeX: WYSIWYG LaTeX Editor for Browsers}
+According to their website, the JavaScript/WebAssembly library has the following characteristics~\cite{swiftlatex_website}:
 \begin{itemize}
     \item 100\% Browser – PdfTeX and XeTeX written in WebAssembly and run in browsers.
     \item Compatibility – Produce exact same output you would get from TexLive or MikTeX\@.
@@ -179,10 +179,10 @@ Even though it took more than one and a half minute to process, we were very sur
 \end{figure}
 
 \paragraph{Investigating dependencies are loaded}\mbox{}\newline
-After investigating what actually happens on the page with the browsers developer tools network tab, we saw that SwiftLaTeX will load all dependencies asynchronously via https://texlive2.SwiftLaTeX.com/.
+After investigating what actually happens on the page with the browser's developer tools network tab, we saw that SwiftLaTeX will load all dependencies asynchronously via https://texlive2.SwiftLaTeX.com/.
 This process and how self-host those files, is documented in the README.md of the SwiftLaTeX GitHub library~\cite{SwiftLaTeX_github_repository}.
 As we will be able to specify which LaTeX dependencies our application will use, it would be interesting to download and serve only the files we actually need.
-We also saw that the dependencies are loaded sequentially, which we would like to optimize to reduce the pdf generation time.
+We also saw that the dependencies are loaded sequentially, which we would like to optimize to reduce the PDF generation time.
 
 \paragraph{Local development setup}\mbox{}\newline
 To make the same example working on a local machine, we can download the latest release from the GitHub repository: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{Releases 20/02/2022}.
@@ -196,20 +196,20 @@ PdfTeXEngine.js:89 Uncaught (in promise) SecurityError: Failed to construct 'Wor
 
 According to the following \href{https://stackoverflow.com/questions/21408510/chrome-cant-load-web-worker}{stackoverflow question}, Google Chrome does not load web workers when running scripts from local files.
 The web worker is required to run WebAssembly, which does all the actual LaTeX to PDF transformation in this prototype.
-The easiest solution for this issue is to run a webserver, luckily this is trivial with Python.
+The easiest solution for this issue is to run a web server, luckily this is trivial with Python.
 We just have to run the following command in the directory of the unpacked SwiftLaTeX release folder:
 \begin{lstlisting}[caption={Start a webserver on http://localhost:8000/ with Python},language=bash,label={lst:lstlisting}]
 python -m http.server
 \end{lstlisting}
 Validating the basic functionality with our reference LaTeX pgfplots template~\autoref{lst:reference_latex_pgfplots_template} on http://localhost:8000/ works now as expected.
 
-\paragraph{Distribution option 1: Python webserver}\mbox{}\newline
+\paragraph{Distribution option 1: Python web server}\mbox{}\newline
 This would be the easiest solution, as it is analog to the local development setup described in the previous paragraph.
 But installing Python, downloading the git repository or downloading a release and running the Python web server in the correct directory, requires at least a lot of technical affinity.
 
 \paragraph{Distribution option 2: PyInstaller}\mbox{}\newline
 To enhance the end users experience we could build an executable from a Python file with PyInstaller which supports builds for Windows, macOS and Linux.
-Even though this solution worked in a quick proof of concept on a linux system, the user would need to find the public GitLab repository and download a release, which contains the latest executables.
+Even though this solution worked in a quick proof of concept on a Linux system, the user would need to find the public GitLab repository and download a release, which contains the latest executables.
 Further the user might have security concerns, as downloading an executable from an unknown or untrusted source is really dangerous.
 
 \paragraph{Distribution option 3: GitHub Pages}\mbox{}\newline
@@ -274,4 +274,4 @@ After evaluating the different possible technologies, the following third party 
     \item pgfplots: \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License, version 3 or newer}
     \item Bootstrap: \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{Bootstrap License}, \href{https://en.wikipedia.org/wiki/MIT_License}{MIT License} (GPL Compatible)
 \end{itemize}
-To be conform with the used software, we will also publish our code under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GPL-3.0 licence (FLOSS)}.
+To conform with the licenses of the dependencies, we will also publish our code under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GPL-3.0 licence (FLOSS)}.

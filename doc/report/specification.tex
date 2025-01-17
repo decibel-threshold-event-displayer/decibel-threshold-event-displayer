@@ -18,7 +18,7 @@ what could have an influence on the application but has been deliberately exclud
 \begin{itemize}
     \item Frontend (User interaction)
     \item LaTeX and pgfplots
-    \item WAV file analyser
+    \item WAV file analyzer
 \end{itemize}
 \textit{System context}:
 \begin{itemize}
@@ -78,7 +78,7 @@ The project team identified the following functional requirements:
         \midrule
         R2          & Validate the uploaded file to ensure it is in WAV format, providing an error message if it is not.                      & MUST              \\
         \midrule
-        R3          & Analyse the uploaded WAV file and calculate the noise level in decibels (dB).                                           & MUST              \\
+        R3          & Analyze the uploaded WAV file and calculate the noise level in decibels (dB).                                           & MUST              \\
         \midrule
         R4          & Allow users to download the plotted noise data as an image or PDF.                                                      & MUST              \\
         \midrule
@@ -129,7 +129,7 @@ For analyzing the audio, we will only look at the amplitude of individual sample
 No further analytics will be made.
 The get the rms, a number of individual samples are combined into one, which will then be plotted in the resulting document.
 Because of the rms, it is impossible to reconstruct the original audio from the plot.
-Additionally, we don't use any library to analyse the audio so we have full control over what's happening.
+Additionally, we don't use any library to analyze the audio so we have full control over what's happening.
 
 Furthermore, the application will run solely on the client and the server are only providing the HTML,
 CSS and JavaScript files, hence no data is sent back to the server.
@@ -169,10 +169,10 @@ Nonetheless, the project team has attempted to capture the most common attribute
         \textbf{Goals}          & Daniel wants to expand his client base in hopes of possibly quitting at his workplace and founding his own consulting firm. \\
         \midrule
         \textbf{Frustrations}   & Daniel needs a lot of sleep which has been difficult ever since his first child was born.
-        Much worse however, is that his new upstairs neighbours are up late every night, playing loud music,
+        Much worse however, is that his new upstairs neighbors are up late every night, playing loud music,
         stomping across the floor, or arguing loudly. Daniel has already asked them to be more considerate but to no avail.                                   \\
         \midrule
-        \textbf{Expectations}   & Daniel expects to find a way to prove to the police that his neighbours are consistently
+        \textbf{Expectations}   & Daniel expects to find a way to prove to the police that his neighbors are consistently
         breaking the law and interfering with his and his families' lives. He expects this solution to be free, easy to use, and reliable.                    \\
         \bottomrule
     \end{tabularx}

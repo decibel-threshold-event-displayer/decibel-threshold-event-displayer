@@ -57,23 +57,23 @@ The Single Page Applications Architecture is visualized in~\autoref{fig:spa-arch
 \subsubsection{Parsing the WAV File}
 The WaveFileWrapper class is responsible for reading and parsing the WAV file.
 Reading a file in a web context always works asynchronously, which is why there is a helper function `readAndParse` which has to be called with async/await.
-The format itself is straight-forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is Little-Endian.
+The format itself is straight-forward\cite{wav_file_format_wikipedia}, the only important thing is that the whole file is little-endian.
 It starts with a 12 byte header which we use to verify that the given file is actually a WAV file.
 After the header there is a 24 byte chunk containing information about the data format.
 We are interested in the following fields:
 \begin{itemize}
     \item AudioFormat (2 bytes): we only support PCM and IEEE Float format
     \item NbrChannels (2 bytes): is used to parse individual samples
-    \item Frequency (4 bytes): number of samples per second, this is needed for filtering and summarising
+    \item Frequency (4 bytes): number of samples per second, this is needed for filtering and summarizing
     \item BitsPerSample (2 bytes): number of bits for a single sample for a single channel, is used to parse individual samples
 \end{itemize}
-After the format chunk follow several optional metadata chunks, which we don't need. Therefore we skip those chunks and go straight to the data chunk.
+After the format chunk follow several optional metadata chunks, which we don't need. Therefore, we skip those chunks and go straight to the data chunk.
 This chunk starts with the 4 bytes long DataBlocID, which should always have the value `data`.
 The next 4 bytes represent the number of samples in the data.
 After that lies the actual audio data.
 To parse a single sample, we need to parse a frame.
 A frame contains the data of all channels and therefore has a size of \[\frac{NbrChannels * BitsPerSample}{8}\] bytes.
-Because we support 16, 24 and 32 bit integer formats, as well as the IEEE float format, we have to be careful how we read the individual bytes. 
+Because we support 16, 24 and 32-bit integer formats, as well as the IEEE float format, we have to be careful how we read the individual bytes. 
 For reading the samples we use the dedicated bytes read functions like getInt16() or getFloat(32) provided by the JavaScript DataView object.
 
 \subsubsection{Calculating Decibel Values}
@@ -151,7 +151,7 @@ The implementation details can be found at the following two resources:
 
 We integrated SwiftLaTeX into our application by downloading the~\href{https://github.com/SwiftLaTeX/SwiftLaTeX/releases/tag/v20022022}{latest release (20/02/2022)}
 and storing the files as part of our source code.
-This way we don't have to add a dependency management tool such as npm and can we could customize the code as needed.
+This way we don't have to add a dependency management tool such as npm so we were able to customize the code as needed.
 The application does the following steps at runtime:
 \begin{enumerate}
     \item Load the LaTeX template: `app/js/swiftlatex/template.tex`
@@ -167,8 +167,8 @@ This means we have to download all LaTeX files from a public source. We are usin
 \href{https://texlive2.swiftlatex.com/}{texlive2.swiftlatex.com}
 
 We collected all required LaTeX dependencies by modifying the SwiftLaTeX JavaScript in such a way that during a dry run,
-all requests pdf generation are stored in an array, which is then printed to the console.
-We put the console output in the file ``app/dependencies.json`` and created a python script under ``app/download\_dependencies.py``,
+all requests PDF generation are stored in an array, which is then printed to the console.
+Afterward, we put the console output in the file ``app/dependencies.json`` and created a python script under ``app/download\_dependencies.py``,
 which downloads all LaTeX files to the directory ``app/dependencies/``.
 We then copied the contents of ``app/dependencies.json`` to ``app/dependencies.local.json`` and made the paths relative.
 Now we load this file in our main JavaScript file ``app/app.js`` and use ``Promise.all`` together with ``fetch`` to load
@@ -179,8 +179,8 @@ Currently, this process involves some manual steps and could be automated later.
 \subsection{User Experience (UX)}\label{subsec:ux}
 \subsubsection{Main Page}\label{subsubsec:main-page}
 The user experience (frontend) was implemented according to the specification in~\fullref{subsubsec:ux_prototyping} where possible.
-The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the dropzone to upload files,
-all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a dropzone.
+The project team decided to use Bootstrap v5 to provide coherent look and because it is licensed under MIT. Except for the drop zone to upload files,
+all components are provided in vanilla Bootstrap. Unfortunately, Bootstrap does not provide a built-in component to style the file upload as a drop zone.
 The project team decided against implementing another library due to the additional upkeep required. Instead, they decided for using the file input provided by Bootstrap.
 See the frontend implementation in the respective figures~\autoref{fig:implementation-frontend} and~\autoref{fig:implementation-tooltip}.
 \begin{figure}[H]
@@ -217,7 +217,7 @@ validations for the important input fields (see~\autoref{fig:implementation-vali
 \end{figure}
 
 \subsubsection{About Page}\label{subsubsec:about-page}
-To provide users with additional information about the application's implementation, privacy concerns, calculation details, as well as an impressum, the project team implemented
+To provide users with additional information about the application's implementation, privacy concerns, calculation details, as well as the project team's contact details, the project team implemented
 a separate about page. There is a link to the GitHub repository, as well as a disclaimer about the accuracy of the results. See \autoref{fig:implementation-about-page} for an excerpt of the implementation.
 \begin{figure}[H]
     \centering
@@ -255,7 +255,7 @@ For implementing tests there are five assert functions contained in the util mod
 
 If the assertion of a function fails, it throws an exception with some information on why the test failed.
 The assertEquals and assertNotEquals function work with any kind of object.
-They first stringify both objects to a json format and then compare the json.
+They first stringify both objects to a JSON format and then compare the JSON.
 It is certainly not the most efficient method, but it works for all cases.
 The assertThrows and assertNotThrows both take in a function which will be called in the assert function itself and verified that it throws or not throws an exception.
 The assertGreaterThen can also take in two arguments from any type, as JavaScript allows such comparisons.
@@ -293,7 +293,7 @@ function runTests() {
 
 \subsubsection{Test runner}
 The test runner is responsible for running the tests.
-It runs every test module in sequence and summarises its results.
+It runs every test module in sequence and summarizes its results.
 For each module a table in the result page is created which contains the test names, result and in the case of a failed test a message why it failed.
 The tests are run when the dedicated button in the frontend is pressed.
 The test runner always runs every test of every test module.

@@ -21,17 +21,17 @@ The following list and the graphic~\autoref{fig:deployment_flow} elaborates on t
 We are using a Makefile to automate the development setup, build and deploy the application to GitHub Pages.
 
 \subsubsection{Development setup}\label{subsubsec:deployment-setup}
-A local webserver is needed work on the application as some Browsers will not execute web workers on locally served files~\cite{stackoverflow_chrome_cant_load_web_worker}.
-By default, the project uses the built-in webserver of Python 3.
+A local web server is needed work on the application as some Browsers will not execute web workers on locally served files~\cite{stackoverflow_chrome_cant_load_web_worker}.
+By default, the project uses the built-in web server of Python 3.
 Python 3 can be installed with the systems package manager or by downloading it from the \href{https://www.python.org/downloads/}{official website}.
-Afterward the following command can be used to run the local webserver on \href{http://0.0.0.0:8000/}{0.0.0.0:8000/\#/}:
+Afterward the following command can be used to run the local web server on \href{http://0.0.0.0:8000/}{0.0.0.0:8000/\#/}:
 
 \begin{lstlisting}[caption={Makefile: Start local webserver},label={lst:makefile_start_local_webserver},language=Bash]
 $ make dev
 \end{lstlisting}
 
 \subsubsection{Distribution}
-The project and the repository is managed via the GitLab of BFH,
+The project and the repository are managed via the GitLab of BFH,
 but we want to use GitHub pages to deploy and distribute our application,
 the project team decided that we mirror the GitLab repository to GitHub:
 \begin{itemize}
