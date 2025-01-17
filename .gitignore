@@ -1,5 +1,6 @@
 .idea
 .rep
+.DS_Store
 
 # LaTeX
 *.aux
@@ -16,3 +17,4 @@
 *.bbl
 *.blg
 *.vrb
+*.lol

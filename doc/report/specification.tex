@@ -6,19 +6,19 @@ Assumptions and constraints are described in the following sections and were val
 the defined product owner and the stakeholder.
 
 \subsection{System Delimitation}\label{subsec:system-delimination}
-The system delimitation is split into the static system environment (\ref{subsubsec:system_environment})
-and the dynamic process environment (\ref{subsubsec:process_environment}).
+The system delimitation is split into the static system environment described in \fullref{subsubsec:system_environment}
+and the dynamic process environment described in \fullref{subsubsec:process_environment}.
 
-\subsubsection{System Environment (statics)}\label{subsubsec:system_environment}
+\subsubsection{System Environment}\label{subsubsec:system_environment}
 The static system environment is split into the three contexts \textit{System}, \textit{System context}, and \textit{Out of scope}.\ \textit{System} includes the application
 as well as any software dependencies.
 The \textit{System context} includes people or objects which have an influence on the application.\ \textit{Out of scope} describes particularly
-what could have an influence on the application but has been deliberately excluded by the project team (see\ref{subsubsec:pre_conditions_and_boundaries}). \\~\\
+what could have an influence on the application but has been deliberately excluded by the project team (see~\fullref{subsubsec:pre_conditions_and_boundaries}). \\~\\
 \textit{System}:
 \begin{itemize}
     \item Frontend (User interaction)
     \item LaTeX and pgfplots
-    \item WAV file analyser
+    \item WAV file analyzer
 \end{itemize}
 \textit{System context}:
 \begin{itemize}
@@ -39,8 +39,8 @@ what could have an influence on the application but has been deliberately exclud
     \caption{System Environment}\label{fig:system-environment}
 \end{figure}
 
-\subsubsection{Process Environment (dynamics)}\label{subsubsec:process_environment}
-As in the previous chapter (\ref{subsubsec:system_environment}), the process environment is also split into \textit{System}, \textit{System context}, and \textit{Out of scope}. \\~\\
+\subsubsection{Process Environment}\label{subsubsec:process_environment}
+As in the previous chapter \fullref{subsubsec:system_environment}, the process environment is also split into \textit{System}, \textit{System context}, and \textit{Out of scope}. \\~\\
 \textit{System}:
 \begin{itemize}
     \item Selecting (uploading) a WAV file
@@ -54,7 +54,7 @@ As in the previous chapter (\ref{subsubsec:system_environment}), the process env
 \end{itemize}
 \textit{Out of scope}:
 \begin{itemize}
-    \item Device calibration (see \ref{subsubsec:pre_conditions_and_boundaries})
+    \item Device calibration (see \fullref{subsubsec:pre_conditions_and_boundaries})
 \end{itemize}
 
 \begin{figure}[H]
@@ -78,7 +78,7 @@ The project team identified the following functional requirements:
         \midrule
         R2          & Validate the uploaded file to ensure it is in WAV format, providing an error message if it is not.                      & MUST              \\
         \midrule
-        R3          & Analyse the uploaded WAV file and calculate the noise level in decibels (dB).                                           & MUST              \\
+        R3          & Analyze the uploaded WAV file and calculate the noise level in decibels (dB).                                           & MUST              \\
         \midrule
         R4          & Allow users to download the plotted noise data as an image or PDF.                                                      & MUST              \\
         \midrule
@@ -127,14 +127,14 @@ Boundaries:
 Because we are analyzing audio, privacy is an important point to consider.
 For analyzing the audio, we will only look at the amplitude of individual samples and take the rms over 300ms.
 No further analytics will be made.
-The get the rms, we combine a number of individual samples into a single one, which will then be ploted in the resulting document.
-Because of the rms we take, it is impossible to reconstruct the original audio from the plot.
-Additionally, we don't use any library to analyse the audio so we have full control over what's happening.
+The get the rms, a number of individual samples are combined into one, which will then be plotted in the resulting document.
+Because of the rms, it is impossible to reconstruct the original audio from the plot.
+Additionally, we don't use any library to analyze the audio so we have full control over what's happening.
 
-Furthermore, the application will run solely on the client and the server are only providing the html,
-css and javascript documents, hence no data is sent back to the server.
-We also don't safe any information from the user like ip address or the web client he uses.
-But we will deploy our website with GitHub pages, which means that we don't have any control about the information GitHub saves about the user.
+Furthermore, the application will run solely on the client and the server are only providing the HTML,
+CSS and JavaScript files, hence no data is sent back to the server.
+We also don't store any information from the user like IP addresses or the user agent.
+However, the deployment will use GitHub pages, meaning we don't have any control about the information GitHub stores about the user.
 
 \begin{figure}[H]
     \centering
@@ -143,8 +143,8 @@ But we will deploy our website with GitHub pages, which means that we don't have
 \end{figure}
 
 \subsection{Usability}\label{subsec:usability}
-In order to best understand the targeted user base, the project team identified personas (\ref{subsubsec:personas}) and came up with a storyboard (\ref{subsubsec:storyboard}).
-Using this specification, the project team created prototypes for the user interface as well as the PDF report generated by the application (\ref{subsubsec:ux_prototyping}).
+In order to best understand the targeted user base, the project team identified personas~\fullref{subsubsec:personas}.
+Using this specification, the project team created prototypes for the user interface as well as the PDF report generated by the application~\fullref{subsubsec:ux_prototyping}.
 
 \subsubsection{Personas}\label{subsubsec:personas}
 Noise is a problem almost every demographic can be affected by.
@@ -169,10 +169,10 @@ Nonetheless, the project team has attempted to capture the most common attribute
         \textbf{Goals}          & Daniel wants to expand his client base in hopes of possibly quitting at his workplace and founding his own consulting firm. \\
         \midrule
         \textbf{Frustrations}   & Daniel needs a lot of sleep which has been difficult ever since his first child was born.
-        Much worse however, is that his new upstairs neighbours are up late every night, playing loud music,
+        Much worse however, is that his new upstairs neighbors are up late every night, playing loud music,
         stomping across the floor, or arguing loudly. Daniel has already asked them to be more considerate but to no avail.                                   \\
         \midrule
-        \textbf{Expectations}   & Daniel expects to find a way to prove to the police that his neighbours are consistently
+        \textbf{Expectations}   & Daniel expects to find a way to prove to the police that his neighbors are consistently
         breaking the law and interfering with his and his families' lives. He expects this solution to be free, easy to use, and reliable.                    \\
         \bottomrule
     \end{tabularx}
@@ -209,7 +209,7 @@ Nonetheless, the project team has attempted to capture the most common attribute
 \end{table}
 
 \subsubsection{Process Model}\label{subsubsec:process_model}
-The project team has created the following process model~\ref{fig:process_model}, which is a high level illustration of how the application should work.
+The project team has created the following process model~\autoref{fig:process_model}, which is a high level illustration of how the application should work.
 
 \begin{figure}[H]
     \centering
@@ -218,10 +218,10 @@ The project team has created the following process model~\ref{fig:process_model}
 \end{figure}
 
 \subsubsection{UX-Prototyping}\label{subsubsec:ux_prototyping}
-Based on our the previous specification, especially the functional requirements~\ref{subsubsec:functional_requirements} and the process model~\ref{fig:process_model}, the project team identified two main UX components of the application and created their respective UX-Prototypes:
+Based on the functional requirements~\fullref{subsubsec:functional_requirements} and the process model~\autoref{fig:process_model}, the project team identified two main UX components of the application and created their respective UX-Prototypes:
 \begin{itemize}
-    \item UX Prototype – Website~\ref{fig:ux_prototype_website},~\ref{fig:ux_prototype_website_tooltips}
-    \item UX Prototype – PDF Report~\ref{fig:ux_prototype_pdf_report}
+    \item UX Prototype – Website~\autoref{fig:ux_prototype_website},~\autoref{fig:ux_prototype_website_tooltips}
+    \item UX Prototype – PDF Report~\autoref{fig:ux_prototype_pdf_report}
 \end{itemize}
 
 \begin{figure}[H]

@@ -1,14 +1,34 @@
 \section{Conclusion}
-This was the first time that anyone of us has worked that much with audio files. We learned a lot about how audio overall works and how to process it. We learned especially a lot about how the WAV file format or rather the riff format family works, because we implemented our own parser for that. As in every project there were some challenges we encountered in the course of the semester, but we never had the feeling that we were not in control of the situation. We are pleased with how we managed the project and the outcome of the project. To implement it as webbased application was a good decision, as the user does not need to install anything and it is accessible from everywhere. This way we can reach the miximal number of potential users. We think that our application provide some real value for people affected by noice disturbance, because they have the possibility to create a full noice report with an easy to use website.
+This was the first time that anyone of us has worked that much with audio files. We learned a lot about how audio overall works and how to process it.
+We learned especially a lot about how the WAV file format or rather the riff format family works, because we implemented our own parser for that.
+As in every project there were some challenges we encountered in the course of the semester, but we never had the feeling that we were not in control of the situation.
+We are pleased with how we managed the project and the outcome of the project. To implement it as web-based application was a good decision, as the user does not need
+to install anything, and it is accessible from everywhere. This way we can reach the maximum number of potential users.
+We think that our application provide some real value for people affected by noise disturbance, because they have the possibility to create a report
+with an easy-to-use website.
 
 \subsection{Review}
-We initialy struggled with the task of filtering the audio with a given threshold. This was due to the fact that the audio samples in WAV files represent relative loudness and not absolute. And to filter the audio we need absolute values. After researching we found out that we can map the values from the samples to absolute ones when we have some reference values. 
-We also had issues with the implementation of the parsing of individual samples because of the way that javascript handles numberic values. In the end we were able to fix this by using the appropriate functions to read bytes. Besides does minor difficulites, we did not encounter any issues which could endanger the achievement of our targets. 
-The project management with Scrum gave a noticable overhead for the whole project and we spent a good amount of time every week to hold the scrum meetings. We think that this was a bit to much for a project of this size. But never the less it helped us to manage and prioritize our tasks and to focus on independent features to implement. 
-From a documentation perspective it was the largest project that we have used latex for. We learned alot about how to setup the a document and discovered some new packages and tricks along the way. It was also the first time that we used latex instead of powerpoint for our presentation.
+We initially struggled with the task of filtering the audio with a given threshold. This was due to the fact that the audio samples in WAV files represent
+relative loudness and not absolute. And to filter the audio we need absolute values. After researching we found out that we can map the values from the
+samples to absolute ones when we have some reference values. 
+We also had issues with the implementation of the parsing of individual samples because of the way that JavaScript handles numeric values.
+In the end we were able to fix this by using the appropriate functions to read bytes. Besides those minor difficulties, we did not encounter any issues which
+could endangered the project goals. 
+The project management with Scrum introduced a noticeable overhead for the whole project, and we spent a good amount of time every week holding the Scrum meetings.
+We think that this was a bit too much for a project of this size. Nevertheless, it helped us to manage and prioritize our tasks and to focus on independent features to implement. 
+From a documentation perspective it was the largest project that we have used LaTeX for. We learned a lot about how to set up a document and discovered some new
+packages and tricks along the way. It was also the first time that we used LaTeX instead of PowerPoint for a presentation.
 
 \subsection{Bottom Line}
-It is hard to quantify how much time is saved by using our application. There already exist other application which do a similiar thing as ours. The value of our application lies in the creation of a full noice report, because there are a ton of websites for just analyzing a WAV file. So we assume that it would take the average person around 15 minutes to combine all information necessary in a word document and format it to look like some kind of report. With our application it takes less then 2 minutes to fill in the form and create the pdf. So we estimate that there is a time saving of around 13 minutes when using our application. Of course we have to consider that someone can reuse a previously in word created noice report, so he only has to gather the information and fill it in. We assume that this takes the user around 5 minutes, so in that case the saving would be only around 3 minutes per noice report.
+It is hard to quantify how much time is saved by using our application.
+There are already existing applications with similar functionality like ours.
+The value of our application lies in the creation of a full noise report, because there are tons of websites for just analyzing a WAV file.
+So we assume that it would take the average person around 15 minutes to combine all information necessary in a document and format it to look like some kind of report.
+With our application it takes less than 2 minutes to fill in the form and create the PDF. So we estimate that there is a time saving of around 13 minutes when using our application. Of course we have to consider that someone can reuse a previously created noise report document, so he only has to gather the information and fill it in. We assume that this takes the user around 5 minutes, so in that case the saving would be only around 3 minutes per noise report.
 
 \subsection{Future Work}
-The most obvious next step for the project would be to support multiple languages, so that we can reach more people. We would also like to implement a way for the user to declare custom thresholds to select from, basically some kind of "favorites" list for thresholds. Additionally it would be convenient to add custom form fields which would be added to the noice report, in case some other information would be missing. From a technical perspective we only support the WAV file format, and from that only a subset of the most common sample encoding formats. It would be nice to also support others like mp3 or aac. Also the latex dependency management could be improvement. Because we preload the latex dependencies, we need a list of all of them. The creation of that list is currently a manual process.
+The most obvious next step for the project would be to support multiple languages, so that we can reach more people. We would also like to implement a way
+for the user to declare custom thresholds to select from, basically some kind of ``favorites`` list for thresholds. Additionally, it would be convenient to add
+custom form fields which would be added to the noise report, in case some other information would be missing. From a technical perspective we only support the WAV
+file format, and from that only a subset of the most common sample encoding formats. It would be nice to also support others like mp3 or AAC. Also, the LaTeX dependency
+management could be improved. Currently, to preload the LaTeX dependencies, we need a list of all of them. The creation of that list is currently a manual process.
