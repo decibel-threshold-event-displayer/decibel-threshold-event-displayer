@@ -7,7 +7,6 @@ The following chapters describe the evaluation criteria and the results of the e
 
 \subsubsection{Criteria}
 The following criteria are used to decide which technologies should be used for the project:
-% TODO: should we add information on how we decided on the criteria and the weights?
 \begin{itemize}
     \item Know-how (10\%)
     \item Complexity (20\%)
@@ -17,7 +16,6 @@ The following criteria are used to decide which technologies should be used for 
 
 \subsubsection{Calculation}
 The formula for calculating the weighted value of each criterion is:
-% TODO: should this be weight * 100 due to the percentages? and should the formular just be the sum for all critera?
 \[
     v_w = \text{weight} \cdot \frac{\text{evaluation}}{5}
 \]
@@ -27,7 +25,6 @@ of weighted values.
 
 \subsubsection{Technologies}
 The following technologies were evaluated:
-% TODO: should we add information on how we decided to evaluate these technologies?
 \begin{itemize}
     \item Kotlin with pdflatex as a dependency
     \item Kotlin bundled with pdflatex
@@ -163,7 +160,7 @@ During the projects initial discussions, which had brainstorm like character, we
 After a quick search we found the following open source JavaScript/WebWebassembly project: \href{https://www.swiftlatex.com/}{SwiftLaTeX: WYSIWYG LaTeX Editor for Browsers}
 According to their website, the JavaScript/WebWebassembly library has the following characteristics~\cite{swiftlatex_website}:
 \begin{itemize}
-    \item 100\% Browser – PdfTeX and XeTeX written in 100\% WebAssembly and run in browsers.
+    \item 100\% Browser – PdfTeX and XeTeX written in WebAssembly and run in browsers.
     \item Compatibility – Produce exact same output you would get from TexLive or MikTeX\@.
     \item Library Support – Simply include a script tag and use PdfTeX or XeTeX in your own webpage.
     \item WYSIWYG – Support WYSIWYG editing on LaTeX documents using XeTeX engine.
@@ -271,7 +268,10 @@ In accordance with the table above, the project team decided to use \textbf{Web 
 \subsection{License}\label{subsec:evaluation-license}
 After evaluating the different possible technologies, the following third party software will be used:
 \begin{itemize}
-    \item SwiftLaTeX: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/blob/master/LICENSE}{SwiftLaTeX License}, \href{https://www.gnu.org/licenses/agpl-3.0.en.html}{AGPL-3.0}
-    \item pgfplots: \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}{pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GPL-3.0}
+    \item SwiftLaTeX: \href{https://github.com/SwiftLaTeX/SwiftLaTeX/blob/master/LICENSE}{SwiftLaTeX License}, \href{https://www.gnu.org/licenses/agpl-3.0.en.html}{GNU AFFERO GENERAL PUBLIC LICENSE}
+    \item LaTeX: \href{https://www.latex-project.org/lppl.txt}{The LaTeX project public license} (GPL Compatible)
+    \item TeXLive: \href{https://www.tug.org/texlive/copying.html}{TeX Live licensing, copying, and redistribution}, \href{https://www.tug.org/texlive/LICENSE.TL}{COPYING CONDITIONS FOR TeX Live} (GPL Compatible)
+    \item pgfplots: \href{https://ctan.org/pkg/pgfplots}{https://ctan.org/pkg/pgfplots}, \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GNU General Public License, version 3 or newer}
+    \item Bootstrap: \href{https://github.com/twbs/bootstrap/blob/main/LICENSE}{Bootstrap License}, \href{https://en.wikipedia.org/wiki/MIT_License}{MIT License} (GPL Compatible)
 \end{itemize}
-To be conform with the used software, we will also publish our code under the GPL-3.0 licence.
+To be conform with the used software, we will also publish our code under the \href{https://www.gnu.org/licenses/gpl-3.0.en.html}{GPL-3.0 licence (FLOSS)}.

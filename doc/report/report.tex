@@ -2,7 +2,7 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-\usepackage[hidelinks]{hyperref}
+\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{float}
 \usepackage{cite}
@@ -16,6 +16,12 @@
 \usepackage{titlesec}
 \usepackage{geometry}
 \usepackage[T1]{fontenc}
+
+\hypersetup{
+    hidelinks,
+    colorlinks,
+    urlcolor=blue
+}
 
 \newgeometry{vmargin={20mm}, hmargin={35mm,35mm}}
 
@@ -100,7 +106,7 @@
 \title{
     Decibel Threshold Event Displayer\\
     ~\\
-    \small
+    \large
     \textbf{Analyze Audio Files and detect Noise Pollution}
 }
 \author{
@@ -113,8 +119,11 @@
 \begin{document}
     \input{./title}
     \input{./abstract}
+    \begingroup
+    \hypersetup{hidelinks}
     \renewcommand\contentsname{Table of Contents}
     \tableofcontents
+    \endgroup
     \input{./list_of_tables}
     \input{./list_of_figures}
     \input{./list_of_listings}
