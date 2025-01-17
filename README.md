@@ -1,7 +1,7 @@
 # Decibel Threshold Event Displayer
 
 - [Web Application](https://decibel-threshold-event-displayer.github.io/)
-- [Project Documentation Download](https://raw.githubusercontent.com/decibel-threshold-event-displayer/decibel-threshold-event-displayer.github.io/1c2626ffaa9de1246988caa82fb139c7d3bf323d/doc/report/report.pdf)
+- [Project Documentation Download](./doc/report/report.pdf)
 
 Noise pollution affects one in seven people in Switzerland, primarily caused by road
 traffic, railways, and air traffic, along with secondary sources such as construction sites
