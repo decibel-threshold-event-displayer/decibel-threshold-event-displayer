@@ -154,11 +154,15 @@ and storing the files as part of our source code.
 This way we don't have to add a dependency management tool such as npm so we were able to customize the code as needed.
 The application does the following steps at runtime:
 \begin{enumerate}
+    \item Prepare LaTeX data
     \item Load the LaTeX template: `app/js/swiftlatex/template.tex`
     \item Replace the placeholders in the template with the actual values (interpolate)
     \item Hand over the output to SwiftLaTeX
     \item Return the resulting PDF
 \end{enumerate}
+
+When preparing the LaTeX data, the frame data gets convertet into a plotable string. While testing the implementation, we found out that the
+SwiftLaTeX renderer crashes when we want to plot a point with a x value greater then 1000. We tried to fix that, but we could not find the issue. Because we plot the seconds on the x-axis, we set a hard limit for the duration of the audio file of 15 minutes (900 seconds). 
 
 \textbf{Performance improvements}
 Generating the PDF file from a LaTeX document in the browser takes quite some time as it lazily loads all dependencies.
