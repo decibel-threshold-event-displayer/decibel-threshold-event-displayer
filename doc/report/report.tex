@@ -83,6 +83,18 @@
     showtabs=false,
     captionpos=b
 }
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1}~\nameref*{#1}}}
+\makeatletter
+\renewcommand\listoffigures{%
+        \@starttoc{lof}%
+}
+\renewcommand\listoftables{%
+        \@starttoc{lot}%
+}
+\renewcommand\lstlistoflistings{%
+        \@starttoc{lol}%
+}
+\makeatother
 
 
 \title{
@@ -101,15 +113,27 @@
 \begin{document}
     \input{./title}
     \input{./abstract}
-    \input{./table_of_contents}
+    \renewcommand\contentsname{Table of Contents}
+    \tableofcontents
     \input{./list_of_tables}
     \input{./list_of_figures}
     \input{./list_of_listings}
+    \part{Product Documentation}
     \input{./introduction}
     \input{./specification}
     \input{./evaluation}
     \input{./implementation}
     \input{./deployment_integration}
+    \part{Scrum}
+    \input{../scrum_report/scrum_roles}
+    \input{../scrum_report/sprint_goals}
+    \input{../scrum_report/requirements}
+    \input{../scrum_report/scrum_adaptations}
+    \input{../scrum_report/project_setup_review}
+    \input{../scrum_report/review}
+    \input{../scrum_report/retrospective}
+    \input{../scrum_report/lessons_learned}
+    \part{Conclusion}
     \input{./conclusion}
     \input{./glossary}
     \input{./index}
