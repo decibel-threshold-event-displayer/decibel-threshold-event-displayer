@@ -93,10 +93,6 @@ export class Home extends Component {
     const maxDb = this._select("#maxDb");
     const fileUpload = this._select("#file");
 
-    console.log("mindb", parseFloat(minDb.value))
-    console.log("maxdb", parseFloat(maxDb.value))
-    console.log("threshold", parseFloat(threshold.value))
-
     if (parseFloat(minDb.value) >= parseFloat(maxDb.value)) {
       console.log("asads")
       maxDb.setCustomValidity("invalid");
