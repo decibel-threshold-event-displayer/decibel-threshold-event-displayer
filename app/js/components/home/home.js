@@ -93,14 +93,20 @@ export class Home extends Component {
     const maxDb = this._select("#maxDb");
     const fileUpload = this._select("#file");
 
-    if (parseInt(minDb.value) >= parseInt(maxDb.value))
+    console.log("mindb", parseFloat(minDb.value))
+    console.log("maxdb", parseFloat(maxDb.value))
+    console.log("threshold", parseFloat(threshold.value))
+
+    if (parseFloat(minDb.value) >= parseFloat(maxDb.value)) {
+      console.log("asads")
       maxDb.setCustomValidity("invalid");
+    }
     else maxDb.setCustomValidity("");
 
     if (
-      isNaN(parseInt(threshold.value)) ||
-      parseInt(threshold.value) >= parseInt(maxDb.value) ||
-      parseInt(threshold.value) <= 0
+      isNaN(parseFloat(threshold.value)) ||
+      parseFloat(threshold.value) >= parseFloat(maxDb.value) ||
+      parseFloat(threshold.value) <= 0
     )
       threshold.setCustomValidity("invalid");
     else threshold.setCustomValidity("");
