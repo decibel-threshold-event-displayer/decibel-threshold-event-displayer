@@ -95,8 +95,8 @@ class Engine {
 
     const filteredDbaValues = frameCollection.getFilteredDbaValues(
       thresholdFloat,
-      parseInt(minDb),
-      parseInt(maxDb)
+      parseFloat(minDb),
+      parseFloat(maxDb)
     );
 
     const maxDba = Math.max(...filteredDbaValues);
@@ -126,8 +126,8 @@ class Engine {
       (absoluteDurationOverThreshold / duration) * 100;
 
     const dbaValues = frameCollection.getMappedDbaValues(
-      parseInt(minDb),
-      parseInt(maxDb)
+      parseFloat(minDb),
+      parseFloat(maxDb)
     );
 
     const peak = Math.max(...dbaValues);
